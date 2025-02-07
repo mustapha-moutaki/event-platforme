@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inscription</title>
+</head>
+<body>
+    <h2>Inscription</h2>
+
+      {% if errors %}
+        <div style="color: red;">
+            <ul>
+                {% for field, messages in errors %}
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="POST" action="/signup">
+     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <label>Nom d'utilisateur :</label>
+        <input type="text" name="username" value="{{ old.username ?? '' }}" required>
+        <br>
+        <label>Email :</label>
+        <input type="email" name="email" value="{{ old.email ?? '' }}" required>
+        <br>
+        <label>Mot de passe :</label>
+        <input type="password" name="password"  required>
+        <br>
+        <button type="submit">S'inscrire</button>
+    </form>
+</body>
+</html>
