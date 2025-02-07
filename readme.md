@@ -13,7 +13,6 @@ Ce projet vise à concevoir un clone avancé d’Eventbrite en respectant les me
 
 ---
 
-
 ## 📚 Fonctionnalités principales
 
 ### 👤 Gestion des utilisateurs
