@@ -3,6 +3,8 @@ require realpath(__DIR__."/../vendor/autoload.php");
 require_once __DIR__ . '/../App/config/config.php';
 require_once __DIR__ . '/../App/core/Security.php';
 
+
+
 // $router = require_once __DIR__ . '/../App/config/routes.php';
 use App\core\Router;
 use App\core\Security;
