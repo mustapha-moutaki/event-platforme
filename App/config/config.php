@@ -3,7 +3,7 @@
 return [
     'db' => [
         'host' => 'localhost',
-        'port' => '3306',  
+        'port' => '3316',  
         'dbname' => 'utilisateur',
         'user' => 'root',
         'password' => ''
