@@ -13,6 +13,7 @@ use App\Controllers\Front\HomeController;
 use App\Controllers\back\LoginController;
 $router = new Router();
 Security::secureHeaders();
+// inddex
 $router->addRoute('GET', '/', HomeController::class, 'index');
 $router->addRoute('GET', '/admin/users', \App\Controllers\back\UserController::class, 'listUsers');
 $router->addRoute('GET', '/login', LoginController::class, 'showLoginForm');
@@ -24,5 +25,6 @@ $router->addRoute('POST', '/signup', \App\Controllers\back\RegisterController::c
 $router->addRoute('GET', '/articles', \App\Controllers\back\ArticleController::class, 'listArticles');
 $router->addRoute('GET', '/article/new', \App\Controllers\back\ArticleController::class, 'showForm');
 $router->addRoute('POST', '/article/add', \App\Controllers\back\ArticleController::class, 'insertArticle');
+
 
  $router->dispatch();
