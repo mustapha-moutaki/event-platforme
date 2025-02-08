@@ -1,4 +1,7 @@
 -- Users table (removed role enum)
+DROP DATABASE IF EXISTS events_db;
+CREATE DATABASE events_db;
+USE events_db;
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -10,9 +13,6 @@ CREATE TABLE users (
     status ENUM('active', 'banned', 'pending') NOT NULL DEFAULT 'pending',
     INDEX idx_email (email)
 );
-
-
-
 
 -- Roles table
 CREATE TABLE roles (
