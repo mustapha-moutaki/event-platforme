@@ -11,6 +11,9 @@ CREATE TABLE users (
     INDEX idx_email (email)
 );
 
+
+
+
 -- Roles table
 CREATE TABLE roles (
     id INT PRIMARY KEY AUTO_INCREMENT,
