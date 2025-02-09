@@ -8,9 +8,6 @@ use PDO;
 use PDOException;
 
 
-// use Database;
-// use PDO;
-
 class User {
     private $pdo;
 
@@ -18,16 +15,6 @@ class User {
         $this->pdo = Database::getConnection();
     }
 
-    public function insertUser($username, $email, $password) {
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $sql = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
-        $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([
-            'username' => $username,
-            'email' => $email,
-            'password' => $hashedPassword
-        ]);
-    }
     public function getAllUsers() {
         try {
             $stmt = $this->pdo->query("SELECT * FROM users");
@@ -51,4 +38,27 @@ class User {
             'password' => $password
         ]);
     }
+    
+    public function find($id) {
+        $sql = "SELECT * FROM users WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function save($userId, $status) {
+        $sql = "UPDATE users SET status = :status WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            'status' => $status,
+            'id' => $userId
+        ]);
+    }
+
+public function deleteUser($userId) {
+    $sql = "DELETE FROM users WHERE id = :id";
+    $stmt = $this->pdo->prepare($sql);
+    return $stmt->execute(['id' => $userId]);
+}
+
 }

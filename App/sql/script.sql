@@ -6,7 +6,7 @@ CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    full_name VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL,
     avatar_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -92,7 +92,7 @@ CREATE TABLE event_sponsors (
     sponsor_id INT NOT NULL,
     PRIMARY KEY (event_id, sponsor_id),
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
-    FOREIGN KEY (sponsor_id) REFERENCES sponsors(id) ON DELETE SET NULL
+    FOREIGN KEY (sponsor_id) REFERENCES sponsors(id) ON DELETE CASCADE
 );
 
 -- Reservations table
