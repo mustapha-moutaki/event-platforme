@@ -13,7 +13,7 @@ class RegisterController {
     public function showRegisterForm() {
         Security::generateCSRFToken();
         $view = new View();
-        $view->render('signup.twig', ['csrf_token' => $_SESSION['csrf_token']]);
+        $view->render('signup.html.twig', ['csrf_token' => $_SESSION['csrf_token']]);
     }
 
     public function register() {

@@ -2,10 +2,20 @@
 <html>
 <head>
     <title>Inscription</title>
-    <links rel="stylesheet" href="/public/assets/css/login.css">
+    <link rel="stylesheet" href="./assets/css/signup.css">
 </head>
 <body>
-    <section>
+ <section>
+ <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
         <div class="signin">
             <div class="content">
                 <h2>Inscription</h2>
@@ -22,7 +32,7 @@
                     </div>
                 {% endif %}
 
-                <form method="POST" action="/signup">
+                <form method="POST" action="/signup" class="form">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                     
                     <div class="inputBox">
