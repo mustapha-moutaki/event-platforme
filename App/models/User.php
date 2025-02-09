@@ -1,6 +1,6 @@
 <?php
 namespace App\Models;
- require_once __DIR__ . '/../core/Database.php';
+//  require_once __DIR__ . '/../core/Database.php';
 
 
 use App\core\Database;
@@ -38,7 +38,7 @@ class User {
             'password' => $password
         ]);
     }
-    
+
     public function find($id) {
         $sql = "SELECT * FROM users WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
