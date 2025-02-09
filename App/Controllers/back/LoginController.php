@@ -8,7 +8,7 @@ use App\core\View;
 class LoginController {
     public function showLoginForm() {
         $view = new View();
-        $view->render('login.twig');
+        $view->render('login.html.twig');
     }
 
     public function login() {
