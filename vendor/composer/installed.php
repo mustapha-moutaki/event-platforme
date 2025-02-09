@@ -82,15 +82,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'symfony/var-dumper' => array(
-            'pretty_version' => 'v7.2.3',
-            'version' => '7.2.3.0',
-            'reference' => '82b478c69745d8878eb60f9a049a4d584996f73a',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/var-dumper',
-            'aliases' => array(),
-            'dev_requirement' => true,
-        ),
         'twig/twig' => array(
             'pretty_version' => 'v3.19.0',
             'version' => '3.19.0.0',
