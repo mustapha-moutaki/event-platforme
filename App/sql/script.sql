@@ -12,7 +12,6 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     status ENUM('active', 'banned', 'pending') NOT NULL DEFAULT 'pending',
     INDEX idx_email (email)
-    
 );
 
 -- Roles table
