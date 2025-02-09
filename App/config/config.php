@@ -4,7 +4,7 @@ return [
     'db' => [
         'host' => 'localhost',
         'port' => '3306',  
-        'dbname' => 'utilisateur',
+        'dbname' => 'events_db',
         'user' => 'root',
         'password' => ''
     ]
