@@ -8,8 +8,8 @@ class Auth {
     public static function login($email, $password) {
         $userModel = new User();
         $user = $userModel->getUserByEmail($email);
-
         if ($user && password_verify($password, $user['password'])) {
+            
             Session::start();
             Session::set('user_id', $user['id']);
             Session::set('username', $user['username']);

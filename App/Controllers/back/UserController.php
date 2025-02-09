@@ -14,4 +14,37 @@ class UserController {
         $view->render('users.twig', ['users' => $users]);
         
     }
+
+    public function updateUserStatus() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'] ?? null;
+            $status = $_POST['status'] ?? null;
+
+            if ($userId && $status) {
+                $userModel = new User();
+                $user = $userModel->find($userId);
+
+                if ($user) {
+                    $userModel->save($userId, $status);
+                }
+            }
+        }
+        header('Location: /admin/users');
+        exit();
+    }
+    
+    public function deleteUser() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'] ?? null;
+            
+            if ($userId) {
+                $userModel = new User();
+                $userModel->deleteUser($userId);
+            }
+        }
+        header('Location: /admin/users');
+        exit();
+    }
 }
+
+

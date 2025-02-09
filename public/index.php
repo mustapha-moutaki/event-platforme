@@ -25,6 +25,8 @@ $router->addRoute('POST', '/signup', \App\Controllers\back\RegisterController::c
 $router->addRoute('GET', '/articles', \App\Controllers\back\ArticleController::class, 'listArticles');
 $router->addRoute('GET', '/article/new', \App\Controllers\back\ArticleController::class, 'showForm');
 $router->addRoute('POST', '/article/add', \App\Controllers\back\ArticleController::class, 'insertArticle');
+$router->addRoute('POST', '/admin/users/update', \App\Controllers\back\UserController::class, 'updateUserStatus');
+$router->addRoute('POST', '/admin/users/delete', \App\Controllers\back\UserController::class, 'deleteUser');
 
 
  $router->dispatch();
