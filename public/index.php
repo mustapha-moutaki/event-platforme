@@ -11,6 +11,7 @@ use App\core\Security;
 
 use App\Controllers\Front\HomeController;
 use App\Controllers\back\LoginController;
+use App\Controllers\front\EventController;
 $router = new Router();
 Security::secureHeaders();
 // inddex
@@ -27,6 +28,9 @@ $router->addRoute('GET', '/article/new', \App\Controllers\back\ArticleController
 $router->addRoute('POST', '/article/add', \App\Controllers\back\ArticleController::class, 'insertArticle');
 $router->addRoute('POST', '/admin/users/update', \App\Controllers\back\UserController::class, 'updateUserStatus');
 $router->addRoute('POST', '/admin/users/delete', \App\Controllers\back\UserController::class, 'deleteUser');
+//event creation routing
+$router->addRoute('GET', '/events/create', EventController::class, 'showCreateForm');
+
 
 
  $router->dispatch();
