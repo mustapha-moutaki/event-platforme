@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inscription</title>
+    <link rel="stylesheet" href="./assets/css/signup.css">
+</head>
+<body>
+ <section>
+ <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+        <div class="signin">
+            <div class="content">
+                <h2>Inscription</h2>
+                
+                {% if errors %}
+                    <div style="color: red;">
+                        <ul>
+                            {% for field, messages in errors %}
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <form method="POST" action="/signup" class="form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    
+                    <div class="inputBox">
+                        <input type="text" name="username" value="{{ old.username ?? '' }}" required>
+                        <i>Nom d'utilisateur</i>
+                    </div>
+                    
+                    <div class="inputBox">
+                        <input type="email" name="email" value="{{ old.email ?? '' }}" required>
+                        <i>Email</i>
+                    </div>
+                    
+                    <div class="inputBox">
+                        <input type="password" name="password" required>
+                        <i>Mot de passe</i>
+                    </div>
+                    
+                    <div class="links">
+                        <a href="/login">Déjà un compte ? Connexion</a>
+                    </div>
+                    
+                    <div class="inputBox">
+                        <input type="submit" value="S'inscrire">
+                    </div>
+                    
+                    <div class="inputBox">
+                        <p>Ou s'inscrire avec :</p>
+                        <div class="social-buttons">
+                            <a href="#" class="google-button">
+                                <i class="fab fa-google"></i>
+                                S'inscrire avec Google
+                            </a>
+                            <a href="#" class="facebook-button">
+                                <i class="fab fa-facebook-f"></i>
+                                S'inscrire avec Facebook
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
