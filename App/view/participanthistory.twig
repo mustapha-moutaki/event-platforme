@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block title %}History of Events{% endblock %}
+
+{% block content %}
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-10">History of Events</h1>
+    
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow-md rounded-lg">
+            <thead>
+                <tr class="bg-blue-600 text-white">
+                    <th class="py-3 px-6 text-left">Date</th>
+                    <th class="py-3 px-6 text-left">Event</th>
+                    <th class="py-3 px-6 text-left">Description</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <tr class="hover:bg-gray-100 transition">
+                    <td class="py-4 px-6 text-gray-600">November 2024</td>
+                    <td class="py-4 px-6 font-semibold text-blue-600">AI Career Essentials Completion</td>
+                    <td class="py-4 px-6 text-gray-600">Received a recognition badge from ALX Africa.</td>
+                </tr>
+                <tr class="hover:bg-gray-100 transition">
+                    <td class="py-4 px-6 text-gray-600">October 2024</td>
+                    <td class="py-4 px-6 font-semibold text-blue-600">Started "Listogo" Project</td>
+                    <td class="py-4 px-6 text-gray-600">A real estate website for property searching.</td>
+                </tr>
+                <tr class="hover:bg-gray-100 transition">
+                    <td class="py-4 px-6 text-gray-600">November 2024</td>
+                    <td class="py-4 px-6 font-semibold text-blue-600">Presentation on JavaScript Security</td>
+                    <td class="py-4 px-6 text-gray-600">Discussed XSS vulnerabilities in a 20-minute talk.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
