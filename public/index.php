@@ -1,19 +1,19 @@
 <?php
 require realpath(__DIR__."/../vendor/autoload.php");
 require_once __DIR__ . '/../App/config/config.php';
-require_once __DIR__ . '/../App/core/Security.php';
+// require_once __DIR__ . '/../App/core/Security.php';
 
 
 
 // $router = require_once __DIR__ . '/../App/config/routes.php';
 use App\core\Router;
-use App\core\Security;
+// use App\core\Security;
 
 use App\Controllers\Front\HomeController;
 use App\Controllers\back\LoginController;
 use App\Controllers\front\EventController;
 $router = new Router();
-Security::secureHeaders();
+// Security::secureHeaders();
 // inddex
 $router->addRoute('GET', '/', HomeController::class, 'index');
 $router->addRoute('GET', '/admin/users', \App\Controllers\back\UserController::class, 'listUsers');
@@ -31,6 +31,12 @@ $router->addRoute('POST', '/admin/users/delete', \App\Controllers\back\UserContr
 //event creation routing
 $router->addRoute('GET', '/events/create', EventController::class, 'showCreateForm');
 
+$router->addRoute('GET', '/admin/categories', \App\Controllers\Back\CategoryController::class, 'listCategories');
+$router->addRoute('POST', '/categories/create', \App\Controllers\Back\CategoryController::class, 'createCategory');
+$router->addRoute('POST', '/admin/category/delete', \App\Controllers\Back\CategoryController::class, 'deleteCategory');
+// $router->addRoute('POST', '/admin/category/update', \App\Controllers\Back\CategoryController::class, 'updateCategory');
+$router->addRoute('GET', '/admin/category/edit', \App\Controllers\Back\CategoryController::class, 'editCategory');
+$router->addRoute('POST', '/admin/category/update', \App\Controllers\Back\CategoryController::class, 'updateCategory');
 
 
  $router->dispatch();

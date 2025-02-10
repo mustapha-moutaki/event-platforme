@@ -24,7 +24,7 @@ class Router {
         // var_dump($this->routes);
         // echo "</pre>";
         // echo "Requested URI: " . $requestUri . "<br>"; 
-    
+        
         foreach ($this->routes as $route) {
             // echo "Route Path: " . $route['path'] . "<br>"; 
             if ($route['path'] === $requestUri && $route['method'] === $requestMethod) {
