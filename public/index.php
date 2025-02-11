@@ -37,6 +37,11 @@ $router->addRoute('POST', '/admin/category/delete', \App\Controllers\Back\Catego
 // $router->addRoute('POST', '/admin/category/update', \App\Controllers\Back\CategoryController::class, 'updateCategory');
 $router->addRoute('GET', '/admin/category/edit', \App\Controllers\Back\CategoryController::class, 'editCategory');
 $router->addRoute('POST', '/admin/category/update', \App\Controllers\Back\CategoryController::class, 'updateCategory');
+$router->addRoute('GET', '/admin/tags', \App\Controllers\Back\TagController::class, 'listTags');
+$router->addRoute('POST', '/tags/create', \App\Controllers\Back\TagController::class, 'createTag');
+$router->addRoute('POST', '/admin/tag/delete', \App\Controllers\Back\TagController::class, 'deleteTag');
+$router->addRoute('POST', '/admin/tag/update', \App\Controllers\Back\TagController::class, 'updateTag');
+$router->addRoute('GET', '/admin/tag/edit', \App\Controllers\Back\TagController::class, 'editTag');
 
 
- $router->dispatch();
+$router->dispatch();

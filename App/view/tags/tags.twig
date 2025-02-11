@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Tags</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Liste des Tags</h2>
+        <button onclick="toggleForm()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Ajouter un Tag
+        </button>
+
+        <!-- Formulaire -->
+        <div id="tagForm" class="hidden mt-4 p-4 border rounded bg-red-100">
+            <h3 class="text-lg font-semibold mb-2">Nouveau Tag</h3>
+            <form action="/tags/create" method="POST" class="space-y-3">
+                <label for="name" class="block font-medium">Nom :</label>
+                <input type="text" id="name" name="name" required class="w-full p-2 border rounded">
+                
+                <div class="flex gap-2">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                        Créer
+                    </button>
+                    <button type="button" onclick="toggleForm()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                        Annuler
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Liste des Tags -->
+        <ul class="mt-6 space-y-2">
+            {% for tag in tags %}
+                <li class="flex justify-between items-center p-3 bg-gray-200 rounded shadow">
+                    <span class="font-medium">{{ tag.name }}</span>
+                    <div class="flex gap-2">
+                        <a href="/admin/tag/edit?id={{ tag.id }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+                            Modifier
+                        </a>
+                        <form action="/admin/tag/delete" method="POST">
+                            <input type="hidden" name="id" value="{{ tag.id }}">
+                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+                                Supprimer
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        function toggleForm() {
+            const form = document.getElementById('tagForm');
+            form.classList.toggle('hidden');
+        }
+    </script>
+
+</body>
+</html>
