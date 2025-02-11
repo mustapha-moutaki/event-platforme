@@ -6,6 +6,8 @@ use App\core\Controller;
 class HomeController extends Controller {
     public function index() {
         $this->view('home');
+        $view = new View();
+        $view->render('home.twig',  ['events' => $ev]);
     }
 }
 

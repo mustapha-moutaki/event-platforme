@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventHub - Discover Amazing Events</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         .carousel {
             overflow: hidden;
@@ -21,7 +22,9 @@
             background-color: #EF4444;
             color: white;
         }
-    </style> 
+    </style>
+
+    
 </head>
 <body class="bg-gray-50">
     <!-- Navigation -->
@@ -236,35 +239,80 @@
 
     
     <!-- Events Section -->
-<div class="container mx-auto px-6 py-12">
-    <h2 class="text-3xl font-bold mb-8">Upcoming Events</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {% for event in events %}
-        <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
-            <img src="{{ event.image }}" alt="{{ event.title }}" class="w-full h-48 object-cover"/>
-            <div class="p-6">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">{{ event.title }}</h3>
-                        <p class="text-gray-600">{{ event.location }}</p>
+    <div class="container mx-auto px-6 py-12">
+        <h2 class="text-3xl font-bold mb-8">Upcoming Events</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Event Card 1 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
+                <img src="assets/images/fe3ef387e85a37cbf0ff6e72b77fcebb-lighthouse_creators_module_background_mobile.webp" alt="Event" class="w-full h-48 object-cover"/>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Summer Music Festival</h3>
+                            <p class="text-gray-600">Central Park, New York</p>
+                        </div>
+                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">Music</span>
                     </div>
-                    <span class="bg-{{ event.color }}-100 text-{{ event.color }}-600 px-3 py-1 rounded-full text-sm">{{ event.category }}</span>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>June 15, 2025</span>
+                    </div>
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        Get Tickets
+                    </button>
                 </div>
-                <div class="flex items-center text-gray-600 mb-4">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span>{{ event.date }}</span>
+            </div>
+
+            <!-- Event Card 2 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
+                <img src="assets/images/android-chrome-192x192.png" alt="Event" class="w-full h-48 object-cover"/>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Tech Summit 2025</h3>
+                            <p class="text-gray-600">Convention Center, LA</p>
+                        </div>
+                        <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">Tech</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>July 10, 2025</span>
+                    </div>
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        Register Now
+                    </button>
                 </div>
-                <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors">
-                    {{ event.buttonText }}
-                </button>
+            </div>
+
+            <!-- Event Card 3 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
+                <img src="assets/images/18aa8fc35501e1c59d8b16b94ea2ad8c-valentine_dsrp_tablet.webp" alt="Event" class="w-full h-48 object-cover"/>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Art Exhibition</h3>
+                            <p class="text-gray-600">Modern Gallery, Chicago</p>
+                        </div>
+                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">Arts</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>August 5, 2025</span>
+                    </div>
+                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        Book Now
+                    </button>
+                </div>
             </div>
         </div>
-        {% endfor %}
     </div>
-</div>
-
 
     <div class="container mx-auto px-6 py-16">
         <h2 class="text-2xl font-bold mb-8">Top Destinations in United States</h2>

@@ -6,6 +6,7 @@
     <title>EventHub - Discover Amazing Events</title>
     <!-- <script src="https://unpkg.com/@tailwindcss/browser@4"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" href="/src/output.css"> -->
 
     <style>
         .carousel {
@@ -24,7 +25,6 @@
             color: white;
         }
     </style>
-
     
 </head>
 <body class="bg-gray-50">
@@ -35,7 +35,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <div class="text-red-600 font-bold text-3xl">
-                        Event<span class="text-gray-800">Hub</span>
+                        Event<span class="text-gray-800 text-5xl">Hub</span>
                     </div>
                 </div>
                 
@@ -59,7 +59,7 @@
         <div class="carousel-inner h-full">
             <!-- Slide 1 -->
             <div class="carousel-item relative h-full">
-                <img src="/public/assets/images/event33.jpg" alt="Event 1" class="w-full h-full object-cover opacity-70"/>
+                <img src="assets/images/event33.jpg" alt="Event 1" class="w-full h-full object-cover opacity-70"/>
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center text-white">
                         <h1 class="text-5xl font-bold mb-4">Music Festival 2025</h1>
@@ -72,7 +72,7 @@
             </div>
             <!-- Slide 2 -->
             <div class="carousel-item relative h-full">
-                <img src="/public/assets/images/event34.jpg" alt="Event 2" class="w-full h-full object-cover opacity-70"/>
+                <img src="assets/images/event34.jpg" alt="Event 2" class="w-full h-full object-cover opacity-70"/>
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center text-white">
                         <h1 class="text-5xl font-bold mb-4">Tech Conference</h1>
@@ -85,7 +85,7 @@
             </div>
 
             <div class="carousel-item relative h-full">
-                <img src="/public/assets/images/event35.jpg" alt="Event 2" class="w-full h-full object-cover opacity-70"/>
+                <img src="assets/images/event35.jpg" alt="Event 2" class="w-full h-full object-cover opacity-70"/>
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center text-white">
                         <h1 class="text-5xl font-bold mb-4">Tech Conference</h1>
@@ -195,14 +195,15 @@
             </div>
     
             <!-- Gaming -->
-            <div class="flex flex-col items-center group">
-                <div class="w-24 h-24 rounded-full bg-gray-50 flex items-center justify-center mb-3 border-2 border-gray-200 transition-all duration-300 hover:border-teal-500 hover:bg-teal-50 hover:shadow-lg group-hover:scale-105">
-                    <svg class="w-10 h-10 text-gray-600 group-hover:text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2l3.5 7H22l-5.5 5 2 7-6-4-6 4 2-7-5.5-5h6.5L12 2z"/>
-                    </svg>
+                <div class="flex flex-col items-center group">
+                    <div class="w-24 h-24 rounded-full bg-gray-50 flex items-center justify-center mb-3 border-2 border-gray-200 transition-all duration-300 hover:border-teal-500 hover:bg-teal-50 hover:shadow-lg group-hover:scale-105">
+                        <svg class="w-10 h-10 text-gray-600 group-hover:text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.5 12h11M9 15h0m6 0h0M7 12a5 5 0 0 1 10 0v4a2 2 0 0 0 2 2h1m-16 0h1a2 2 0 0 0 2-2v-4a5 5 0 0 1 10 0" />
+                        </svg>
+                    </div>
+                    <span class="text-sm font-medium group-hover:text-teal-500 transition-colors duration-300">Gaming</span>
                 </div>
-                <span class="text-sm font-medium group-hover:text-teal-500 transition-colors duration-300">Gaming</span>
-            </div>
+
     
             <!-- Photography -->
             <div class="flex flex-col items-center group">
@@ -246,7 +247,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Event Card 1 -->
             <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
-                <img src="/public/assets/images/fe3ef387e85a37cbf0ff6e72b77fcebb-lighthouse_creators_module_background_mobile.webp" alt="Event" class="w-full h-48 object-cover"/>
+                <img src="assets/images/fe3ef387e85a37cbf0ff6e72b77fcebb-lighthouse_creators_module_background_mobile.webp" alt="Event" class="w-full h-48 object-cover"/>
                 <div class="p-6">
                     <div class="flex justify-between items-start mb-4">
                         <div>
@@ -269,7 +270,7 @@
 
             <!-- Event Card 2 -->
             <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
-                <img src="/public/assets/images/android-chrome-192x192.png" alt="Event" class="w-full h-48 object-cover"/>
+                <img src="assets/images/android-chrome-192x192.png" alt="Event" class="w-full h-48 object-cover"/>
                 <div class="p-6">
                     <div class="flex justify-between items-start mb-4">
                         <div>
@@ -292,7 +293,7 @@
 
             <!-- Event Card 3 -->
             <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
-                <img src="/public/assets/images/18aa8fc35501e1c59d8b16b94ea2ad8c-valentine_dsrp_tablet.webp" alt="Event" class="w-full h-48 object-cover"/>
+                <img src="assets/images/18aa8fc35501e1c59d8b16b94ea2ad8c-valentine_dsrp_tablet.webp" alt="Event" class="w-full h-48 object-cover"/>
                 <div class="p-6">
                     <div class="flex justify-between items-start mb-4">
                         <div>
@@ -323,7 +324,7 @@
               <!-- Atlanta -->
               <div class="flex-shrink-0 w-full md:w-1/4 px-4">
                 <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-                  <img src="/public/assets/images/7f10bcc88e62c3d431cbf47fa73d0737-lighthouse_creators_module_background_desktop.webp" alt="Atlanta" class="w-full h-64 object-cover">
+                  <img src="assets/images/7f10bcc88e62c3d431cbf47fa73d0737-lighthouse_creators_module_background_desktop.webp" alt="Atlanta" class="w-full h-64 object-cover">
                   <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
                   <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
                     <h3 class="text-white text-xl font-bold mb-2">Atlanta</h3>
@@ -335,7 +336,7 @@
               <!-- Dallas -->
               <div class="flex-shrink-0 w-full md:w-1/4 px-4">
                 <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-                  <img src="/public/assets/images/cf835cbfa4d4aa34aea0ee1f0ea0788a-valentine_nightlife_mobile.webp" alt="Dallas" class="w-full h-64 object-cover">
+                  <img src="assets/images/cf835cbfa4d4aa34aea0ee1f0ea0788a-valentine_nightlife_mobile.webp" alt="Dallas" class="w-full h-64 object-cover">
                   <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
                   <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
                     <h3 class="text-white text-xl font-bold mb-2">Dallas</h3>
@@ -347,7 +348,7 @@
               <!-- Houston -->
               <div class="flex-shrink-0 w-full md:w-1/4 px-4">
                 <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-                  <img src="/public/assets/images/f412f2516993c1e642d380c44079922f-valentine_dsrp_mobile.webp" alt="Houston" class="w-full h-64 object-cover">
+                  <img src="assets/images/f412f2516993c1e642d380c44079922f-valentine_dsrp_mobile.webp" alt="Houston" class="w-full h-64 object-cover">
                   <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
                   <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
                     <h3 class="text-white text-xl font-bold mb-2">Houston</h3>
@@ -359,7 +360,7 @@
               <!-- San Francisco -->
               <div class="flex-shrink-0 w-full md:w-1/4 px-4">
                 <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-                  <img src="/public/assets/images/cf835cbfa4d4aa34aea0ee1f0ea0788a-valentine_nightlife_mobile.webp" alt="San Francisco" class="w-full h-64 object-cover">
+                  <img src="assets/images/cf835cbfa4d4aa34aea0ee1f0ea0788a-valentine_nightlife_mobile.webp" alt="San Francisco" class="w-full h-64 object-cover">
                   <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
                   <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
                     <h3 class="text-white text-xl font-bold mb-2">San Francisco</h3>
@@ -372,7 +373,7 @@
               <!-- San Francisco -->
               <div class="flex-shrink-0 w-full md:w-1/4 px-4">
                 <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-                  <img src="/public/assets/images/cf835cbfa4d4aa34aea0ee1f0ea0788a-valentine_nightlife_mobile.webp" alt="San Francisco" class="w-full h-64 object-cover">
+                  <img src="assets/images/cf835cbfa4d4aa34aea0ee1f0ea0788a-valentine_nightlife_mobile.webp" alt="San Francisco" class="w-full h-64 object-cover">
                   <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
                   <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
                     <h3 class="text-white text-xl font-bold mb-2">morocco</h3>

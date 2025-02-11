@@ -30,11 +30,11 @@ class Security {
     }
 
     
-    public static function secureHeaders() {
-        header("X-Frame-Options: DENY"); 
-        header("X-XSS-Protection: 1; mode=block");
-        header("X-Content-Type-Options: nosniff"); 
-        header("Referrer-Policy: no-referrer-when-downgrade");
-        header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
-    }
+    // public static function secureHeaders() {
+    //     header("X-Frame-Options: DENY"); 
+    //     header("X-XSS-Protection: 1; mode=block");
+    //     header("X-Content-Type-Options: nosniff"); 
+    //     header("Referrer-Policy: no-referrer-when-downgrade");
+    //     header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'");
+    // }
 }
