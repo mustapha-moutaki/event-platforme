@@ -30,6 +30,12 @@ $router->addRoute('POST', '/admin/users/update', \App\Controllers\back\UserContr
 $router->addRoute('POST', '/admin/users/delete', \App\Controllers\back\UserController::class, 'deleteUser');
 //event creation routing
 $router->addRoute('GET', '/events/create', EventController::class, 'showCreateForm');
+$router->addRoute('POST', '/events/create', EventController::class, 'create');
+$router->addRoute('GET', '/events/show/{id}', EventController::class, 'show');
+$router->addRoute('GET', '/events', EventController::class, 'listEvents');
+$router->addRoute('GET', '/events/edit/{id}', EventController::class, 'showEditForm');
+$router->addRoute('POST', '/events/edit', EventController::class, 'edit');
+
 
 $router->addRoute('GET', '/admin/categories', \App\Controllers\Back\CategoryController::class, 'listCategories');
 $router->addRoute('POST', '/categories/create', \App\Controllers\Back\CategoryController::class, 'createCategory');
