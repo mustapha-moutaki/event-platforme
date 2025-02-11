@@ -21,6 +21,11 @@ class Router {
         $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $requestMethod = $_SERVER['REQUEST_METHOD'];
     
+        // echo "<pre>";
+        // var_dump($this->routes);
+        // echo "</pre>";
+        // echo "Requested URI: " . $requestUri . "<br>"; 
+        
         foreach ($this->routes as $route) {
             // Normalize the request URI
             $routePath = $route['path'];

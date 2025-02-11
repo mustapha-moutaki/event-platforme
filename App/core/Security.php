@@ -30,7 +30,8 @@ class Security {
     }
 
     
-    public static function secureHeaders() {
+    public static function secureHeaders() 
+    {
         header("X-Frame-Options: DENY"); 
         header("X-XSS-Protection: 1; mode=block");
         header("X-Content-Type-Options: nosniff"); 

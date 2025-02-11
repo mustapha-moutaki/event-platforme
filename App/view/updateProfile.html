@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Profile</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+<style>
+  /* Default border style */
+  .avatar {
+    border: 2px solid transparent;
+    transition: border 0.3s ease-in-out, transform 0.2s ease-in-out;
+  }
+
+  /* Selected avatar effect */
+  .selected-avatar {
+    border: 2px solid blue;
+    transform: scale(1.1); /* Slight zoom effect */
+  }
+</style>
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+<div class="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
+  <h1 class="text-3xl font-bold mb-6 text-center">My Profile</h1>
+  <form class="space-y-4">
+    <div class="flex justify-center mb-6">
+      <div class="grid grid-cols-3 gap-4">
+        <label class="cursor-pointer">
+          <input type="radio" name="avatar" value="avatar1" class="hidden">
+          <img src="/public/assets/images/girlavatar.jpg" alt="Avatar 1" class="avatar w-20 h-20 rounded-full">
+        </label>
+        <label class="cursor-pointer">
+          <input type="radio" name="avatar" value="avatar2" class="hidden">
+          <img src="/public/assets/images/boyavatar.jpg" alt="Avatar 2" class="avatar w-20 h-20 rounded-full">
+        </label>
+        <label class="cursor-pointer">
+          <input type="radio" name="avatar" value="avatar3" class="hidden">
+          <img src="/public/assets/images/image.png" alt="Avatar 3" class="avatar w-20 h-20 rounded-full">
+        </label>
+      </div>
+    </div>
+    <div>
+      <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>
+      <input type="text" id="name" name="name" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" value="John Doe">
+    </div>
+    <div>
+      <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
+      <input type="email" id="email" name="email" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" value="johndoe@example.com">
+    </div>
+    <div>
+      <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
+      <input type="password" id="password" name="password" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full">Save Changes</button>
+  </form>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const avatars = document.querySelectorAll(".avatar");
+
+    avatars.forEach((avatar) => {
+      avatar.addEventListener("click", function () {
+        // Remove selection from all avatars
+        avatars.forEach(img => img.classList.remove("selected-avatar"));
+
+        // Add selected effect to clicked avatar
+        this.classList.add("selected-avatar");
+      });
+    });
+  });
+</script>
+</body>
+</html>

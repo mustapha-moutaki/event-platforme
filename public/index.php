@@ -37,6 +37,12 @@ $router->addRoute('GET', '/events/edit/{id}', EventController::class, 'showEditF
 $router->addRoute('POST', '/events/edit', EventController::class, 'edit');
 
 
+$router->addRoute('GET', '/admin/categories', \App\Controllers\Back\CategoryController::class, 'listCategories');
+$router->addRoute('POST', '/categories/create', \App\Controllers\Back\CategoryController::class, 'createCategory');
+$router->addRoute('POST', '/admin/category/delete', \App\Controllers\Back\CategoryController::class, 'deleteCategory');
+// $router->addRoute('POST', '/admin/category/update', \App\Controllers\Back\CategoryController::class, 'updateCategory');
+$router->addRoute('GET', '/admin/category/edit', \App\Controllers\Back\CategoryController::class, 'editCategory');
+$router->addRoute('POST', '/admin/category/update', \App\Controllers\Back\CategoryController::class, 'updateCategory');
 
 
  $router->dispatch();

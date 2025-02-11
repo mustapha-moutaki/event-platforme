@@ -19,7 +19,7 @@ class HomeController extends Controller {
 //     public function index() {
 //         echo "Bienvenue sur la page d'accueil !";
 //         var_dump(__DIR__);
-//         require __DIR__ .'/../../view/home.html.twig';
+//         require __DIR__ .'/../../view/home.html';
         
 //     }
 
