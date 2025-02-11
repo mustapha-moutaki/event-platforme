@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier l'événement</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="mb-0">Modifier l'événement</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/events/edit/{{ event.id }}" class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Titre *</label>
+                                <input type="text" class="form-control" id="title" name="title" value="{{ event.title }}" required minlength="5" maxlength="255">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description *</label>
+                                <textarea class="form-control" id="description" name="description" rows="4" required minlength="20">{{ event.description }}</textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="date" class="form-label">Date et heure *</label>
+                                    <input type="datetime-local" class="form-control" id="date" name="date" value="{{ event.date | date('Y-m-d\\TH:i') }}" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="location" class="form-label">Lieu *</label>
+                                    <input type="text" class="form-control" id="location" name="location" value="{{ event.location }}" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="price" class="form-label">Prix (€) *</label>
+                                    <input type="number" class="form-control" id="price" name="price" value="{{ event.price }}" step="0.01" min="0" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="capacity" class="form-label">Capacité *</label>
+                                    <input type="number" class="form-control" id="capacity" name="capacity" value="{{ event.capacity }}" min="1" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="category_id" class="form-label">Catégorie *</label>
+                                <select class="form-select" id="category_id" name="category_id" required>
+                                    <option value="">Sélectionnez une catégorie</option>
+                                    {% if categories is not empty %}
+                                        {% for category in categories %}
+                                            <option value="{{ category.id }}" {% if event.category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="">Aucune catégorie disponible</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                <a href="/events/show/{{ event.id }}" class="btn btn-secondary">Annuler</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enable Bootstrap validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
