@@ -1,105 +1,111 @@
-{# templates/events/create.twig #}
-{# {% extends 'layouts/default.twig' %} #}
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Create-Event</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un nouvel événement</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
-{# {% block content %} #}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h2 class="mb-0">Créer un nouvel événement</h2>
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="/events/create" class="needs-validation" novalidate>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Titre *</label>
-                            <input type="text" class="form-control" id="title" name="title" required minlength="5" maxlength="255">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description *</label>
-                            <textarea class="form-control" id="description" name="description" rows="4" required minlength="20"></textarea>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="date" class="form-label">Date et heure *</label>
-                                <input type="datetime-local" class="form-control" id="date" name="date" required>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="mb-0">Créer un nouvel événement</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/events/create" class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Titre *</label>
+                                <input type="text" class="form-control" id="title" name="title" required minlength="5" maxlength="255">
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label for="location" class="form-label">Lieu *</label>
-                                <input type="text" class="form-control" id="location" name="location" required>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="price" class="form-label">Prix (€) *</label>
-                                <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description *</label>
+                                <textarea class="form-control" id="description" name="description" rows="4" required minlength="20"></textarea>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label for="capacity" class="form-label">Capacité *</label>
-                                <input type="number" class="form-control" id="capacity" name="capacity" min="1" required>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="date" class="form-label">Date et heure *</label>
+                                    <input type="datetime-local" class="form-control" id="date" name="date" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="location" class="form-label">Lieu *</label>
+                                    <input type="text" class="form-control" id="location" name="location" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="mb-3">
-                            <label for="category_id" class="form-label">Catégorie *</label>
-                            <select class="form-select" id="category_id" name="category_id" required>
-                                <option value="">Sélectionnez une catégorie</option>
-                                {% for category in categories %}
-                                    <option value="{{ category.id }}">{{ category.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="price" class="form-label">Prix (€) *</label>
+                                    <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required>
+                                </div>
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">Créer l'événement</button>
-                            <a href="/events" class="btn btn-secondary">Annuler</a>
-                        </div>
-                    </form>
+                                <div class="col-md-6 mb-3">
+                                    <label for="capacity" class="form-label">Capacité *</label>
+                                    <input type="number" class="form-control" id="capacity" name="capacity" min="1" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="category_id" class="form-label">Catégorie *</label>
+                                <select class="form-select" id="category_id" name="category_id" required>
+                                    <option value="">Sélectionnez une catégorie</option>
+                                    {% if categories is not empty %}
+                                        {% for category in categories %}
+                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="">Aucune catégorie disponible</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Créer l'événement</button>
+                                <a href="/events" class="btn btn-secondary">Annuler</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{# {% endblock %} #}
 
-{# {% block scripts %} #}
-<script>
-    // Enable Bootstrap validation
-    (function () {
-        'use strict'
-        var forms = document.querySelectorAll('.needs-validation')
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
+    <script>
+        // Enable Bootstrap validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
 
-    // Set minimum date to today
-    document.addEventListener('DOMContentLoaded', function() {
-        const dateInput = document.getElementById('date');
-        const today = new Date();
-        const month = (today.getMonth() + 1).toString().padStart(2, '0');
-        const day = today.getDate().toString().padStart(2, '0');
-        const hours = today.getHours().toString().padStart(2, '0');
-        const minutes = today.getMinutes().toString().padStart(2, '0');
-        const minDate = `${today.getFullYear()}-${month}-${day}T${hours}:${minutes}`;
-        dateInput.min = minDate;
-    });
-</script>
-{# {% endblock %} #}
+        // Set minimum date to today
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInput = document.getElementById('date');
+            const today = new Date();
+            const month = (today.getMonth() + 1).toString().padStart(2, '0');
+            const day = today.getDate().toString().padStart(2, '0');
+            const hours = today.getHours().toString().padStart(2, '0');
+            const minutes = today.getMinutes().toString().padStart(2, '0');
+            const minDate = `${today.getFullYear()}-${month}-${day}T${hours}:${minutes}`;
+            dateInput.min = minDate;
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

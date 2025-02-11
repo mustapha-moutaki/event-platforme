@@ -1,19 +1,19 @@
 <?php
 require realpath(__DIR__."/../vendor/autoload.php");
 require_once __DIR__ . '/../App/config/config.php';
-require_once __DIR__ . '/../App/core/Security.php';
+// require_once __DIR__ . '/../App/core/Security.php';
 
 
 
 // $router = require_once __DIR__ . '/../App/config/routes.php';
 use App\core\Router;
-use App\core\Security;
+// use App\core\Security;
 
 use App\Controllers\Front\HomeController;
 use App\Controllers\back\LoginController;
 use App\Controllers\front\EventController;
 $router = new Router();
-Security::secureHeaders();
+// Security::secureHeaders();
 // inddex
 $router->addRoute('GET', '/', HomeController::class, 'index');
 $router->addRoute('GET', '/admin/users', \App\Controllers\back\UserController::class, 'listUsers');
@@ -30,6 +30,12 @@ $router->addRoute('POST', '/admin/users/update', \App\Controllers\back\UserContr
 $router->addRoute('POST', '/admin/users/delete', \App\Controllers\back\UserController::class, 'deleteUser');
 //event creation routing
 $router->addRoute('GET', '/events/create', EventController::class, 'showCreateForm');
+$router->addRoute('POST', '/events/create', EventController::class, 'create');
+$router->addRoute('GET', '/events/show/{id}', EventController::class, 'show');
+$router->addRoute('GET', '/events', EventController::class, 'listEvents');
+$router->addRoute('GET', '/events/edit/{id}', EventController::class, 'showEditForm');
+$router->addRoute('POST', '/events/edit', EventController::class, 'edit');
+
 
 
 
