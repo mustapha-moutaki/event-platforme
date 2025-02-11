@@ -1,19 +1,19 @@
 <?php
 require realpath(__DIR__."/../vendor/autoload.php");
 require_once __DIR__ . '/../App/config/config.php';
-require_once __DIR__ . '/../App/core/Security.php';
+// require_once __DIR__ . '/../App/core/Security.php';
 
 
 
 // $router = require_once __DIR__ . '/../App/config/routes.php';
 use App\core\Router;
-use App\core\Security;
+// use App\core\Security;
 
 use App\Controllers\Front\HomeController;
 use App\Controllers\back\LoginController;
 use App\Controllers\front\EventController;
 $router = new Router();
-Security::secureHeaders();
+// Security::secureHeaders();
 // inddex
 $router->addRoute('GET', '/', HomeController::class, 'index');
 $router->addRoute('GET', '/admin/users', \App\Controllers\back\UserController::class, 'listUsers');
