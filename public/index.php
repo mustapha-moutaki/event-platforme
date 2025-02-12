@@ -12,6 +12,7 @@ use App\core\Router;
 use App\Controllers\Front\HomeController;
 use App\Controllers\back\LoginController;
 use App\Controllers\front\EventController;
+use App\Controllers\back\SponsorController;
 $router = new Router();
 // Security::secureHeaders();
 // inddex
@@ -48,6 +49,10 @@ $router->addRoute('POST', '/tags/create', \App\Controllers\Back\TagController::c
 $router->addRoute('POST', '/admin/tag/delete', \App\Controllers\Back\TagController::class, 'deleteTag');
 $router->addRoute('POST', '/admin/tag/update', \App\Controllers\Back\TagController::class, 'updateTag');
 $router->addRoute('GET', '/admin/tag/edit', \App\Controllers\Back\TagController::class, 'editTag');
+$router->addRoute('GET', '/admin/sponsors', \App\Controllers\Back\SponsorController::class, 'index_Sponsor');
+$router->addRoute('POST', '/admin/sponsors', \App\Controllers\Back\SponsorController::class, 'store');
+$router->addRoute('POST','/admin/sponsors/update', \App\Controllers\Back\SponsorController::class, 'updateSponsor');
+$router->addRoute('POST', '/admin/sponsors/delete', \App\Controllers\Back\SponsorController::class, 'deleteSponsor');
 
 
 $router->dispatch();
