@@ -21,19 +21,14 @@ class Router {
         $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $requestMethod = $_SERVER['REQUEST_METHOD'];
     
-        // echo "<pre>";
-        // var_dump($this->routes);
-        // echo "</pre>";
-        // echo "Requested URI: " . $requestUri . "<br>"; 
         
+    
         foreach ($this->routes as $route) {
-            // Normalize the request URI
             $routePath = $route['path'];
             $routeMethod = $route['method'];
     
             // Check for dynamic parameters
             if (preg_match($this->convertToRegex($routePath), $requestUri, $matches) && $routeMethod === $requestMethod) {
-                // Handle dynamic parameters if needed
                 array_shift($matches); // Remove the full match from the array
                 $controllerName = $route['controller'];
     
@@ -54,7 +49,7 @@ class Router {
     private function convertToRegex($path) {
         // Escape forward slashes and convert dynamic parameters to regex
         $path = preg_quote($path, '/');
-        $path = str_replace(['\\{id\\}', '\\{slug\\}'], ['([0-9]+)', '([a-zA-Z0-9-]+)'], $path);
+        $path = str_replace(['\\{id\\}', '\\{regionId\\}'], ['([0-9]+)', '([0-9]+)'], $path);
         return "/^$path$/";
     }
     
