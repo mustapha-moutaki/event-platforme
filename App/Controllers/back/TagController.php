@@ -11,7 +11,10 @@ class TagController {
         $view = new View();
         $tag = new Tag();
         $tags = $tag->findAll();
-        $view->render('tags/tags.twig', ['tags' => $tags]);
+        $totalTags = $tag->countTags();
+        $view->render('tags/tags.twig', ['tags' => $tags
+        ,'totalTags' => $totalTags]);
+   
     }
 
     public function createTag() {

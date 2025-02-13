@@ -6,8 +6,9 @@ session_start();
 use App\core\View;
 use App\Models\Organizer;
 use App\core\Auth;
+use App\core\Controller;
 
-class EventController 
+class EventController extends Controller
 {
     private $organizer;
     private $view;

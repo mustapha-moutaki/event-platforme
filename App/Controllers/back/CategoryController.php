@@ -12,8 +12,10 @@ class CategoryController {
      $view=new View();
      $categorie=new Category();
      $categories =  $categorie->findAll();
+     $totalCategorie=$categorie->countcategories();
     //  var_dump($categories);
-     $view->render('categories/categories.twig', ['categories' => $categories]);
+     $view->render('categories/categories.twig', ['categories' => $categories
+    ,'totalCategories'=>$totalCategorie]);
 
     }
 

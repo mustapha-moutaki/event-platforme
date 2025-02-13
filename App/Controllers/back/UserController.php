@@ -9,9 +9,10 @@ class UserController {
     public function listUsers() {
         $userModel = new User();
         $users = $userModel->getAllUsers();
-
+        $statistics = $userModel->getUserStatistics();
         $view = new View();
-        $view->render('users.twig', ['users' => $users]);
+        $view->render('users.twig', ['users' => $users,
+    'statistics' => $statistics]);
         
     }
 

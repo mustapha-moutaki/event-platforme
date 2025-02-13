@@ -504,7 +504,8 @@
             {% endfor %}
         </ul>
     </div>
-{% include 'components/footer.twig' %}
+<h1>Statistiques des Tags</h1>
+<p>Nombre total de tags : {{ totalTags }}</p>
     <script>
         function toggleForm() {
             const form = document.getElementById('tagForm');
