@@ -61,4 +61,65 @@ public function deleteUser($userId) {
     return $stmt->execute(['id' => $userId]);
 }
 
+public function getUserRole($userId) {
+    $sql = "SELECT r.name FROM roles r 
+            JOIN user_roles ur ON r.id = ur.role_id 
+            WHERE ur.user_id = :user_id LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute(['user_id' => $userId]);
+    $role = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $role ? $role['name'] : null;
+}
+
+public function assignRole($userId, $roleName) {
+    // Vérifier si le rôle existe
+    $sql = "SELECT id FROM roles WHERE name = :role";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute(['role' => $roleName]);
+    $role = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($role) {
+        $roleId = $role['id'];
+
+        // Vérifier si l'utilisateur a déjà un rôle
+        $checkSql = "SELECT * FROM user_roles WHERE user_id = :user_id";
+        $checkStmt = $this->pdo->prepare($checkSql);
+        $checkStmt->execute(['user_id' => $userId]);
+
+        if ($checkStmt->rowCount() == 0) {
+            // Assigner le rôle
+            $assignSql = "INSERT INTO user_roles (user_id, role_id) VALUES (:user_id, :role_id)";
+            $assignStmt = $this->pdo->prepare($assignSql);
+            return $assignStmt->execute(['user_id' => $userId, 'role_id' => $roleId]);
+        }
+    }
+    return false;
+}
+
+public function getUserStatistics() {
+    $statistics = [];
+
+    
+    $sql = "SELECT COUNT(*) as total_users FROM users";
+    $stmt = $this->pdo->query($sql);
+    $statistics['total_users'] = $stmt->fetch(PDO::FETCH_ASSOC)['total_users'];
+
+  
+    $sql = "SELECT COUNT(*) as active_users FROM users WHERE status = 'active'";
+    $stmt = $this->pdo->query($sql);
+    $statistics['active_users'] = $stmt->fetch(PDO::FETCH_ASSOC)['active_users'];
+
+    
+    $sql = "SELECT COUNT(*) as pending_users FROM users WHERE status = 'pending'";
+    $stmt = $this->pdo->query($sql);
+    $statistics['pending_users'] = $stmt->fetch(PDO::FETCH_ASSOC)['pending_users'];
+
+    
+    $sql = "SELECT COUNT(*) as banned_users FROM users WHERE status = 'banned'";
+    $stmt = $this->pdo->query($sql);
+    $statistics['banned_users'] = $stmt->fetch(PDO::FETCH_ASSOC)['banned_users'];
+
+    return $statistics;
+}
+
 }

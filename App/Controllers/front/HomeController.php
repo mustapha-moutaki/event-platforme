@@ -2,10 +2,18 @@
 namespace App\Controllers\front;
 
 use App\core\Controller;
+use App\core\View;
+use App\controllers\front\EventController;
 
 class HomeController extends Controller {
     public function index() {
-        $this->view('home');
+        // $this->view('home');
+        $view = new View();
+        $events= new EventController();
+        $event = $events->listEvents();
+       
+        
+        $view->render('home.twig',  ['events' => $event]);
     }
 }
 

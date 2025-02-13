@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,9 +23,16 @@
                                 <input type="text" class="form-control" id="title" name="title" required minlength="5" maxlength="255">
                             </div>
 
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Description *</label>
-                                <textarea class="form-control" id="description" name="description" rows="4" required minlength="20"></textarea>
+                            <div class="mb-4">
+                                <label for="location" class="block text-sm font-medium text-gray-700">Location *</label>
+                                <input type="text" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" id="location" name="location" required>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="mb-4">
+                                <label for="price" class="block text-sm font-medium text-gray-700">Price (€) *</label>
+                                <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" id="price" name="price" step="0.01" min="0" required>
                             </div>
 
                             <div class="row">
@@ -57,6 +64,7 @@
                                 </div>
 
                             </div>
+                        </div>
 
 
 

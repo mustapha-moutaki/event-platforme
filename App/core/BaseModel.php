@@ -105,4 +105,9 @@ abstract class BaseModel
         $stmt = $this->db->prepare($query);
         return $stmt->execute(['id' => $id]);
     }
+    public function count() {
+        $sql = "SELECT COUNT(*) as total FROM " . $this->table;
+        $stmt = $this->db->query($sql);
+        return $stmt->fetch()['total'];
+    }
 }

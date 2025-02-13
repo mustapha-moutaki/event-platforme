@@ -4,22 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un article</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
 </head>
-<body>
-    <h1>Ajouter un article</h1>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">Ajouter un article</h1>
 
-    <form method="POST" action="/article/add">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <form method="POST" action="/article/add">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-        <label for="title">Titre :</label>
-        <input type="text" id="title" name="title" required>
-        
-        <label for="content">Contenu :</label>
-        <textarea id="content" name="content" required></textarea>
+            <div class="mb-4">
+                <label for="title" class="block text-sm font-medium text-gray-700">Titre :</label>
+                <input type="text" id="title" name="title" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" placeholder="Entrez le titre de l'article">
+            </div>
+            
+            <div class="mb-4">
+                <label for="content" class="block text-sm font-medium text-gray-700">Contenu :</label>
+                <textarea id="content" name="content" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" rows="5" placeholder="Écrivez le contenu de l'article"></textarea>
+            </div>
 
-        <button type="submit">Publier</button>
-    </form>
+            <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition duration-200">Publier</button>
+        </form>
 
-    <a href="/articles">Voir tous les articles</a>
+        <div class="mt-4 text-center">
+            <a href="/articles" class="text-blue-600 hover:underline">Voir tous les articles</a>
+        </div>
+    </div>
 </body>
 </html>

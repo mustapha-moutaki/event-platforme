@@ -22,6 +22,8 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="../../public/assets/css//material-dashboard.css?v=3.2.0" rel="stylesheet" />
   <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet">
+  {# taliwind #}
+  <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
@@ -34,192 +36,50 @@
     {% include 'components/header.twig' %}
     <!-- End Navbar -->
     <div class="container-fluid py-2">
-      <div class="row">
-        
-        <div class="ms-3">
-          <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>
-          <p class="mb-4">
-            Check the courses, Teachers and Students.
-          </p>
-        </div>
+ <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md m-9">
+        <h2 class="text-xl font-semibold mb-4">Liste des Tags</h2>
+        <button onclick="toggleForm()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Ajouter un Tag
+        </button>
 
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-3">
-              <div class="d-flex justify-content-between">
-              <div>
-                  <p class="text-sm mb-0 text-uppercase text-primary font-weight-bold">Total Number of Courses</p>
-                  
-                      <h4 class="mb-0 text-dark"><?php echo htmlspecialchars($courseCount); ?></h4>
-             
-              </div>
-                <div class="icon icon-md icon-shape bg-gradient-primary text-white shadow text-center rounded-circle">
-                  <i class="material-symbols-rounded">menu_book</i>
-                </div>
-              </div>
-            </div>
-
-            <hr class="horizontal my-0 bg-primary">
-            <div class="card-footer p-3">
-             
-            </div>
-          </div>
-          
-        </div>
- 
-
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-3">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <p class="text-sm mb-0 text-uppercase text-info font-weight-bold">Total Number of Tags</p>
-                  <h4 class="mb-0 text-dark"><?php echo $tagCount; ?></h4>
-                </div>
-                <div class="icon icon-md icon-shape bg-gradient-info text-white shadow text-center rounded-circle">
-                  <i class="material-symbols-rounded">label</i>
-                </div>
-              </div>
-            </div>
-            <hr class="horizontal my-0 bg-info">
-            <div class="card-footer p-3">
-              
-            </div>
-          </div>
-          
-          
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-3">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <p class="text-sm mb-0 text-uppercase text-warning font-weight-bold">Number of Categories</p>
-                  <h4 class="mb-0 text-dark"><?php echo $categoryCount; ?></h4>
-                </div>
-                <div class="icon icon-md icon-shape bg-gradient-warning text-white shadow text-center rounded-circle">
-                  <i class="material-symbols-rounded">category</i>
-                </div>
-              </div>
-            </div>
-            <hr class="horizontal my-0 bg-warning">
-            <div class="card-footer p-3">
-             
-            </div>
-          </div>
-          
-        </div>
-        <div class="col-xl-3 col-sm-6">
-        <div class="card mb-2">
-  <div class="card-header p-3">
-    <div class="d-flex justify-content-between">
-      
-        <div>
-          <p class="text-sm mb-0 text-uppercase text-success font-weight-bold">Total Number of Teachers</p>
-          <h4 class="mb-0 text-dark"><?php echo $teacherCount; ?></h4>
-        </div>
-      
-        <div>
-            <p class="text-sm mb-0 text-uppercase text-success">Top Courses</p>
-            <?php foreach ($courseData as $course): ?>
-                <h4 class="mb-0 text-dark text-md"><?php echo 'Top Course: ' . htmlspecialchars($course['course_title']); ?></h4>
-                <h4 class="mb-0 text-dark text-md"><?php echo 'Students Joined: ' . htmlspecialchars($course['total_students']); ?></h4>
-            <?php endforeach; ?>
-        </div>
-
-   
-      <div class="icon icon-md icon-shape bg-gradient-success text-white shadow text-center rounded-circle">
-        <i class="material-symbols-rounded">school</i>
-      </div>
-    </div>
-  </div>
-  <hr class="horizontal my-0 bg-success">
-  <div class="card-footer p-3"></div>
-</div>
-
-            <div class="card">
-                        <div class="card-header p-3">
-                          <div class="d-flex justify-content-between">
-                            <div>
-                              <p class="text-sm mb-0 text-uppercase text-primary font-weight-bold"> top 3 teachers</p>
-                            
-                                <?php foreach($TopThreeTeachers as $teachertop): ?>
-
-                                  <div class="teacher-info">
-                <span class="teacher-name"><?php echo $teachertop['username']; ?></span>
-                <span class="courses-count"><?php echo '('. $teachertop['total_courses'].'courses'.')'; ?></span>
-            </div>
-
-                  <?php endforeach; ?>
-              
-                 
-                </div>
-
-
+        <!-- Formulaire -->
+        <div id="tagForm" class="hidden mt-4 p-4 border rounded bg-red-100">
+            <h3 class="text-lg font-semibold mb-2">Nouveau Tag</h3>
+            <form action="/tags/create" method="POST" class="space-y-3">
+                <label for="name" class="block font-medium">Nom :</label>
+                <input type="text" id="name" name="name" required class="w-full p-2 border rounded">
                 
-                <div class="icon icon-md icon-shape bg-gradient-primary text-white shadow text-center rounded-circle">
-                <i class="material-symbols-rounded" style="color: white;">star</i>
-                </div>
-              </div>
-            </div>
-
-            <hr class="horizontal my-0 bg-primary">
-            <div class="card-footer p-3">
-             
-            </div>
-          </div>
-          
-        </div>
-      </div>
-      <div class="container my-5">
-    <!-- Category Selection -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">Courses</h2>
-      <select class="form-select w-25" id="categorySelect" onchange="filterCourses()">
-        <option value="all" selected>All Categories</option>
-        <?php foreach($getAllcategories as $category): ?>
-        <option value="web"><?php echo $category['name']?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-
-      <!-- Courses Cards -->
-      <div class="row" id="coursesContainer">
-    <?php foreach($getAllCourses as $course): ?>
-    <div class="col-md-4 mb-4 course-card" data-category="web">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <?php if($course['video_content'] != null): ?>
-                      <div class="relative">
-            <iframe src="<?= $course['video_content']; ?>" frameborder="0" class="h-48 object-cover" style="width:100%"></iframe>
-            <div class="absolute inset-0 bg-black opacity-50" style="height: 100% !important; width: 100% !important;"></div>
-            <div class="mydiv h-48" style="width:100%; height:19rem; background-color:white; position:absolute;top:0;opacity: 0;"></div>
-                </div>
-                <?php elseif($course['document_content'] != null): ?>
-                    <!-- If document content exists (fallback image and document) -->
-                    <img src="https://i.pinimg.com/736x/1b/7b/e2/1b7be209fee3fd17943a981b5508384e.jpg" 
-                         alt="Course Image" 
-                         class="w-full h-48 object-cover" style="width:20rem !important;height:9rem">
-                    <p class="mt-2"><?= $course['document_content']; ?></p>
-                <?php endif; ?>
-                <h5 class="card-title"><?php echo $course['title'] ?></h5>
-                <p class="card-text"><i>learn:</i><br><?php echo $course['meta_description'] ?></p>
-                <form method="POST" action="">
-                        <input type="hidden" name="user_id" value="<?= $_SESSION['user_id']; ?>">
-                        <input type="hidden" name="course_id" value="<?= $course['id']; ?>">
-                        <button type="submit" name="joinCourse" class="btn btn-primary">
-                        Join Course
+                <div class="flex gap-2">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                        Créer
                     </button>
-                    </form>
-
-                <!-- Button to redirect to course view page and enroll the user -->
-             
-            </div>
-
-            
+                    <button type="button" onclick="toggleForm()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                        Annuler
+                    </button>
+                </div>
+            </form>
         </div>
+
+        <!-- Liste des Tags -->
+        <ul class="mt-6 space-y-2">
+            {% for tag in tags %}
+                <li class="flex justify-between items-center p-3 bg-gray-200 rounded shadow">
+                    <span class="font-medium">{{ tag.name }}</span>
+                    <div class="flex gap-2">
+                        <a href="/admin/tag/edit?id={{ tag.id }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+                            Modifier
+                        </a>
+                        <form action="/admin/tag/delete" method="POST">
+                            <input type="hidden" name="id" value="{{ tag.id }}">
+                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+                                Supprimer
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
-    <?php endforeach; ?>
 </div>
 
  {% include 'components/footer.twig' %}
@@ -573,7 +433,85 @@
       });
     }
 
+
+     function toggleForm() {
+            const form = document.getElementById('tagForm');
+            form.classList.toggle('hidden');
+        }
+
   </script>
 </body>
 
 </html>
+
+
+{# 
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Tags</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+{% include 'components/header.twig' %}
+</div>
+{% include 'components/sidebar.twig' %}
+ 
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Liste des Tags</h2>
+        <button onclick="toggleForm()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Ajouter un Tag
+        </button>
+
+        <!-- Formulaire -->
+        <div id="tagForm" class="hidden mt-4 p-4 border rounded bg-red-100">
+            <h3 class="text-lg font-semibold mb-2">Nouveau Tag</h3>
+            <form action="/tags/create" method="POST" class="space-y-3">
+                <label for="name" class="block font-medium">Nom :</label>
+                <input type="text" id="name" name="name" required class="w-full p-2 border rounded">
+                
+                <div class="flex gap-2">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                        Créer
+                    </button>
+                    <button type="button" onclick="toggleForm()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                        Annuler
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Liste des Tags -->
+        <ul class="mt-6 space-y-2">
+            {% for tag in tags %}
+                <li class="flex justify-between items-center p-3 bg-gray-200 rounded shadow">
+                    <span class="font-medium">{{ tag.name }}</span>
+                    <div class="flex gap-2">
+                        <a href="/admin/tag/edit?id={{ tag.id }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+                            Modifier
+                        </a>
+                        <form action="/admin/tag/delete" method="POST">
+                            <input type="hidden" name="id" value="{{ tag.id }}">
+                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+                                Supprimer
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+<h1>Statistiques des Tags</h1>
+<p>Nombre total de tags : {{ totalTags }}</p>
+    <script>
+        function toggleForm() {
+            const form = document.getElementById('tagForm');
+            form.classList.toggle('hidden');
+        }
+    </script>
+
+</body>
+</html> #}
