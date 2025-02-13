@@ -24,9 +24,6 @@ $router->addRoute('GET', '/logout', LoginController::class, 'logout');
 $router->addRoute('GET', '/dashboard', \App\Controllers\back\DashboardController::class, 'index');
 $router->addRoute('GET', '/signup', \App\Controllers\back\RegisterController::class, 'showRegisterForm');
 $router->addRoute('POST', '/signup', \App\Controllers\back\RegisterController::class, 'register');
-$router->addRoute('GET', '/articles', \App\Controllers\back\ArticleController::class, 'listArticles');
-$router->addRoute('GET', '/article/new', \App\Controllers\back\ArticleController::class, 'showForm');
-$router->addRoute('POST', '/article/add', \App\Controllers\back\ArticleController::class, 'insertArticle');
 $router->addRoute('POST', '/admin/users/update', \App\Controllers\back\UserController::class, 'updateUserStatus');
 $router->addRoute('POST', '/admin/users/delete', \App\Controllers\back\UserController::class, 'deleteUser');
 //event creation routing

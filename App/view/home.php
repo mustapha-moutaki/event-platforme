@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventHub - Discover Amazing Events</title>
-    <!-- <script src="https://unpkg.com/@tailwindcss/browser@4"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <link rel="stylesheet" href="/src/output.css"> -->
 
     <style>
         .carousel {
@@ -25,6 +23,7 @@
             color: white;
         }
     </style>
+
     
 </head>
 <body class="bg-gray-50">
@@ -195,15 +194,14 @@
             </div>
     
             <!-- Gaming -->
-                <div class="flex flex-col items-center group">
-                    <div class="w-24 h-24 rounded-full bg-gray-50 flex items-center justify-center mb-3 border-2 border-gray-200 transition-all duration-300 hover:border-teal-500 hover:bg-teal-50 hover:shadow-lg group-hover:scale-105">
-                        <svg class="w-10 h-10 text-gray-600 group-hover:text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.5 12h11M9 15h0m6 0h0M7 12a5 5 0 0 1 10 0v4a2 2 0 0 0 2 2h1m-16 0h1a2 2 0 0 0 2-2v-4a5 5 0 0 1 10 0" />
-                        </svg>
-                    </div>
-                    <span class="text-sm font-medium group-hover:text-teal-500 transition-colors duration-300">Gaming</span>
+            <div class="flex flex-col items-center group">
+                <div class="w-24 h-24 rounded-full bg-gray-50 flex items-center justify-center mb-3 border-2 border-gray-200 transition-all duration-300 hover:border-teal-500 hover:bg-teal-50 hover:shadow-lg group-hover:scale-105">
+                    <svg class="w-10 h-10 text-gray-600 group-hover:text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2l3.5 7H22l-5.5 5 2 7-6-4-6 4 2-7-5.5-5h6.5L12 2z"/>
+                    </svg>
                 </div>
-
+                <span class="text-sm font-medium group-hover:text-teal-500 transition-colors duration-300">Gaming</span>
+            </div>
     
             <!-- Photography -->
             <div class="flex flex-col items-center group">

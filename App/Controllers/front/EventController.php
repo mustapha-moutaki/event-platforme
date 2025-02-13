@@ -142,8 +142,8 @@ class EventController extends Controller
     {
         $events = $this->organizer->getEventsByOrganizer(Auth::UserId());
         
-        $this->view->render('events/events.twig', [
-            'events' => $events
-        ]);
+        // $this->view->render('events/events.twig', [
+        //     'events' => $events
+        // ]);
     }
 }

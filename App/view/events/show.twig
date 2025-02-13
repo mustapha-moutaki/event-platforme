@@ -1,40 +1,74 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails de l'événement</title>
+    <title>Event Details</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif; /* Change font style */
+        }
+        .event-title {
+            font-family: 'Georgia', serif; /* Different font for title */
+            color: #2980b9; /* Blue color for title */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            animation: fadeIn 1s ease-in-out; /* Animation */
+        }
+        .description {
+            color: #34495e; /* Darker gray for description */
+            font-size: 1.1em; /* Slightly larger font size */
+            line-height: 1.6; /* Increased line height */
+        }
+        .label {
+            color: #e67e22; /* Orange color for labels */
+            font-weight: bold; /* Bold labels */
+        }
+        .edit-button {
+            background-color: #27ae60; /* Green color for edit button */
+        }
+        .delete-button {
+            background-color: #c0392b; /* Red color for delete button */
+        }
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
-<body>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow">
-                    <div class="card-header bg-primary text-white">
-                        <h2 class="mb-0">Détails de l'événement</h2>
-                    </div>
-                    <div class="card-body">
-                        <h3>{{ event.title }}</h3>
-                        <p><strong>Description:</strong> {{ event.description }}</p>
-                        <p><strong>Date et Heure:</strong> {{ event.date|date("d/m/Y H:i") }}</p>
-                        <p><strong>Lieu:</strong> {{ event.location }}</p>
-                        <p><strong>Prix:</strong> €{{ event.price|number_format(2, ',', ' ') }}</p>
-                        <p><strong>Capacité:</strong> {{ event.capacity }} personnes</p>
-                        <p><strong>Catégorie:</strong> {{ event.category.name }}</p>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-5">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white shadow-lg rounded-lg">
+                <div class="bg-orange-600 text-white p-4 rounded-t-lg">
+                    <h2 class="text-lg font-bold event-title">Event Details</h2>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold event-title">{{ event.title }}</h3>
+                    <p class="description"><strong class="label">Description:</strong> {{ event.description }}</p>
+                    <p class="description"><strong class="label">Date and Time:</strong> {{ event.date|date("m/d/Y H:i") }}</p>
+                    <p class="description"><strong class="label">Location:</strong> {{ event.location }}</p>
+                    <p class="description"><strong class="label">Price:</strong> €{{ event.price|number_format(2, ',', ' ') }}</p>
+                    <p class="description"><strong class="label">Capacity:</strong> {{ event.capacity }} people</p>
+                    <p class="description"><strong class="label">Category:</strong> {{ event.category.name }}</p>
 
-                        <div class="d-flex justify-content-between">
-                            <a href="/events/edit/{{ event.id }}" class="btn btn-warning">Modifier l'événement</a>
-                            <form method="POST" action="/events/delete/{{ event.id }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
-                                <button type="submit" class="btn btn-danger">Supprimer l'événement</button>
-                            </form>
-                        </div>
+                    <div class="flex justify-between mt-4">
+                        <a href="/events/edit/{{ event.id }}" class="bg-orange-600 text-white font-bold py-2 px-4 rounded-md hover:bg-orange-700 edit-button">Edit Event</a>
+                        <form method="POST" action="/events/delete/{{ event.id }}" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                            <button type="submit" class="bg-red-600 text-white font-bold py-2 px-4 rounded-md hover:bg-red-700 delete-button">Delete Event</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="text-center mt-3">
-            <a href="/events" class="btn btn-secondary">Retour à la liste des événements</a>
+        <div class="text-center mt-4">
+            <a href="/events" class="bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-md hover:bg-gray-300">Back to Events List</a>
         </div>
     </div>
 

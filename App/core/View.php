@@ -10,9 +10,7 @@ class View {
 
     public function __construct() {
         $loader = new FilesystemLoader(realpath(__DIR__ . '/../view'));  
-        $this->twig = new Environment($loader, [
-            'cache' => false 
-        ]);
+        $this->twig = new Environment($loader);
     }
 
     public function render($template, $data = []) {
