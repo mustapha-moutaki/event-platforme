@@ -15,5 +15,9 @@ class Category extends BaseModel {
     public function findByName($name) {
         return $this->findAll(['name' => $name]);
     }
+
+    public function countcategories() {
+        return $this->count(); 
+    }
 }
 

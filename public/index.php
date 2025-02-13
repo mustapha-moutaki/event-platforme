@@ -36,8 +36,6 @@ $router->addRoute('GET', '/events/show/{id}', EventController::class, 'show');
 $router->addRoute('GET', '/events', EventController::class, 'listEvents');
 $router->addRoute('GET', '/events/edit/{id}', EventController::class, 'showEditForm');
 $router->addRoute('POST', '/events/edit', EventController::class, 'edit');
-
-
 $router->addRoute('GET', '/admin/categories', \App\Controllers\Back\CategoryController::class, 'listCategories');
 $router->addRoute('POST', '/categories/create', \App\Controllers\Back\CategoryController::class, 'createCategory');
 $router->addRoute('POST', '/admin/category/delete', \App\Controllers\Back\CategoryController::class, 'deleteCategory');
@@ -53,6 +51,7 @@ $router->addRoute('GET', '/admin/sponsors', \App\Controllers\Back\SponsorControl
 $router->addRoute('POST', '/admin/sponsors', \App\Controllers\Back\SponsorController::class, 'store');
 $router->addRoute('POST','/admin/sponsors/update', \App\Controllers\Back\SponsorController::class, 'updateSponsor');
 $router->addRoute('POST', '/admin/sponsors/delete', \App\Controllers\Back\SponsorController::class, 'deleteSponsor');
-
+$router->addRoute('GET','/choose-role', \App\Controllers\back\ChooseRoleController::class,'showRoleSelection');
+$router->addRoute('POST','/set-role', \App\Controllers\back\ChooseRoleController::class,'setRole');
 
 $router->dispatch();

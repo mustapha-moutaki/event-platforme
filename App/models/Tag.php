@@ -15,4 +15,9 @@ class Tag extends BaseModel {
     public function findByName($name) {
         return $this->findAll(['name' => $name]);
     }
+
+    public function countTags() {
+        return $this->count(); 
+    }
+    
 }

@@ -53,5 +53,17 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <h1>Statistiques des utilisateurs</h1>
+
+    <div>
+        <h2>Résumé des utilisateurs :</h2>
+        <ul>
+            <li>Total des utilisateurs : {{ statistics.total_users }}</li>
+            <li>Utilisateurs actifs : {{ statistics.active_users }}</li>
+            <li>Utilisateurs en attente : {{ statistics.pending_users }}</li>
+            <li>Utilisateurs bannis : {{ statistics.banned_users }}</li>
+        </ul>
+    </div>
 </body>
 </html>

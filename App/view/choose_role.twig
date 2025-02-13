@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choisir un rôle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+    <h2 class="text-3xl font-semibold text-center mb-6">Choisissez votre rôle</h2>
+    
+   
+    <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <form action="/set-role" method="post">
+            
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-2">Organisateur</h3>
+                <p class="text-gray-600 mb-4">En tant qu'organisateur, vous serez responsable de la gestion des événements et de la coordination avec les participants.</p>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="role" value="organizer" class="form-radio text-blue-500">
+                    <span class="ml-2">Choisir ce rôle</span>
+                </label>
+            </div>
+
+            
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-2">Participant</h3>
+                <p class="text-gray-600 mb-4">En tant que participant, vous pourrez vous inscrire aux événements et participer aux activités proposées.</p>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="role" value="participant" class="form-radio text-green-500">
+                    <span class="ml-2">Choisir ce rôle</span>
+                </label>
+            </div>
+
+        
+            <div class="text-center">
+                <button type="submit" class="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition">Valider</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+

@@ -13,6 +13,9 @@ class Auth {
             Session::start();
             Session::set('user_id', $user['id']);
             Session::set('username', $user['username']);
+
+            $role = $userModel->getUserRole($user['id']);
+            Session::set('user_role', $role);
             return true;
         }
         return false;

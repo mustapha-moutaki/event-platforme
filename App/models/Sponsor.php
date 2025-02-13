@@ -41,4 +41,8 @@ class Sponsor extends BaseModel
 {
     return $this->delete($id);
 }
+
+public function countSponsors(){
+return $this->count();
+}
 }

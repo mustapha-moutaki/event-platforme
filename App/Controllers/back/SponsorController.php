@@ -12,15 +12,16 @@ class SponsorController
     {
         $sponsorModel = new Sponsor();
         $sponsors = $sponsorModel->getAllSponsors();
+        $totalsponsors=$sponsorModel->countSponsors();
         $view=new  View();
-        $view->render('sponsors/sponsors.twig', ['sponsors' => $sponsors]);
+        $view->render('sponsors/sponsors.twig', ['sponsors' => $sponsors
+                   ,'totalSponsors'=>$totalsponsors]);
     }
 
     public function store()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $name = $_POST["name"] ?? '';
-
             if (!empty($_FILES["image"]["name"])) {
                 $uploadDir = __DIR__ . '/../../../public/uploads/';
                 $fileName = time() . '_' . basename($_FILES["image"]["name"]);
@@ -57,7 +58,6 @@ class SponsorController
             // Gestion de l'upload de l'image
             if (!empty($_FILES['image']['name'])) {
                 $imageName = time() . '_' . $_FILES['image']['name'];
-                
                 $uploadDir = __DIR__ . '/../../../public/uploads/';
                 $uploadFile = $uploadDir . basename($imageName);
 
@@ -69,7 +69,7 @@ class SponsorController
                 }
             }
 
-            // Mise à jour en base de données
+
             $sponsorModel->update($id, $data);
 
             header("Location: /admin/sponsors");
@@ -86,18 +86,15 @@ class SponsorController
             $sponsor = $sponsorModel->findById($id);
 
             if ($sponsor) {
-                // Supprimer l'image associée
+                
                 $imagePath = __DIR__ . '/../../../public' . $sponsor['image_url'];
                 if (file_exists($imagePath)) {
                     unlink($imagePath);
                 }
-
-                // Supprimer le sponsor de la base de données
                 $sponsorModel->delete($id);
             }
         }
     }
-
     header("Location: /admin/sponsors");
     exit;
 }
