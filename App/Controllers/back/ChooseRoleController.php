@@ -21,6 +21,7 @@ class ChooseRoleController {
            $userModel->assignRole($userId, $role);
     //   var_dump($a);
     //   die;
+    
             Session::set('user_role', $role);
             if ($role === 'admin') {
                 header("Location: /admin/dashboard");
