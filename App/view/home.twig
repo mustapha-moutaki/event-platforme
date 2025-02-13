@@ -146,8 +146,6 @@
 
 
 
-
-
     <div class="container mx-auto px-6 py-16">
         <div class="grid grid-cols-4 md:grid-cols-8 gap-8">
             <!-- Art -->
@@ -265,87 +263,38 @@
     </div>
 </div>
 
-
+{# top events #}
     <div class="container mx-auto px-6 py-16">
-        <h2 class="text-2xl font-bold mb-8">Top Destinations in United States</h2>
-        <div class="relative">
-          <div class="overflow-hidden">
+    <h2 class="text-2xl font-bold mb-8">Top events</h2>
+    <div class="relative">
+        <div class="overflow-hidden">
             <div class="flex transition-transform duration-500 ease-in-out" id="carousel">
-              <!-- Atlanta -->
-              <div class="flex-shrink-0 w-full md:w-1/4 px-4">
-                <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-                  <img src="assets/images/7f10bcc88e62c3d431cbf47fa73d0737-lighthouse_creators_module_background_desktop.webp" alt="Atlanta" class="w-full h-64 object-cover">
-                  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
-                  <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
-                    <h3 class="text-white text-xl font-bold mb-2">Atlanta</h3>
-                    <p class="text-gray-300 text-sm">Vibrant city with rich history and modern attractions</p>
-                  </div>
+                {% for event in events %}
+                <div class="flex-shrink-0 w-full md:w-1/4 px-4">
+                    <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
+                        <img src="{{ event.image }}" alt="{{ event.title }}" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
+                        <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
+                            <h3 class="text-white text-xl font-bold mb-2">{{ event.title }}</h3>
+                            <p class="text-gray-300 text-sm">{{ event.description }}</p>
+                        </div>
+                    </div>
                 </div>
-              </div>
-        
-              <!-- Dallas -->
-              <div class="flex-shrink-0 w-full md:w-1/4 px-4">
-                <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-                  <img src="assets/images/cf835cbfa4d4aa34aea0ee1f0ea0788a-valentine_nightlife_mobile.webp" alt="Dallas" class="w-full h-64 object-cover">
-                  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
-                  <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
-                    <h3 class="text-white text-xl font-bold mb-2">Dallas</h3>
-                    <p class="text-gray-300 text-sm">Bustling metropolis with modern skyscrapers and vibrant culture</p>
-                  </div>
-                </div>
-              </div>
-        
-              <!-- Houston -->
-              <div class="flex-shrink-0 w-full md:w-1/4 px-4">
-                <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-                  <img src="assets/images/f412f2516993c1e642d380c44079922f-valentine_dsrp_mobile.webp" alt="Houston" class="w-full h-64 object-cover">
-                  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
-                  <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
-                    <h3 class="text-white text-xl font-bold mb-2">Houston</h3>
-                    <p class="text-gray-300 text-sm">Diverse city with world-class museums and outdoor attractions</p>
-                  </div>
-                </div>
-              </div>
-        
-              <!-- San Francisco -->
-              <div class="flex-shrink-0 w-full md:w-1/4 px-4">
-                <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-                  <img src="assets/images/cf835cbfa4d4aa34aea0ee1f0ea0788a-valentine_nightlife_mobile.webp" alt="San Francisco" class="w-full h-64 object-cover">
-                  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
-                  <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
-                    <h3 class="text-white text-xl font-bold mb-2">San Francisco</h3>
-                    <p class="text-gray-300 text-sm">Iconic city with the Golden Gate Bridge and vibrant culture</p>
-                  </div>
-                </div>
-              </div>
-
-
-              <!-- San Francisco -->
-              <div class="flex-shrink-0 w-full md:w-1/4 px-4">
-                <div class="relative rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-                  <img src="assets/images/cf835cbfa4d4aa34aea0ee1f0ea0788a-valentine_nightlife_mobile.webp" alt="San Francisco" class="w-full h-64 object-cover">
-                  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
-                  <div class="absolute bottom-0 left-0 right-0 px-6 py-4">
-                    <h3 class="text-white text-xl font-bold mb-2">morocco</h3>
-                    <p class="text-gray-300 text-sm">Iconic city with the Golden Gate Bridge and vibrant culture</p>
-                  </div>
-                </div>
-              </div>
+                {% endfor %}
             </div>
-          </div>
-          <div class="absolute top-1/2 transform -translate-y-1/2 left-4 text-white cursor-pointer" onclick="prevSlide()">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-          </div>
-          <div class="absolute top-1/2 transform -translate-y-1/2 right-4 text-white cursor-pointer" onclick="nextSlide()">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-            </svg>
-          </div>
         </div>
+        <div class="absolute top-1/2 transform -translate-y-1/2 left-4 text-white cursor-pointer" onclick="prevSlide()">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
         </div>
-
+        <div class="absolute top-1/2 transform -translate-y-1/2 right-4 text-white cursor-pointer" onclick="nextSlide()">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </div>
+    </div>
+</div>
 
         
 
