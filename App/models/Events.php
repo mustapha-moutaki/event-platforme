@@ -11,7 +11,7 @@ class Events{
     }
     public function getAllEvents(){
         try{
-        $sql=$this->pdo->query("SELECT e.id,title,description,date,location,
+        $sql=$this->pdo->query("SELECT e.id,title,description,date,location,e.status,
         price,capacity,c.name AS name_category , u.username AS organisateur ,
         is_featured,e.created_at as creation from events e LEFT JOIN categories c on e.category_id=c.id 
          LEFT JOIN users u on e.organizer_id=u.id ");
@@ -69,7 +69,19 @@ class Events{
         }
     }
 
-   
+    public function updateStatus($eventId, $newStatus) {
+        try {
+            $sql = "UPDATE events SET status = :status WHERE id = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                'status' => $newStatus,
+                'id' => $eventId
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
   
     
         

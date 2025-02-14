@@ -67,7 +67,6 @@ CREATE TABLE events (
     organizer_id INT NOT NULL,
     category_id INT NOT NULL,
     status ENUM('draft', 'pending', 'active', 'cancelled', 'completed') NOT NULL DEFAULT 'draft',
-
     is_featured BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

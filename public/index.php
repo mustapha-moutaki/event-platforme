@@ -32,7 +32,6 @@ $router->addRoute('POST', '/signup', \App\Controllers\back\RegisterController::c
 $router->addRoute('POST', '/admin/users/update', \App\Controllers\back\UserController::class, 'updateUserStatus');
 $router->addRoute('POST', '/admin/users/delete', \App\Controllers\back\UserController::class, 'deleteUser');
 //event creation routing
-
 $router->addRoute('GET', '/events/create', EventController::class, 'showCreateForm');
 $router->addRoute('POST', '/events/create', EventController::class, 'create');
 $router->addRoute('GET', '/events/show/{id}', EventController::class, 'show');
@@ -66,5 +65,6 @@ $router->addRoute('GET', '/admin/events', \App\Controllers\Back\EvenmentControll
 $router->addRoute('POST', '/submit-comment', \App\Controllers\Back\EvenmentController::class, 'submitComment');
 $router->addRoute('POST', '/update-comment', \App\Controllers\Back\EvenmentController::class, 'updateComment');
 $router->addRoute('POST', '/delete-comment', \App\Controllers\Back\EvenmentController::class, 'deleteComment');
+$router->addRoute('POST', '/admin/events/update-status', \App\Controllers\Back\EvenmentController::class, 'updateEventStatus');
 
 $router->dispatch();

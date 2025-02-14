@@ -11,6 +11,7 @@ class EvenmentController{
         $events=new Events();
         $evenements=$events->getAllEvents();
 
+
         foreach ($evenements as &$event) {
             $event['comments'] = $events->getCommentsByEventId($event['id']);
         }
@@ -59,7 +60,26 @@ class EvenmentController{
         }
     }
     
-  
+    public function updateEventStatus() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['event_id'], $_POST['status'])) {
+            $eventId = intval($_POST['event_id']);
+            $newStatus = $_POST['status'];
+    
+            $allowedStatuses = ['draft', 'pending', 'active', 'cancelled', 'completed'];
+            if (!in_array($newStatus, $allowedStatuses)) {
+                die("Statut invalide !");
+            }
+    
+            $eventModel = new Events();
+            if ($eventModel->updateStatus($eventId, $newStatus)) {
+                header("Location: /admin/events");
+                exit;
+            } else {
+                die("Erreur lors de la mise à jour du statut.");
+            }
+        }
+    }
+    
     
     
 }

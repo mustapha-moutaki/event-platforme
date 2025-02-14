@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{# <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -136,6 +136,54 @@ function toggleEditForm(commentId) {
     }
 }
 </script>
+
+</body>
+</html> #}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Statut</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.title | escape }}</td>
+                <td>{{ event.description | escape }}</td>
+                <td>{{ event.date }}</td>
+                <td>{{ event.status }}</td>
+                <td>
+                    <form method="POST" action="/admin/events/update-status">
+                        <input type="hidden" name="event_id" value="{{ event.id }}">
+                        <select name="status">
+                            <option value="draft" {{ event.status == 'draft' ? 'selected' : '' }}>Brouillon</option>
+                            <option value="pending" {{ event.status == 'pending' ? 'selected' : '' }}>En attente</option>
+                            <option value="active" {{ event.status == 'active' ? 'selected' : '' }}>Actif</option>
+                            <option value="cancelled" {{ event.status == 'cancelled' ? 'selected' : '' }}>Annulé</option>
+                            <option value="completed" {{ event.status == 'completed' ? 'selected' : '' }}>Complété</option>
+                        </select>
+                        <button type="submit">Modifier</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 </body>
 </html>
