@@ -67,9 +67,12 @@
         </ul>
     </li>
     <li class="nav-item d-flex align-items-center">
-        <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
-            <i class="material-symbols-rounded">account_circle</i>
-        </a>
+    <form methode="GET" action="/updateprofile">
+    <button type="submit">
+    <i class="material-symbols-rounded">account_circle</i>
+    </button>
+        {# < href="../components/updateProfile.html" class="nav-link text-body font-weight-bold px-0"> #}
+            
     </li>
 </ul>
         </div>
@@ -78,3 +81,29 @@
   
     </body>
 </html>
+
+{# 
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<div id="search result"></div>
+<script>
+    $(document).ready(function(){
+        $(id of thèsearch bar).keyup(function(){
+            var input = $(this).val();
+           if(input != ""){
+                $.ajax({
+                    url: "event_db",
+                    method: "POST",
+                    data:{input:input},
+
+                    success:function(data){
+                        $("#searchresult").html(data);
+                    }
+                });
+           }else{
+                $("#searchresult").css("display", "none");
+           }
+        });
+    });
+</script> #}

@@ -40,14 +40,14 @@
           </a>
         </li>
 
-        <?php if (isset($user['role']) && $user['role'] == 'admin'): ?>
+        
         <li class="nav-item">
           <a class="nav-link text-dark" href="http://localhost/Plateforme-de-Cours-en-Ligne-Youdemy/views/teacher/manageTeachers.php">
             <i class="material-symbols-rounded opacity-5">table_view</i>
             <span class="nav-link-text ms-1">Manage Teachers</span>
           </a>
         </li>
-        <?php endif; ?>
+     
 
         <?php if (isset($user['role']) && $user['role'] == 'student'): ?>
         <li class="nav-item">

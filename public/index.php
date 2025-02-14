@@ -17,6 +17,9 @@ $router = new Router();
 // Security::secureHeaders();
 // inddex
 $router->addRoute('GET', '/', HomeController::class, 'index');
+
+$router->addRoute('GET', '/updateprofile', HomeController::class, 'update');
+
 $router->addRoute('GET', '/admin/users', \App\Controllers\back\UserController::class, 'listUsers');
 $router->addRoute('GET', '/login', LoginController::class, 'showLoginForm');
 $router->addRoute('POST', '/login', LoginController::class, 'login');
