@@ -16,6 +16,10 @@ use App\Controllers\back\SponsorController;
 $router = new Router();
 // Security::secureHeaders();
 // inddex
+$router->addRoute('GET', '/', HomeController::class, 'index');
+
+$router->addRoute('GET', '/updateprofile', HomeController::class, 'update');
+
 // $router->addRoute('GET', '/', HomeController::class, 'index');
 $router->addRoute('GET', '/', EventController::class, 'showAllEvents');
 $router->addRoute('GET', '/admin/users', \App\Controllers\back\UserController::class, 'listUsers');
@@ -28,6 +32,7 @@ $router->addRoute('POST', '/signup', \App\Controllers\back\RegisterController::c
 $router->addRoute('POST', '/admin/users/update', \App\Controllers\back\UserController::class, 'updateUserStatus');
 $router->addRoute('POST', '/admin/users/delete', \App\Controllers\back\UserController::class, 'deleteUser');
 //event creation routing
+
 $router->addRoute('GET', '/events/create', EventController::class, 'showCreateForm');
 $router->addRoute('POST', '/events/create', EventController::class, 'create');
 $router->addRoute('GET', '/events/show/{id}', EventController::class, 'show');

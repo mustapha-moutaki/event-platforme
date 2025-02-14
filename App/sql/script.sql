@@ -615,3 +615,13 @@ CREATE TABLE reports (
     FOREIGN KEY (reporter_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+
+ALTER TABLE events
+ADD COLUMN event_type ENUM('virtual','present') NOT NULL DEFAULT 'present',
+ADD COLUMN price_type ENUM('paid','free') NOT NULL DEFAULT 'paid';
+
+
+ALTER TABLE events
+ADD COLUMN url VARCHAR(255) DEFAULT NULL;
+
+

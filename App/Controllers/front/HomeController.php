@@ -15,6 +15,14 @@ class HomeController extends Controller {
         
         $view->render('home.twig',  ['events' => $event]);
     }
+    
+    public function update() {
+        // $this->view('home');
+        $view = new View();
+       
+        
+        $view->render('updateprofile.twig');
+    }
 }
 
 

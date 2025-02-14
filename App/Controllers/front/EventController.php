@@ -53,12 +53,12 @@ class EventController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST["title"] ?? '';
-            
+    
             try {
+                // Handle image upload
                 if (!empty($_FILES["image"]["name"])) {
                     $uploadDir = __DIR__ . '/../../../public/uploads/';
                     $fileName = time() . '_' . basename($_FILES["image"]["name"]);
-
                     $uploadFile = $uploadDir . $fileName;
                     if (move_uploaded_file($_FILES["image"]["tmp_name"], $uploadFile)) {
                         $imagePath = '/uploads/' . $fileName;
@@ -71,7 +71,7 @@ class EventController extends Controller
                     return;
                 }
     
-                var_dump($_POST);
+                // Collect event data from POST, including new fields event_type and price_type
                 $eventData = [
                     'title' => htmlspecialchars($_POST['title']),
                     'description' => htmlspecialchars($_POST['description']),
@@ -80,28 +80,37 @@ class EventController extends Controller
                     'capacity' => intval($_POST['capacity']),
                     'category_id' => intval($_POST['category_id']),
                     'organizer_id' => Auth::UserId(),
-                    'status' => 'draft',
+                    'status' => 'draft',  // Assuming a default status
                     'image' => $imagePath,
                     'region_id' => intval($_POST['region_id']),
                     'ville_id' => intval($_POST['ville_id']),
+                    'event_type' => $_POST['event_type'],  // New field
+                    'price_type' => $_POST['price_type'],  // New field
                 ];
     
+                // Add the URL only if it's a virtual event
+                if ($_POST['event_type'] === 'virtual' && isset($_POST['url'])) {
+                    $eventData['url'] = $_POST['url'];
+                }
+    
+                // Create the event and get the event ID
                 $eventId = $this->eventModel->createEvent($eventData);
     
-                
+                // Handle tags if provided
                 if (!empty($_POST['tags'])) {
                     foreach ($_POST['tags'] as $tagId) {
                         $this->eventModel->addTagToEvent($tagId, $eventId);
                     }
                 }
     
-                
+                // Handle sponsors if provided
                 if (!empty($_POST['sponsors'])) {
                     foreach ($_POST['sponsors'] as $sponsorId) {
                         $this->eventModel->addSponsorToEvent($sponsorId, $eventId);
                     }
                 }
     
+                // Redirect or show an error if event creation failed
                 if ($eventId) {
                     header("Location: /events/show/" . $eventId);
                     exit;
@@ -113,6 +122,7 @@ class EventController extends Controller
             }
         }
     }
+    
 
     public function show($id) 
     {
@@ -182,22 +192,7 @@ class EventController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
-
-                var_dump($_POST);
-
-
-                if (!empty($_FILES['image']['name'])) {
-                    $uploadDir = __DIR__ . '/../../../public/uploads/';
-                    $imageName = basename($_FILES['image']['name']);
-                    $imagePath = $uploadDir . uniqid() . '_' . $imageName;
-
-                    if (move_uploaded_file($_FILES['image']['tmp_name'], $imagePath)) {
-                        $eventData['image'] = '/uploads/' . basename($imagePath); 
-                    } else {
-                        throw new \Exception('Failed to upload image.');
-                    }
-                }
-
+                // Handle the form data
                 $eventData = [
                     'title' => htmlspecialchars($_POST['title']),
                     'description' => htmlspecialchars($_POST['description']),
@@ -207,33 +202,43 @@ class EventController extends Controller
                     'category_id' => intval($_POST['category_id']),
                     'organizer_id' => Auth::UserId(),
                     'status' => 'draft',
-                    'image' => $imagePath,
                     'region_id' => intval($_POST['region_id']),
                     'ville_id' => intval($_POST['ville_id']),
+                    'event_type' => $_POST['event_type'], // Added to handle event type
+                    'url' => ($_POST['event_type'] == 'virtual' && !empty($_POST['url'])) ? $_POST['url'] : null, // Added to handle URL for virtual events
                 ];
-
-                
-
-
+    
+                // Handle image upload
+                if (!empty($_FILES['image']['name'])) {
+                    $uploadDir = __DIR__ . '/../../../public/uploads/';
+                    $imageName = basename($_FILES['image']['name']);
+                    $imagePath = $uploadDir . uniqid() . '_' . $imageName;
+    
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $imagePath)) {
+                        $eventData['image'] = '/uploads/' . basename($imagePath); 
+                    } else {
+                        throw new \Exception('Failed to upload image.');
+                    }
+                }
+    
+                // Update event in the database
                 if ($this->eventModel->updateEvent($id, Auth::UserId(), $eventData)) {
-                    
+                    // Clear and add tags and sponsors
                     $this->eventModel->clearTags($id);
                     $this->eventModel->clearSponsors($id);
-
-                    
+    
                     if (!empty($_POST['tags'])) {
                         foreach ($_POST['tags'] as $tagId) {
                             $this->eventModel->addTagToEvent($tagId, $id);
                         }
                     }
-
-                    
+    
                     if (!empty($_POST['sponsors'])) {
                         foreach ($_POST['sponsors'] as $sponsorId) {
                             $this->eventModel->addSponsorToEvent($sponsorId, $id);
                         }
                     }
-
+    
                     header("Location: /events/show/" . $id);
                     exit;
                 } else {
@@ -244,6 +249,7 @@ class EventController extends Controller
             }
         }
     }
+    
 
     public function delete($id) 
     {

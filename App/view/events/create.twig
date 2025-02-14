@@ -1,157 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un nouvel événement</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow">
-                    <div class="card-header bg-primary text-white">
-                        <h2 class="mb-0">Créer un nouvel événement</h2>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="/events/create" enctype='multipart/form-data' class="needs-validation" novalidate>
-                            <div class="mb-3">
-                                <label for="title" class="form-label">Titre *</label>
-                                <input type="text" class="form-control" id="title" name="title" required minlength="5" maxlength="255">
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="description" class="block text-sm font-medium text-gray-700">description *</label>
-                                <textarea  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-orange-500" id="description" name="description" value="{{ event.description }}" required></textarea>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="mb-4">
-                                <label for="price" class="block text-sm font-medium text-gray-700">Price (€) *</label>
-                                <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" id="price" name="price" step="0.01" min="0" required>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="date" class="form-label">Date et heure *</label>
-                                    <input type="datetime-local" class="form-control" id="date" name="date" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="region_id" class="form-label">Région *</label>
-                                    <select class="form-select" id="region_id" name="region_id" required>
-                                        <option value="">Sélectionnez une région</option>
-                                        {% if regions is not empty %}
-                                            {% for region in regions %}
-                                                <option value="{{ region.id }}">{{ region.region }}</option>
-                                            {% endfor %}
-                                        {% else %}
-                                            <option value="">Aucune région disponible</option>
-                                        {% endif %}
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="ville_id" class="form-label">Ville *</label>
-                                    <select class="form-select" id="city_id" name="ville_id" required>
-                                        <option value="">Sélectionnez une ville</option>
-                                        <!-- Cities will be populated based on the selected region -->
-                                    </select>
-                                </div>
-
+<body class="bg-gray-50">
+    <div class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="bg-orange-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Créer un nouvel événement</h2>
+                </div>
+                <div class="p-6">
+                    <form method="POST" action="/events/create" enctype="multipart/form-data" class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Type d'événement *</label>
+                            <div class="flex space-x-6">
+                                <label class="flex items-center">
+                                    <input type="radio" name="event_type" value="present" class="h-4 w-4 text-orange-600 focus:ring-orange-500" required>
+                                    <span class="ml-2">Présentiel</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="event_type" value="virtual" class="h-4 w-4 text-orange-600 focus:ring-orange-500">
+                                    <span class="ml-2">Virtuel</span>
+                                </label>
                             </div>
                         </div>
 
+                        <!-- Virtual Event URL (Hidden by default) -->
+                        <div id="virtual-url-container" class="hidden">
+                            <div>
+                                <label for="url" class="block text-sm font-medium text-gray-700">URL de l'événement (si virtuel)</label>
+                                <input type="url" id="url" name="url" placeholder="Entrez l'URL" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                            </div>
+                        </div>
 
+                        <!-- Price Type Selection -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Tarification *</label>
+                            <div class="flex space-x-6">
+                                <label class="flex items-center">
+                                    <input type="radio" name="price_type" value="free" class="h-4 w-4 text-orange-600 focus:ring-orange-500" required>
+                                    <span class="ml-2">Gratuit</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="price_type" value="paid" class="h-4 w-4 text-orange-600 focus:ring-orange-500">
+                                    <span class="ml-2">Payant</span>
+                                </label>
+                            </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="price" class="form-label">Prix (€) *</label>
-                                    <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required>
-                                </div>
+                        <!-- Title -->
+                        <div>
+                            <label for="title" class="block text-sm font-medium text-gray-700">Titre *</label>
+                            <input type="text" id="title" name="title" required minlength="5" maxlength="255" 
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                        </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="capacity" class="form-label">Capacité *</label>
-                                    <input type="number" class="form-control" id="capacity" name="capacity" min="1" required>
-                                </div>
+                        <!-- Description -->
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description *</label>
+                            <textarea id="description" name="description" required rows="4"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"></textarea>
+                        </div>
+
+                        <!-- Date and Location Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="date" class="block text-sm font-medium text-gray-700">Date et heure *</label>
+                                <input type="datetime-local" id="date" name="date" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
                             </div>
 
-                            <div class="mb-3">
-                                <label for="category_id" class="form-label">Catégorie *</label>
-                                <select class="form-select" id="category_id" name="category_id" required>
+                            <div>
+                                <label for="region_id" class="block text-sm font-medium text-gray-700">Région *</label>
+                                <select id="region_id" name="region_id" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                    <option value="">Sélectionnez une région</option>
+                                    {% if regions is not empty %}
+                                        {% for region in regions %}
+                                            <option value="{{ region.id }}">{{ region.region }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="city_id" class="block text-sm font-medium text-gray-700">Ville *</label>
+                                <select id="city_id" name="ville_id" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                                    <option value="">Sélectionnez une ville</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="price" class="block text-sm font-medium text-gray-700">Prix (€) *</label>
+                                <input type="number" id="price" name="price" step="0.01" min="0" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                            </div>
+
+                            <div>
+                                <label for="capacity" class="block text-sm font-medium text-gray-700">Capacité *</label>
+                                <input type="number" id="capacity" name="capacity" min="1" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                            </div>
+
+                            <div>
+                                <label for="category_id" class="block text-sm font-medium text-gray-700">Catégorie *</label>
+                                <select id="category_id" name="category_id" required
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
                                     <option value="">Sélectionnez une catégorie</option>
                                     {% if categories is not empty %}
                                         {% for category in categories %}
                                             <option value="{{ category.id }}">{{ category.name }}</option>
                                         {% endfor %}
-                                    {% else %}
-                                        <option value="">Aucune catégorie disponible</option>
                                     {% endif %}
                                 </select>
                             </div>
+                        </div>
 
-                            <div class="mb-3">
-                                    <label for="image" class="block font-medium">Image :</label>
-                                    <input type="file" name="image" accept="image/*" required class="w-full border rounded p-2">
-                            </div>
+                        <!-- Image Upload -->
+                        <div>
+                            <label for="image" class="block text-sm font-medium text-gray-700">Image *</label>
+                            <input type="file" id="image" name="image" accept="image/*" required
+                                class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-600 hover:file:bg-orange-100">
+                        </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Tags *</label>
-                                <div>
-                                    {% for tag in tags %}
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="tags[]" value="{{ tag.id }}" id="tag_{{ tag.id }}">
-                                            <label class="form-check-label" for="tag_{{ tag.id }}">{{ tag.name }}</label>
-                                        </div>
-                                    {% endfor %}
-                                </div>
+                        <!-- Tags -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Tags *</label>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {% for tag in tags %}
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="tags[]" value="{{ tag.id }}" 
+                                            class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                                        <span class="ml-2 text-sm text-gray-700">{{ tag.name }}</span>
+                                    </label>
+                                {% endfor %}
                             </div>
+                        </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Sponsors *</label>
-                                <div>
-                                    {% for sponsor in sponsors %}
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="sponsors[]" value="{{ sponsor.id }}" id="sponsor_{{ sponsor.id }}">
-                                            <label class="form-check-label" for="sponsor_{{ sponsor.id }}">{{ sponsor.name }}</label>
-                                        </div>
-                                    {% endfor %}
-                                </div>
+                        <!-- Sponsors -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Sponsors *</label>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {% for sponsor in sponsors %}
+                                    <label class="flex items-center">
+                                        <input type="checkbox" name="sponsors[]" value="{{ sponsor.id }}"
+                                            class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                                        <span class="ml-2 text-sm text-gray-700">{{ sponsor.name }}</span>
+                                    </label>
+                                {% endfor %}
                             </div>
+                        </div>
 
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">Créer l'événement</button>
-                                <a href="/events" class="btn btn-secondary">Annuler</a>
-                            </div>
-                        </form>
-                    </div>
+                        <!-- Submit Buttons -->
+                        <div class="flex space-x-4">
+                            <button type="submit" 
+                                class="flex-1 bg-orange-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                                Créer l'événement
+                            </button>
+                            <a href="/events" 
+                                class="flex-1 bg-gray-100 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 text-center">
+                                Annuler
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // Enable Bootstrap validation
-        (function () {
-            'use strict'
-            var forms = document.querySelectorAll('.needs-validation')
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-
         // Set minimum date to today
         document.addEventListener('DOMContentLoaded', function() {
             const dateInput = document.getElementById('date');
@@ -163,43 +187,60 @@
             const minDate = `${today.getFullYear()}-${month}-${day}T${hours}:${minutes}`;
             dateInput.min = minDate;
         });
-    </script>
 
-<script>
-    $(document).ready(function() {
-    $('#region_id').change(function() {
-        console.log("Region changed"); // Debugging line
-        var regionId = $(this).val();
-        console.log("Selected region ID: " + regionId); // Debugging line
-        if (regionId) {
-            $.ajax({
-                url: '/events/cities/' + regionId,
-                type: 'GET',
-                dataType: 'json',
-                success: function(cities) {
-                    console.log("Cities received: ", cities); // Debugging line
-                    $('#city_id').empty(); // Clear existing options
-                    $('#city_id').append('<option value="">Sélectionnez une ville</option>'); // Add default option
-                    if (cities.error) {
-                        alert(cities.error); // Show error if no cities found
-                    } else {
-                        $.each(cities, function(index, city) {
-                            $('#city_id').append('<option value="' + city.id + '">' + city.ville + '</option>');
-                        });
-                    }
-                },
-                error: function() {
-                    alert('Erreur lors de la récupération des villes.');
+
+        document.addEventListener('DOMContentLoaded', function() {
+                const virtualRadio = document.querySelector('input[name="event_type"][value="virtual"]');
+                const presentRadio = document.querySelector('input[name="event_type"][value="present"]');
+                const urlContainer = document.getElementById('virtual-url-container');
+
+                // Check the current selection and show/hide the URL field
+                if (virtualRadio.checked) {
+                    urlContainer.classList.remove('hidden');
+                } else {
+                    urlContainer.classList.add('hidden');
+                }
+
+                // Add event listeners for radio buttons to toggle URL input visibility
+                virtualRadio.addEventListener('change', function() {
+                    urlContainer.classList.remove('hidden');
+                });
+
+                presentRadio.addEventListener('change', function() {
+                    urlContainer.classList.add('hidden');
+                });
+            });
+
+        // Cities dropdown population
+        $(document).ready(function() {
+            $('#region_id').change(function() {
+                var regionId = $(this).val();
+                if (regionId) {
+                    $.ajax({
+                        url: '/events/cities/' + regionId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(cities) {
+                            $('#city_id').empty();
+                            $('#city_id').append('<option value="">Sélectionnez une ville</option>');
+                            if (cities.error) {
+                                alert(cities.error);
+                            } else {
+                                $.each(cities, function(index, city) {
+                                    $('#city_id').append('<option value="' + city.id + '">' + city.ville + '</option>');
+                                });
+                            }
+                        },
+                        error: function() {
+                            alert('Erreur lors de la récupération des villes.');
+                        }
+                    });
+                } else {
+                    $('#city_id').empty();
+                    $('#city_id').append('<option value="">Sélectionnez une ville</option>');
                 }
             });
-        } else {
-            $('#city_id').empty(); // Clear cities if no region is selected
-            $('#city_id').append('<option value="">Sélectionnez une ville</option>');
-        }
-    });
-});
-</script>
-
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        });
+    </script>
 </body>
 </html>
