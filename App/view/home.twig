@@ -37,6 +37,11 @@
                 
                 <!-- Navigation Links -->
                 <div class="hidden md:flex items-center space-x-8">
+                <form action="/switch-role" method="post">
+    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">
+        Switch to Organizer
+    </button>
+</form>
                     <a href="#" class="text-gray-800 hover:text-red-600 transition-colors">Home</a>
                     <a href="#" class="text-gray-800 hover:text-red-600 transition-colors">Events</a>
                     <a href="#" class="text-gray-800 hover:text-red-600 transition-colors">Categories</a>
@@ -260,6 +265,7 @@
                 </button>
             </div>
         </div>
+       
         {% endfor %}
     </div>
 </div>

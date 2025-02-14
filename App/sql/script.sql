@@ -67,7 +67,6 @@ CREATE TABLE events (
     organizer_id INT NOT NULL,
     category_id INT NOT NULL,
     status ENUM('draft', 'pending', 'active', 'cancelled', 'completed') NOT NULL DEFAULT 'draft',
-
     is_featured BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -77,6 +76,8 @@ CREATE TABLE events (
     INDEX idx_status (status),
     INDEX idx_featured (is_featured)
 );
+
+
 
 -- Event-Tag relationship
 CREATE TABLE event_tags (
@@ -590,6 +591,28 @@ ADD COLUMN ville_id INT,
 ADD FOREIGN KEY (region_id) REFERENCES region(id) ON DELETE RESTRICT,
 ADD FOREIGN KEY (ville_id) REFERENCES ville(id) ON DELETE RESTRICT;
 
+CREATE TABLE comments (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    event_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    status ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_status (status)
+);
+
+CREATE TABLE reports (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    comment_id INT NOT NULL,
+    reporter_id INT NOT NULL,
+    reason TEXT NOT NULL,
+    status ENUM('pending', 'reviewed', 'dismissed') NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE,
+    FOREIGN KEY (reporter_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
 
 ALTER TABLE events

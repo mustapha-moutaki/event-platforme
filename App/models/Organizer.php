@@ -114,4 +114,7 @@ class Organizer extends BaseModel
         $stmt->execute(['id' => $eventId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+  
+    
+    
 }

@@ -11,6 +11,8 @@ class HomeController extends Controller {
         $view = new View();
         $events= new EventController();
         $event = $events->showAllEvents();
+         var_dump($_SESSION);
+         die();
        
         
         $view->render('home.twig',  ['events' => $event]);

@@ -1,0 +1,189 @@
+{# <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <title>
+     Dashboard
+  </title>
+ <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+    {% for event in events %}
+        <div class="bg-white shadow-lg rounded-2xl overflow-hidden border border-gray-200">
+            <div class="p-6">
+                <!-- Titre de l'événement -->
+                <h2 class="text-xl font-bold text-gray-900">{{ event.title }}</h2>
+                
+                <!-- Date et lieu -->
+                <p class="text-sm text-gray-600 mt-2 flex items-center">
+                    <i class="fas fa-calendar-alt mr-2"></i> {{ event.date|date('d M Y, H:i') }} - 
+                    <i class="fas fa-map-marker-alt ml-2"></i> {{ event.location }}
+                </p>
+
+                <!-- Description -->
+                <p class="mt-4 text-gray-700">{{ event.description|slice(0, 100) }}...</p>
+
+                <!-- Organisateur -->
+                <p class="mt-4 text-sm font-semibold text-indigo-600">
+                    <span class="font-bold text-gray-900"> Organisateur :</span> {{ event.organisateur }}
+                </p>
+
+                <!-- Catégorie -->
+                <span class="mt-2 inline-block px-3 py-1 text-xs font-semibold text-white bg-green-600 rounded-full">
+                    {{ event.name_category }}
+                </span>
+
+                <!-- Prix et statut -->
+                <div class="flex items-center justify-between mt-4">
+                    <span class="text-lg font-semibold text-blue-600">
+                        {{ event.price > 0 ? event.price ~ ' €' : ' Gratuit' }}
+                    </span>
+                    <span class="px-3 py-1 text-xs font-semibold text-white rounded-full 
+                        {% if event.status == 'active' %} bg-green-500 
+                        {% elseif event.status == 'pending' %} bg-yellow-500 
+                        {% elseif event.status == 'cancelled' %} bg-red-500 
+                        {% else %} bg-gray-500 {% endif %}">
+                        {{ event.status|capitalize }}
+                    </span>
+                </div>
+
+                <!-- Détails supplémentaires -->
+                <div class="mt-6 flex justify-between items-center text-sm text-gray-500">
+                    <span> Capacité : {{ event.capacity }}</span>
+                    <span class="text-xs"> Ajouté le {{ event.creation|date('d/m/Y') }}</span>
+                </div>
+
+                <!-- Badge "Mis en avant" -->
+                {% if event.is_featured %}
+                    <div class="mt-4 text-sm font-semibold text-yellow-600">Événement mis en avant</div>
+                {% endif %}
+            </div>
+
+            <!--  Section des commentaires -->
+            <div class="bg-gray-50 p-6 rounded-b-2xl">
+                <h3 class="text-lg font-semibold text-gray-800"> Commentaires</h3>
+
+                {% for comment in event.comments %}
+                    <div class="mt-4 p-4 bg-white shadow-sm border border-gray-200 rounded-lg">
+                        <p class="text-gray-800 font-medium">
+                            <i class="fas fa-user-circle text-blue-500 mr-2"></i> {{ comment.username }}
+                        </p>
+                        <p class="text-gray-600">{{ comment.content }}</p>
+                        <p class="text-xs text-gray-400">
+                            <i class="fas fa-clock mr-1"></i> {{ comment.created_at|date('d M Y, H:i') }}
+                        </p>
+                        
+                         <!-- Boutons Modifier / Supprimer -->
+        <div class="flex space-x-2 mt-2">
+            <!-- Bouton Modifier -->
+            <button onclick="toggleEditForm({{ comment.id }})" 
+                    class="px-3 py-1 bg-yellow-500 text-white text-sm rounded-md hover:bg-yellow-600">
+                Modifier
+            </button>
+
+            <!-- Bouton Supprimer -->
+            <form action="/delete-comment" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce commentaire ?');">
+                <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                <button type="submit" 
+                        class="px-3 py-1 bg-red-500 text-white text-sm rounded-md hover:bg-red-600">
+                    Supprimer
+                </button>
+            </form>
+        </div>
+
+        <!-- Formulaire de modification (caché par défaut) -->
+        <form id="editForm-{{ comment.id }}" action="/update-comment" method="POST" class="hidden mt-2">
+            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+            <textarea name="content" rows="2" class="w-full p-2 border border-gray-300 rounded-md">{{ comment.content }}</textarea>
+            <button type="submit" class="mt-2 px-4 py-1 bg-green-600 text-white rounded-md hover:bg-green-700">
+                Enregistrer
+            </button>
+        </form>
+                    </div>
+                {% else %}
+                    <p class="mt-2 text-gray-600">Aucun commentaire pour cet événement.</p>
+                {% endfor %}
+
+                <!-- Formulaire d'ajout de commentaire -->
+                <form action="/submit-comment" method="POST" class="mt-4">
+                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                    <textarea name="content" placeholder=" Laissez un commentaire..." rows="3"
+                        class="w-full p-2 border border-gray-300 rounded-md mt-2 focus:ring focus:ring-blue-300"
+                        required></textarea>
+                    <button type="submit"
+                        class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                        Ajouter un commentaire
+                    </button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+function toggleEditForm(commentId) {
+    let form = document.getElementById('editForm-' + commentId);
+    if (form.classList.contains('hidden')) {
+        form.classList.remove('hidden');
+    } else {
+        form.classList.add('hidden');
+    }
+}
+</script>
+
+</body>
+</html> #}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Statut</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.title | escape }}</td>
+                <td>{{ event.description | escape }}</td>
+                <td>{{ event.date }}</td>
+                <td>{{ event.status }}</td>
+                <td>
+                    <form method="POST" action="/admin/events/update-status">
+                        <input type="hidden" name="event_id" value="{{ event.id }}">
+                        <select name="status">
+                            <option value="draft" {{ event.status == 'draft' ? 'selected' : '' }}>Brouillon</option>
+                            <option value="pending" {{ event.status == 'pending' ? 'selected' : '' }}>En attente</option>
+                            <option value="active" {{ event.status == 'active' ? 'selected' : '' }}>Actif</option>
+                            <option value="cancelled" {{ event.status == 'cancelled' ? 'selected' : '' }}>Annulé</option>
+                            <option value="completed" {{ event.status == 'completed' ? 'selected' : '' }}>Complété</option>
+                        </select>
+                        <button type="submit">Modifier</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
