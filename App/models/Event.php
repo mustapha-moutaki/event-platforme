@@ -20,15 +20,15 @@ class Event extends BaseModel
             }
         }
     
-        $query = "INSERT INTO {$this->table} (title, description, date, price, capacity, category_id, organizer_id, status, image, region_id, ville_id) 
-                  VALUES (:title, :description, :date,  :price, :capacity, :category_id, :organizer_id, :status, :image, :region_id, :ville_id)";
-        
+        // Add 'url' field if it exists in $data
+        $query = "INSERT INTO {$this->table} (title, description, date, price, capacity, category_id, organizer_id, status, image, region_id, ville_id, event_type, price_type, url) 
+                  VALUES (:title, :description, :date, :price, :capacity, :category_id, :organizer_id, :status, :image, :region_id, :ville_id, :event_type, :price_type, :url)";
+    
         $stmt = $this->db->prepare($query);
         $stmt->execute([
             'title' => $data['title'],
             'description' => $data['description'],
             'date' => $data['date'],
-            // 'location' => $data['location'], 
             'price' => $data['price'],
             'capacity' => $data['capacity'],
             'category_id' => $data['category_id'],
@@ -37,10 +37,15 @@ class Event extends BaseModel
             'image' => $data['image'],
             'region_id' => $data['region_id'],
             'ville_id' => $data['ville_id'],
+            'event_type' => $data['event_type'],  // New field
+            'price_type' => $data['price_type'],  // New field
+            'url' => $data['url'] ?? null, // New field, default to null if not set
         ]);
     
         return $this->db->lastInsertId();
     }
+    
+    
 
     public function updateEvent($id, $organizerId, $data)
     {
@@ -83,9 +88,6 @@ class Event extends BaseModel
             $params['image'] = $data['image'];
         }
     
-        // Output for debugging
-        var_dump($query);
-        var_dump($params);
     
         return $stmt->execute($params);
     }
