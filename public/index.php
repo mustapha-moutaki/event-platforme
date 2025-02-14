@@ -20,6 +20,8 @@ $router->addRoute('GET', '/', HomeController::class, 'index');
 
 $router->addRoute('GET', '/updateprofile', HomeController::class, 'update');
 
+// $router->addRoute('GET', '/', HomeController::class, 'index');
+$router->addRoute('GET', '/', EventController::class, 'showAllEvents');
 $router->addRoute('GET', '/admin/users', \App\Controllers\back\UserController::class, 'listUsers');
 $router->addRoute('GET', '/login', LoginController::class, 'showLoginForm');
 $router->addRoute('POST', '/login', LoginController::class, 'login');
@@ -35,6 +37,11 @@ $router->addRoute('POST', '/events/create', EventController::class, 'create');
 $router->addRoute('GET', '/events/show/{id}', EventController::class, 'show');
 $router->addRoute('GET', '/events', EventController::class, 'listEvents');
 $router->addRoute('GET', '/events/edit/{id}', EventController::class, 'showEditForm');
+$router->addRoute('POST', '/events/edit/{id}', EventController::class, 'edit');
+$router->addRoute('POST', '/events/delete/{id}', EventController::class, 'delete');
+$router->addRoute('GET', '/events/cities/{regionId}', EventController::class, 'getCitiesByRegion');
+
+
 $router->addRoute('POST', '/events/edit', EventController::class, 'edit');
 $router->addRoute('GET', '/admin/categories', \App\Controllers\Back\CategoryController::class, 'listCategories');
 $router->addRoute('POST', '/categories/create', \App\Controllers\Back\CategoryController::class, 'createCategory');
