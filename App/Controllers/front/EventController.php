@@ -296,4 +296,6 @@ class EventController extends Controller
             'events' => $events
         ]);
     }
+
+
 }
