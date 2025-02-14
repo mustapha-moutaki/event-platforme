@@ -28,7 +28,7 @@ class Event extends BaseModel
             'title' => $data['title'],
             'description' => $data['description'],
             'date' => $data['date'],
-            // 'location' => $data['location'], // You can still keep this for display purposes
+            // 'location' => $data['location'], 
             'price' => $data['price'],
             'capacity' => $data['capacity'],
             'category_id' => $data['category_id'],
@@ -46,10 +46,10 @@ class Event extends BaseModel
     {
         $event = $this->findById($id);
         if (!$event || $event['organizer_id'] != $organizerId) {
-            return false; // Event not found or not authorized
+            return false; 
         }
     
-        // Prepare the SQL statement
+        
         $query = "UPDATE {$this->table} SET 
                   title = :title, 
                   description = :description, 

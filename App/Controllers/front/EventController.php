@@ -5,8 +5,8 @@ namespace App\Controllers\Front;
 session_start();
 
 use App\Core\View;
-use App\Models\Event; // Use the Event model
-use App\Models\Organizer; // Use the Event model
+use App\Models\Event;
+use App\Models\Organizer; 
 use App\Core\Auth;
 use App\Core\Controller;
 
@@ -29,21 +29,21 @@ class EventController extends Controller
         $stmt = $db->query("SELECT id, name FROM categories ORDER BY name");
         $categories = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         
-        // Fetch regions
+        
         $stmt = $db->query("SELECT id, region FROM region ORDER BY region");
         $regions = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     
-        // Fetch tags
+        
         $stmt = $db->query("SELECT id, name FROM tags ORDER BY name");
         $tags = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         
-        // Fetch sponsors
+        
         $stmt = $db->query("SELECT id, name FROM sponsors ORDER BY name");
         $sponsors = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         
         $this->view->render('events/create.twig', [
             'categories' => $categories,
-            'regions' => $regions, // Pass regions to the view
+            'regions' => $regions, 
             'tags' => $tags,
             'sponsors' => $sponsors
         ]); 
@@ -76,7 +76,6 @@ class EventController extends Controller
                     'title' => htmlspecialchars($_POST['title']),
                     'description' => htmlspecialchars($_POST['description']),
                     'date' => $_POST['date'],
-                    // 'location' => htmlspecialchars($_POST['location']), // Optional if you want to keep it
                     'price' => floatval($_POST['price']),
                     'capacity' => intval($_POST['capacity']),
                     'category_id' => intval($_POST['category_id']),
@@ -89,14 +88,14 @@ class EventController extends Controller
     
                 $eventId = $this->eventModel->createEvent($eventData);
     
-                // Handle tags
+                
                 if (!empty($_POST['tags'])) {
                     foreach ($_POST['tags'] as $tagId) {
                         $this->eventModel->addTagToEvent($tagId, $eventId);
                     }
                 }
     
-                // Handle sponsors
+                
                 if (!empty($_POST['sponsors'])) {
                     foreach ($_POST['sponsors'] as $sponsorId) {
                         $this->eventModel->addSponsorToEvent($sponsorId, $eventId);
@@ -203,7 +202,6 @@ class EventController extends Controller
                     'title' => htmlspecialchars($_POST['title']),
                     'description' => htmlspecialchars($_POST['description']),
                     'date' => $_POST['date'],
-                    // 'location' => htmlspecialchars($_POST['location']), // Optional if you want to keep it
                     'price' => floatval($_POST['price']),
                     'capacity' => intval($_POST['capacity']),
                     'category_id' => intval($_POST['category_id']),
@@ -249,10 +247,10 @@ class EventController extends Controller
 
     public function delete($id) 
     {
-        // Fetch the event to get the image path
+        
         $event = $this->eventModel->findById($id);
         if ($event && $event['organizer_id'] === Auth::UserId()) {
-            // Delete the image from the server
+            
             $imagePath = __DIR__ . '/../../../public' . $event['image'];
             if (file_exists($imagePath)) {
                 unlink($imagePath);
@@ -277,7 +275,7 @@ class EventController extends Controller
         $cities = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         // var_dump($cities);
         header('Content-Type: application/json');
-        echo json_encode($cities); // Return cities as JSON
+        echo json_encode($cities); 
         exit;
     }
 
