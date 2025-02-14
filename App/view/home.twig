@@ -121,6 +121,7 @@
                 <!-- Search Input -->
                 <div class="relative">
                     <input type="text" 
+                            id="live_search"
                            placeholder="Search events..." 
                            class="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent"/>
                     <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -544,6 +545,32 @@
 
         // Auto-advance carousel
         setInterval(() => moveCarousel(1), 5000);
+
     </script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    
+
+    $(document).ready(function(){
+        $("#live_search").keyup(function(){
+            var input = $(this).val();
+            alert(input);
+           if(input != ""){
+                $.ajax({
+                    url: "event_db",
+                    method: "POST",
+                    data:{input:input},
+
+                    success:function(data){
+                        $("#searchresult").html(data);
+                    }
+                });
+           }else{
+                $("#searchresult").css("display", "none");
+           }
+        });
+    });
+</script>
 </body>
 </html>

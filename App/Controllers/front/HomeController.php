@@ -10,7 +10,7 @@ class HomeController extends Controller {
         // $this->view('home');
         $view = new View();
         $events= new EventController();
-        $event = $events->listEvents();
+        $event = $events->showAllEvents();
        
         
         $view->render('home.twig',  ['events' => $event]);
