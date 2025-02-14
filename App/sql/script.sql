@@ -78,6 +78,8 @@ CREATE TABLE events (
     INDEX idx_featured (is_featured)
 );
 
+
+
 -- Event-Tag relationship
 CREATE TABLE event_tags (
     event_id INT NOT NULL,
