@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center py-12">
+    {% include 'components/header'%}
+    <!-- Container with max width and centering -->
+    <div class="container mx-auto px-4 max-w-6xl">
+        <!-- Single centered card -->
+        <div class="bg-white shadow-xl rounded-3xl overflow-hidden border border-gray-200 transform hover:scale-[1.02] transition-transform duration-300">
+
+
+
+            <!-- Event Image Section -->
+            <div class="relative h-96 overflow-hidden">
+                <img src="/api/placeholder/1600/900" alt="Tech Conference" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                    <span class="bg-blue-600 text-xs font-semibold px-4 py-2 rounded-full">Featured Event</span>
+                    <h2 class="text-3xl font-bold mt-3">{{ event.title }}</h2>
+                    <p class="text-lg opacity-90 mt-2">
+                        <i class="fas fa-map-marker-alt mr-2"></i>{{ event.location }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Event Details Section -->
+            <div class="p-10">
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center space-x-4">
+                        <span class="text-lg text-gray-600">
+                            <i class="fas fa-calendar-alt mr-2"></i>{{ event.date|date("d M Y, H:i") }}
+                        </span>
+                    </div>
+                    <span class="px-6 py-2 text-sm font-semibold text-white rounded-full bg-green-500">
+                        {{ event.status }}
+                    </span>
+                </div>
+
+                <p class="text-gray-700 text-lg leading-relaxed mb-8">
+                    {{ event.description }}
+                </p>
+
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <p class="text-lg font-semibold text-indigo-600">
+                            <span class="font-bold text-gray-900">Organisateur:</span> {{ event.organizer }}
+                        </p>
+                        <p class="text-md text-gray-500 mt-2">
+                            <i class="fas fa-users mr-2"></i>Capacité: {{ event.capacity }} participants
+                        </p>
+                    </div>
+                    <span class="text-3xl font-bold text-blue-600">
+                        {{ event.price }} €
+                    </span>
+                </div>
+
+                <div class="flex flex-wrap gap-3 mb-8">
+                    {% for tag in event.tags %}
+                        <span class="px-4 py-2 text-sm font-semibold text-white bg-{{ tag.color }}-600 rounded-full">
+                            {{ tag.name }}
+                        </span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="bg-gray-50 p-10 border-t border-gray-100">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-8">Commentaires</h3>
+
+                {% for comment in comments %}
+                <!-- Comment 1 -->
+                <div class="bg-white shadow-sm border border-gray-200 rounded-xl p-8 mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center">
+                            <i class="fas fa-user-circle text-blue-500 text-2xl mr-4"></i>
+                            <div>
+                                <p class="font-semibold text-gray-800 text-lg">{{ comment.author }}</p>
+                                <p class="text-sm text-gray-500">
+                                    <i class="fas fa-clock mr-1"></i>{{ comment.date|date("d M Y, H:i") }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button onclick="toggleEditForm({{ comment.id }})" 
+                                    class="px-6 py-3 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600 transition">
+                                <i class="fas fa-edit mr-2"></i>Modifier
+                            </button>
+                            <form action="/delete-comment" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce commentaire ?');">
+                                <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                <button type="submit" 
+                                        class="px-6 py-3 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition">
+                                    <i class="fas fa-trash mr-2"></i>Supprimer
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-lg">{{ comment.content }}</p>
+                    
+                    <form id="editForm-{{ comment.id }}" action="/update-comment" method="POST" class="hidden mt-6">
+                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                        <textarea name="content" rows="3" 
+                            class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition">{{ comment.content }}</textarea>
+                        <button type="submit" class="mt-4 px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                            <i class="fas fa-save mr-2"></i>Enregistrer
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
+
+                <!-- Add Comment Form -->
+                <form action="/submit-comment" method="POST" class="mt-8">
+                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                    <textarea name="content" placeholder="Laissez un commentaire..." rows="4"
+                        class="w-full p-6 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition text-lg"
+                        required></textarea>
+                    <button type="submit"
+                        class="mt-4 px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-lg">
+                        <i class="fas fa-paper-plane mr-2"></i>Ajouter un commentaire
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script>
+function toggleEditForm(commentId) {
+    let form = document.getElementById('editForm-' + commentId);
+    if (form.classList.contains('hidden')) {
+        form.classList.remove('hidden');
+    } else {
+        form.classList.add('hidden');
+    }
+}
+</script>
+
+</body>
+</html>

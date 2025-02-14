@@ -23,7 +23,7 @@
   <link id="pagestyle" href="../../public/assets/css//material-dashboard.css?v=3.2.0" rel="stylesheet" />
   <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet">
   {# taliwind #}
-  <script src="https://cdn.tailwindcss.com"></script>
+  {# <script src="https://cdn.tailwindcss.com"></script> #}
 
 </head>
 
@@ -34,44 +34,47 @@
     <!-- Navbar -->
     {# {% include 'test.twig' %} #}
     {% include 'components/header.twig' %}
-    <!-- End Navbar -->
-    <div class="container-fluid py-2">
- <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md m-9">
-        <h2 class="text-xl font-semibold mb-4">Liste des Tags</h2>
-        <button onclick="toggleForm()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Ajouter un Tag
+  <!-- End Navbar -->
+<div class="container-fluid py-2">
+    <div class="container bg-white p-4 rounded shadow-lg my-4">
+        <h2 class="h5 fw-semibold mb-4">List of Tags</h2>
+        <button onclick="toggleForm()" class="btn btn-primary px-4 py-2 rounded">
+            Add New Tag
         </button>
 
         <!-- Formulaire -->
-        <div id="tagForm" class="hidden mt-4 p-4 border rounded bg-red-100">
-            <h3 class="text-lg font-semibold mb-2">Nouveau Tag</h3>
-            <form action="/tags/create" method="POST" class="space-y-3">
-                <label for="name" class="block font-medium">Nom :</label>
-                <input type="text" id="name" name="name" required class="w-full p-2 border rounded">
-                
-                <div class="flex gap-2">
-                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                        Créer
-                    </button>
-                    <button type="button" onclick="toggleForm()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-                        Annuler
-                    </button>
-                </div>
-            </form>
+        <div id="tagForm" class="d-none mt-4 p-4 border rounded bg-white bg-opacity-10">
+    <h3 class="h5 fw-semibold mb-2">New Tag</h3>
+    <form action="/tags/create" method="POST">
+        <div class="mb-3">
+            <label for="name" class="form-label fw-medium">name :</label>
+            <input type="text" id="name" name="name" placeholder="Entrez le nom du tag" required class="form-control p-3 rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-lg transition duration-300">
         </div>
 
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success px-4 py-2 rounded">
+                Ceate
+            </button>
+            <button type="button" onclick="toggleForm()" class="btn btn-secondary px-4 py-2 rounded">
+                Cancel
+            </button>
+        </div>
+    </form>
+</div>
+
+
         <!-- Liste des Tags -->
-        <ul class="mt-6 space-y-2">
+        <ul class="mt-6 list-unstyled">
             {% for tag in tags %}
-                <li class="flex justify-between items-center p-3 bg-gray-200 rounded shadow">
-                    <span class="font-medium">{{ tag.name }}</span>
-                    <div class="flex gap-2">
-                        <a href="/admin/tag/edit?id={{ tag.id }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+                <li class="d-flex justify-content-between align-items-center p-3 bg-light rounded shadow-sm mb-2">
+                    <span class="fw-medium">{{ tag.name }}</span>
+                    <div class="d-flex gap-2">
+                        <a href="/admin/tag/edit?id={{ tag.id }}" class="btn btn-warning text-white px-3 py-1 rounded">
                             Modifier
                         </a>
                         <form action="/admin/tag/delete" method="POST">
                             <input type="hidden" name="id" value="{{ tag.id }}">
-                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+                            <button type="submit" class="btn btn-danger text-white px-3 py-1 rounded">
                                 Supprimer
                             </button>
                         </form>
@@ -81,6 +84,7 @@
         </ul>
     </div>
 </div>
+
 
  {% include 'components/footer.twig' %}
 </body>
@@ -436,8 +440,11 @@
 
      function toggleForm() {
             const form = document.getElementById('tagForm');
-            form.classList.toggle('hidden');
+            form.classList.toggle('d-none');
         }
+
+
+    
 
   </script>
 </body>

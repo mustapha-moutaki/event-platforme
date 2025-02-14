@@ -46,6 +46,20 @@ class UserController {
         header('Location: /admin/users');
         exit();
     }
+//new addition
+    public function updateProfile() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'] ?? null;
+            
+            if ($userId) {
+                $userModel = new User();
+                $userModel->updateUser($userId);
+            }
+        }
+        header('Location: /admin/updateprofile');
+        exit();
+    }
+
 }
 
 

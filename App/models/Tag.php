@@ -21,3 +21,6 @@ class Tag extends BaseModel {
     }
     
 }
+
+$tag=new Tag();
+$totalTags = $tag->countTags();
