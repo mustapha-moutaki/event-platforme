@@ -37,44 +37,47 @@
         </nav>
           
           </div>
-          <ul class="navbar-nav d-flex align-items-center justify-content-end w-30">
-    <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+        <ul class="navbar-nav d-flex align-items-center justify-content-end w-30 gap-3">
+    <!-- أيقونة القائمة الجانبية -->
+    <li class="nav-item d-xl-none d-flex align-items-center">
         <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-            <div class="sidenav-toggler-inner">
-                <i class="sidenav-toggler-line"></i>
-                <i class="sidenav-toggler-line"></i>
-                <i class="sidenav-toggler-line"></i>
-            </div>
+            <i class="material-symbols-rounded fs-4">menu</i>
         </a>
     </li>
-    <li class="nav-item px-3 d-flex align-items-center">
-        <a href="javascript:;" class="nav-link text-body p-0">
-            <i class="material-symbols-rounded fixed-plugin-button-nav">settings</i>
+
+    <!-- تبديل الحساب -->
+    <li class="nav-item d-flex align-items-center">
+        <a href="javascript:;" class="nav-link text-body p-0 d-flex align-items-center">
+            <i class="material-symbols-rounded fs-4 me-2 text-primary">switch_account</i>
+            <span class="text-nowrap">Switch account</span>
         </a>
     </li>
-    <li class="nav-item dropdown pe-3 d-flex align-items-center">
-        <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="d-flex align-items-center">
-                <p class="mb-0 me-2">
-                    {% if username is not null and username is not empty %}
-                        Hello {{ username|e }}
-                    {% endif %}
-                </p>
-            </div>
+
+    <!-- اسم المستخدم مع القائمة المنسدلة -->
+    <li class="nav-item dropdown d-flex align-items-center">
+        <a href="javascript:;" class="nav-link text-body p-0 d-flex align-items-center" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="material-symbols-rounded fs-4 me-2 text-success">person</i>
+            <span class="fw-semibold text-nowrap">
+                {% if username is not null and username is not empty %}
+                    Hello, {{ username|e }}
+                {% endif %}
+            </span>
         </a>
-        <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-            <!-- Your dropdown items here -->
+        <ul class="dropdown-menu dropdown-menu-end px-2 py-3" aria-labelledby="dropdownMenuButton">
+            <!-- محتوى القائمة المنسدلة هنا -->
         </ul>
     </li>
+
+    <!-- إدارة الحساب -->
     <li class="nav-item d-flex align-items-center">
-    <form methode="GET" action="/updateprofile">
-    <button type="submit">
-    <i class="material-symbols-rounded">account_circle</i>
-    </button>
-        {# < href="../components/updateProfile.html" class="nav-link text-body font-weight-bold px-0"> #}
-            
+        <a href="/updateprofile" class="nav-link text-body p-0 d-flex align-items-center">
+            <i class="material-symbols-rounded fs-4 text-info">manage_accounts</i>
+        </a>
     </li>
 </ul>
+
+    
+
         </div>
       </div>
     </nav>
