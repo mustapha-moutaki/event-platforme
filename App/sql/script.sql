@@ -590,3 +590,14 @@ ADD COLUMN ville_id INT,
 ADD FOREIGN KEY (region_id) REFERENCES region(id) ON DELETE RESTRICT,
 ADD FOREIGN KEY (ville_id) REFERENCES ville(id) ON DELETE RESTRICT;
 
+
+
+ALTER TABLE events
+ADD COLUMN event_type ENUM('virtual','present') NOT NULL DEFAULT 'present',
+ADD COLUMN price_type ENUM('paid','free') NOT NULL DEFAULT 'paid';
+
+
+ALTER TABLE events
+ADD COLUMN url VARCHAR(255) DEFAULT NULL;
+
+
