@@ -1,61 +1,108 @@
 <?php
 
-namespace App\Controllers\front;
+namespace App\Controllers\Front;
+
 session_start();
 
-use App\core\View;
-use App\Models\Organizer;
-use App\core\Auth;
-use App\core\Controller;
+use App\Core\View;
+use App\Models\Event; // Use the Event model
+use App\Models\Organizer; // Use the Event model
+use App\Core\Auth;
+use App\Core\Controller;
 
 class EventController extends Controller
 {
-    private $organizer;
+    private $eventModel;
+    private $organizerModel;
     private $view;
 
     public function __construct() 
     {
-        $this->organizer = new Organizer();
+        $this->eventModel = new Event();
+        $this->organizerModel = new Organizer();
         $this->view = new View();
-    }
-
-    public function createForm() {
-        $this->view('home');
     }
 
     public function showCreateForm() 
     {
-        
-        $db = \App\core\Database::getConnection();
+        $db = \App\Core\Database::getConnection();
         $stmt = $db->query("SELECT id, name FROM categories ORDER BY name");
-        // var_dump($stmt);
         $categories = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
+        
+        // Fetch regions
+        $stmt = $db->query("SELECT id, region FROM region ORDER BY region");
+        $regions = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    
+        // Fetch tags
+        $stmt = $db->query("SELECT id, name FROM tags ORDER BY name");
+        $tags = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        // Fetch sponsors
+        $stmt = $db->query("SELECT id, name FROM sponsors ORDER BY name");
+        $sponsors = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
         $this->view->render('events/create.twig', [
-            'categories' => $categories
+            'categories' => $categories,
+            'regions' => $regions, // Pass regions to the view
+            'tags' => $tags,
+            'sponsors' => $sponsors
         ]); 
     }
 
     public function create() 
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST["title"] ?? '';
+            
             try {
-                var_dump(Auth::UserId());
-                
+                if (!empty($_FILES["image"]["name"])) {
+                    $uploadDir = __DIR__ . '/../../../public/uploads/';
+                    $fileName = time() . '_' . basename($_FILES["image"]["name"]);
+
+                    $uploadFile = $uploadDir . $fileName;
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $uploadFile)) {
+                        $imagePath = '/uploads/' . $fileName;
+                    } else {
+                        echo "Erreur lors de l'upload de l'image.";
+                        return;
+                    }
+                } else {
+                    echo "Veuillez choisir une image.";
+                    return;
+                }
+    
+                var_dump($_POST);
                 $eventData = [
                     'title' => htmlspecialchars($_POST['title']),
                     'description' => htmlspecialchars($_POST['description']),
                     'date' => $_POST['date'],
-                    'location' => htmlspecialchars($_POST['location']),
+                    // 'location' => htmlspecialchars($_POST['location']), // Optional if you want to keep it
                     'price' => floatval($_POST['price']),
                     'capacity' => intval($_POST['capacity']),
                     'category_id' => intval($_POST['category_id']),
                     'organizer_id' => Auth::UserId(),
-                    'status' => 'draft'
+                    'status' => 'draft',
+                    'image' => $imagePath,
+                    'region_id' => intval($_POST['region_id']),
+                    'ville_id' => intval($_POST['ville_id']),
                 ];
-
-                $eventId = $this->organizer->createEvent($eventData);
-
+    
+                $eventId = $this->eventModel->createEvent($eventData);
+    
+                // Handle tags
+                if (!empty($_POST['tags'])) {
+                    foreach ($_POST['tags'] as $tagId) {
+                        $this->eventModel->addTagToEvent($tagId, $eventId);
+                    }
+                }
+    
+                // Handle sponsors
+                if (!empty($_POST['sponsors'])) {
+                    foreach ($_POST['sponsors'] as $sponsorId) {
+                        $this->eventModel->addSponsorToEvent($sponsorId, $eventId);
+                    }
+                }
+    
                 if ($eventId) {
                     header("Location: /events/show/" . $eventId);
                     exit;
@@ -70,7 +117,7 @@ class EventController extends Controller
 
     public function show($id) 
     {
-        $event = $this->organizer->findById($id);
+        $event = $this->eventModel->findById($id);
         
         if ($event) {
             $this->view->render('events/show.twig', [
@@ -84,17 +131,47 @@ class EventController extends Controller
 
     public function showEditForm($id) 
     {
-        $event = $this->organizer->findById($id);
-        
+        $event = $this->eventModel->findById($id);
+    
         if ($event && $event['organizer_id'] === Auth::UserId()) {
-            
             $db = \App\Core\Database::getConnection();
             $stmt = $db->query("SELECT id, name FROM categories ORDER BY name");
             $categories = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    
+            
+            $stmt = $db->prepare("SELECT t.id, t.name FROM tags t 
+                                   JOIN event_tags et ON t.id = et.tag_id 
+                                   WHERE et.event_id = :event_id");
+            $stmt->execute(['event_id' => $id]);
+            $eventTags = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $eventTagIds = array_column($eventTags, 'id'); 
 
+            $stmt = $db->query("SELECT id, region FROM region ORDER BY region");
+            $regions = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    
+            
+            $stmt = $db->prepare("SELECT s.id, s.name FROM sponsors s 
+                                   JOIN event_sponsors es ON s.id = es.sponsor_id 
+                                   WHERE es.event_id = :event_id");
+            $stmt->execute(['event_id' => $id]);
+            $eventSponsors = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $eventSponsorIds = array_column($eventSponsors, 'id'); 
+    
+            
+            $stmt = $db->query("SELECT id, name FROM tags ORDER BY name");
+            $tags = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+            $stmt = $db->query("SELECT id, name FROM sponsors ORDER BY name");
+            $sponsors = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    
             $this->view->render('events/edit.twig', [
                 'event' => $event,
-                'categories' => $categories
+                'categories' => $categories,
+                'tags' => $tags,
+                'sponsors' => $sponsors,
+                'eventTagIds' => $eventTagIds, 
+                'eventSponsorIds' => $eventSponsorIds,
+                'regions' => $regions
             ]);
         } else {
             header("Location: /events");
@@ -106,18 +183,60 @@ class EventController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
+
+                var_dump($_POST);
+
+
+                if (!empty($_FILES['image']['name'])) {
+                    $uploadDir = __DIR__ . '/../../../public/uploads/';
+                    $imageName = basename($_FILES['image']['name']);
+                    $imagePath = $uploadDir . uniqid() . '_' . $imageName;
+
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $imagePath)) {
+                        $eventData['image'] = '/uploads/' . basename($imagePath); 
+                    } else {
+                        throw new \Exception('Failed to upload image.');
+                    }
+                }
+
                 $eventData = [
                     'title' => htmlspecialchars($_POST['title']),
                     'description' => htmlspecialchars($_POST['description']),
                     'date' => $_POST['date'],
-                    'location' => htmlspecialchars($_POST['location']),
+                    // 'location' => htmlspecialchars($_POST['location']), // Optional if you want to keep it
                     'price' => floatval($_POST['price']),
                     'capacity' => intval($_POST['capacity']),
-                    'category_id' => intval($_POST['category_id'])
+                    'category_id' => intval($_POST['category_id']),
+                    'organizer_id' => Auth::UserId(),
+                    'status' => 'draft',
+                    'image' => $imagePath,
+                    'region_id' => intval($_POST['region_id']),
+                    'ville_id' => intval($_POST['ville_id']),
                 ];
 
-                if ($this->organizer->updateEvent($id, Auth::UserId(), $eventData)) {
-                    header("Location: /events" . $id);
+                
+
+
+                if ($this->eventModel->updateEvent($id, Auth::UserId(), $eventData)) {
+                    
+                    $this->eventModel->clearTags($id);
+                    $this->eventModel->clearSponsors($id);
+
+                    
+                    if (!empty($_POST['tags'])) {
+                        foreach ($_POST['tags'] as $tagId) {
+                            $this->eventModel->addTagToEvent($tagId, $id);
+                        }
+                    }
+
+                    
+                    if (!empty($_POST['sponsors'])) {
+                        foreach ($_POST['sponsors'] as $sponsorId) {
+                            $this->eventModel->addSponsorToEvent($sponsorId, $id);
+                        }
+                    }
+
+                    header("Location: /events/show/" . $id);
                     exit;
                 } else {
                     echo "Erreur lors de la modification de l'événement.";
@@ -130,20 +249,53 @@ class EventController extends Controller
 
     public function delete($id) 
     {
-        if ($this->organizer->deleteEvent($id, Auth::UserId())) {
-            header("Location: /events");
-            exit;
+        // Fetch the event to get the image path
+        $event = $this->eventModel->findById($id);
+        if ($event && $event['organizer_id'] === Auth::UserId()) {
+            // Delete the image from the server
+            $imagePath = __DIR__ . '/../../../public' . $event['image'];
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            if ($this->eventModel->deleteEvent($id, Auth::UserId())) {
+                header("Location: /events");
+                exit;
+            } else {
+                echo "Erreur lors de la suppression de l'événement.";
+            }
         } else {
-            echo "Erreur lors de la suppression de l'événement.";
+            echo "Erreur: Événement non trouvé ou accès non autorisé.";
         }
+    }
+
+    public function getCitiesByRegion($regionId) 
+    {
+        $db = \App\Core\Database::getConnection();
+        $stmt = $db->prepare("SELECT id, ville FROM ville WHERE region = :region_id");
+        $stmt->execute(['region_id' => $regionId]);
+        $cities = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        // var_dump($cities);
+        header('Content-Type: application/json');
+        echo json_encode($cities); // Return cities as JSON
+        exit;
     }
 
     public function listEvents() 
     {
-        $events = $this->organizer->getEventsByOrganizer(Auth::UserId());
+        $events = $this->organizerModel->getEventsByOrganizer(Auth::UserId());
         
         // $this->view->render('events/events.twig', [
         //     'events' => $events
         // ]);
+    }
+
+    public function showAllEvents() 
+    {
+        $events = $this->eventModel->getAllEvents(); 
+        
+        $this->view->render('home.twig', [
+            'events' => $events
+        ]);
     }
 }

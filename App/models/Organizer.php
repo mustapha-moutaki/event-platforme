@@ -40,6 +40,8 @@ class Organizer extends BaseModel
         return $this->create($data);
     }
 
+
+
     public function updateEvent($eventId, $organizerId, $data)
     {
         
@@ -86,6 +88,19 @@ class Organizer extends BaseModel
         $stmt->execute(['event_id' => $eventId]);
         
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public function addTagToEvent($tagId, $eventId)
+    {
+        $stmt = $this->db->prepare("INSERT INTO event_tags (event_id, tag_id) VALUES (:event_id, :tag_id)");
+        $stmt->execute(['event_id' => $eventId, 'tag_id' => $tagId]);
+    }
+
+    public function addSponsorToEvent($sponsorId, $eventId)
+    {
+        $stmt = $this->db->prepare("INSERT INTO event_sponsors (event_id, sponsor_id) VALUES (:event_id, :sponsor_id)");
+        $stmt->execute(['event_id' => $eventId, 'sponsor_id' => $sponsorId]);
     }
 
     public function getEventWithCategory($eventId)

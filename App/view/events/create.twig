@@ -3,32 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create a New Event</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Créer un nouvel événement</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto py-5">
-        <div class="max-w-lg mx-auto">
-            <div class="bg-white shadow-lg rounded-lg">
-                <div class="bg-blue-600 text-white p-4 rounded-t-lg">
-                    <h2 class="text-lg font-bold">Create a New Event</h2>
-                </div>
-                <div class="p-6">
-                    <form method="POST" action="/events/create" class="needs-validation" novalidate>
-                        <div class="mb-4">
-                            <label for="title" class="block text-sm font-medium text-gray-700">Title *</label>
-                            <input type="text" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" id="title" name="title" required minlength="5" maxlength="255">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="description" class="block text-sm font-medium text-gray-700">Description *</label>
-                            <textarea class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" id="description" name="description" rows="4" required minlength="20"></textarea>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="mb-4">
-                                <label for="date" class="block text-sm font-medium text-gray-700">Date and Time *</label>
-                                <input type="datetime-local" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" id="date" name="date" required>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="mb-0">Créer un nouvel événement</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/events/create" enctype='multipart/form-data' class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Titre *</label>
+                                <input type="text" class="form-control" id="title" name="title" required minlength="5" maxlength="255">
                             </div>
 
                             <div class="mb-4">
@@ -43,36 +35,106 @@
                                 <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" id="price" name="price" step="0.01" min="0" required>
                             </div>
 
-                            <div class="mb-4">
-                                <label for="capacity" class="block text-sm font-medium text-gray-700">Capacity *</label>
-                                <input type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" id="capacity" name="capacity" min="1" required>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="date" class="form-label">Date et heure *</label>
+                                    <input type="datetime-local" class="form-control" id="date" name="date" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="region_id" class="form-label">Région *</label>
+                                    <select class="form-select" id="region_id" name="region_id" required>
+                                        <option value="">Sélectionnez une région</option>
+                                        {% if regions is not empty %}
+                                            {% for region in regions %}
+                                                <option value="{{ region.id }}">{{ region.region }}</option>
+                                            {% endfor %}
+                                        {% else %}
+                                            <option value="">Aucune région disponible</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="ville_id" class="form-label">Ville *</label>
+                                    <select class="form-select" id="city_id" name="ville_id" required>
+                                        <option value="">Sélectionnez une ville</option>
+                                        <!-- Cities will be populated based on the selected region -->
+                                    </select>
+                                </div>
+
                             </div>
                         </div>
 
-                        <div class="mb-4">
-                            <label for="category_id" class="block text-sm font-medium text-gray-700">Category *</label>
-                            <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500" id="category_id" name="category_id" required>
-                                <option value="">Select a category</option>
-                                {% if categories is not empty %}
-                                    {% for category in categories %}
-                                        <option value="{{ category.id }}">{{ category.name }}</option>
-                                    {% endfor %}
-                                {% else %}
-                                    <option value="">No categories available</option>
-                                {% endif %}
-                            </select>
-                        </div>
 
-                        <div class="flex justify-between">
-                            <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700">Create Event</button>
-                            <a href="/events" class="bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md hover:bg-gray-400">Cancel</a>
-                        </div>
-                    </form>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="price" class="form-label">Prix (€) *</label>
+                                    <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="capacity" class="form-label">Capacité *</label>
+                                    <input type="number" class="form-control" id="capacity" name="capacity" min="1" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="category_id" class="form-label">Catégorie *</label>
+                                <select class="form-select" id="category_id" name="category_id" required>
+                                    <option value="">Sélectionnez une catégorie</option>
+                                    {% if categories is not empty %}
+                                        {% for category in categories %}
+                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="">Aucune catégorie disponible</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                    <label for="image" class="block font-medium">Image :</label>
+                                    <input type="file" name="image" accept="image/*" required class="w-full border rounded p-2">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Tags *</label>
+                                <div>
+                                    {% for tag in tags %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="tags[]" value="{{ tag.id }}" id="tag_{{ tag.id }}">
+                                            <label class="form-check-label" for="tag_{{ tag.id }}">{{ tag.name }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Sponsors *</label>
+                                <div>
+                                    {% for sponsor in sponsors %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="sponsors[]" value="{{ sponsor.id }}" id="sponsor_{{ sponsor.id }}">
+                                            <label class="form-check-label" for="sponsor_{{ sponsor.id }}">{{ sponsor.name }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Créer l'événement</button>
+                                <a href="/events" class="btn btn-secondary">Annuler</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Enable Bootstrap validation
         (function () {
@@ -102,5 +164,42 @@
             dateInput.min = minDate;
         });
     </script>
+
+<script>
+    $(document).ready(function() {
+    $('#region_id').change(function() {
+        console.log("Region changed"); // Debugging line
+        var regionId = $(this).val();
+        console.log("Selected region ID: " + regionId); // Debugging line
+        if (regionId) {
+            $.ajax({
+                url: '/events/cities/' + regionId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(cities) {
+                    console.log("Cities received: ", cities); // Debugging line
+                    $('#city_id').empty(); // Clear existing options
+                    $('#city_id').append('<option value="">Sélectionnez une ville</option>'); // Add default option
+                    if (cities.error) {
+                        alert(cities.error); // Show error if no cities found
+                    } else {
+                        $.each(cities, function(index, city) {
+                            $('#city_id').append('<option value="' + city.id + '">' + city.ville + '</option>');
+                        });
+                    }
+                },
+                error: function() {
+                    alert('Erreur lors de la récupération des villes.');
+                }
+            });
+        } else {
+            $('#city_id').empty(); // Clear cities if no region is selected
+            $('#city_id').append('<option value="">Sélectionnez une ville</option>');
+        }
+    });
+});
+</script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
