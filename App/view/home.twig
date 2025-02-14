@@ -235,7 +235,7 @@
 
     
     <!-- Events Section -->
-<div class="container mx-auto px-6 py-12">
+<div class="container mx-auto px-6 py-12" id="listofevents">
     <h2 class="text-3xl font-bold mb-8">Upcoming Events</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {% for event in events %}
@@ -541,9 +541,80 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-    
+$(document).ready(function(){
+            function fetchData(input) {
+                $.ajax({
+                    url: "action.php",
+                    method: "POST",
+                    data: {input: input},
+                    success: function(data) {
+                        $("#listofevents").html(data);
+                    }
+                });
+            }
 
-    $(document).ready(function(){
+            $("#live_search").keyup(function() {
+                var input = $(this).val().trim();
+                alert(input);
+            
+                fetchData(input);
+            });
+
+            // Load all events on page load
+            fetchData('');
+        });
+
+
+
+{# $(document).ready(function(){
+    function fetchData(){
+        $.ajax({
+            url: "action.php",
+            method: "POST",
+            data: {action: "fetchdata"},
+            success: function(data){
+                $("#listofevents").html(data);
+            }
+        });
+    }
+
+  
+    fetchData();
+
+    $("#live_search").keyup(function(){
+        var input = $(this).val().trim();
+
+        if(input !== ""){  
+            $.ajax({
+                url: "action.php", 
+                method: "POST",
+                data: {input: input}, 
+                success: function(data){
+                    $("#listofevents").html(data);
+                }
+            });
+        } else {
+            fetchData();
+        }
+    });
+}); #}
+
+
+        {# function fetchdata(){
+            var action = 'fetchdata';
+            $.ajax({
+                url:"action.php",
+                method :"POST",
+                data:{action:action},
+                success: function(data){
+                    $('#listofevents').html(data);
+                }
+            })
+
+        } #}
+
+
+    {# $(document).ready(function(){
         $("#live_search").keyup(function(){
             var input = $(this).val();
             alert(input);
@@ -554,14 +625,14 @@
                     data:{input:input},
 
                     success:function(data){
-                        $("#searchresult").html(data);
+                        $("#listofevents").html(data);
                     }
                 });
            }else{
-                $("#searchresult").css("display", "none");
+                $("#listofevents").css("display", "none");
            }
         });
-    });
+    }); #}
 </script>
 </body>
 </html>
