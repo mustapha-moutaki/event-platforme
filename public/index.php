@@ -50,5 +50,10 @@ $router->addRoute('POST','/admin/sponsors/update', \App\Controllers\Back\Sponsor
 $router->addRoute('POST', '/admin/sponsors/delete', \App\Controllers\Back\SponsorController::class, 'deleteSponsor');
 $router->addRoute('GET','/choose-role', \App\Controllers\back\ChooseRoleController::class,'showRoleSelection');
 $router->addRoute('POST','/set-role', \App\Controllers\back\ChooseRoleController::class,'setRole');
+$router->addRoute('POST', '/switch-role', \App\Controllers\back\ChooseRoleController::class, 'switchRole');
+$router->addRoute('GET', '/admin/events', \App\Controllers\Back\EvenmentController::class, 'affichageEvent');
+$router->addRoute('POST', '/submit-comment', \App\Controllers\Back\EvenmentController::class, 'submitComment');
+$router->addRoute('POST', '/update-comment', \App\Controllers\Back\EvenmentController::class, 'updateComment');
+$router->addRoute('POST', '/delete-comment', \App\Controllers\Back\EvenmentController::class, 'deleteComment');
 
 $router->dispatch();
