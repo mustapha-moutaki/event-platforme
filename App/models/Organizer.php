@@ -115,6 +115,14 @@ class Organizer extends BaseModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
   
+    public function countEventsByOrganizer($organizerId)
+{
+    $query = "SELECT COUNT(*) as event_count FROM {$this->table} WHERE organizer_id = :organizer_id";
+    $stmt = $this->db->prepare($query);
+    $stmt->execute(['organizer_id' => $organizerId]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
     
+    return $result['event_count']; 
+}
     
 }

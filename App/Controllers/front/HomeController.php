@@ -12,7 +12,7 @@ class HomeController extends Controller {
         $events= new EventController();
         $event = $events->showAllEvents();
         $cities = $events->showAllCities();
-        //  var_dump($cities);
+        //  var_dump($_SESSION);
         //  die();
       
         

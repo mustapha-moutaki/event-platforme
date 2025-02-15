@@ -83,6 +83,14 @@ class Events{
         }
     }
   
+    public function getEventIdByCommentId($commentId) {
+        $query = "SELECT event_id FROM comments WHERE id = :comment_id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['comment_id' => $commentId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result['event_id']; // Retourne l'ID de l'événement
+    }
     
         
     
