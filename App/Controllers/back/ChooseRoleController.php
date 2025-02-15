@@ -26,9 +26,9 @@ class ChooseRoleController {
             if ($role === 'admin') {
                 header("Location: /admin/dashboard");
             } elseif ($role === 'organizer') {
-                header("Location: /admin/tags");
+                header("Location: /organizer/dashboard");
             } elseif ($role === 'participant') {
-                header("Location: / ");
+                header("Location: /participant/home");
             }
             exit;
         }

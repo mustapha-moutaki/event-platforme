@@ -170,5 +170,12 @@ class Event extends BaseModel
         $stmt->execute();
         return $stmt -> fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getAllCategories(){
+        $query="SELECT name FROM categories";
+        $stmt= $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+    }
         
 }

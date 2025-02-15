@@ -329,6 +329,11 @@ public function showEventDetails($id)
             exit;
         }
     }
+    public function showAllCategories(){
+        $category = $this->eventModel->getAllCategories();
+        return $category;
+    }
+
 
 
 
