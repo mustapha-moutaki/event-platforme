@@ -4,28 +4,35 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+
 if (isset($_POST['input'])) {
-    $search = $_POST['input'];
+    $search = trim($_POST['input']);
+
+    if (!empty($search)) {
     
-    $query = "SELECT * FROM events WHERE title LIKE '%$search%'";
-} else {
-    
-    $query = "SELECT * FROM events WHERE 0";
-}
-
-$result = mysqli_query($conn, $query);
-
-if (!$result) {
-    echo "Error: " . mysqli_error($conn);
-}
-
-if (mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo "<div class='event'>";
-        echo "<h3>" . $row['title'] . "</h3>";
-        echo "<p>" . $row['description'] . "</p>";
-        echo "</div>";
+        $stmt = $conn->prepare("SELECT * FROM events WHERE title LIKE ?");
+        $searchTerm = "%" . $search . "%";
+        $stmt->bind_param("s", $searchTerm);
+    } else {
+        $stmt = $conn->prepare("SELECT * FROM events");
     }
-} else {
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="event bg-white p-4 rounded-lg shadow-md">';
+            echo '<h3 class="text-xl font-bold mb-2">' . htmlspecialchars($row['title']) . '</h3>';
+            echo '<p class="text-gray-600">' . htmlspecialchars($row['description']) . '</p>';
+            echo '</div>';
+            echo"nothing here";
+        }
+    } else {
+        echo '<p class="text-center text-gray-500">No events found</p>';
+    }
+
+    $stmt->close();
 }
+$conn->close();
 ?>

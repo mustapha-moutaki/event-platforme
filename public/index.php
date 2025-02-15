@@ -4,7 +4,6 @@ require_once __DIR__ . '/../App/config/config.php';
 // require_once __DIR__ . '/../App/core/Security.php';
 
 
-
 // $router = require_once __DIR__ . '/../App/config/routes.php';
 use App\core\Router;
 // use App\core\Security;
@@ -40,6 +39,7 @@ $router->addRoute('GET', '/events/edit/{id}', EventController::class, 'showEditF
 $router->addRoute('POST', '/events/edit/{id}', EventController::class, 'edit');
 $router->addRoute('POST', '/events/delete/{id}', EventController::class, 'delete');
 $router->addRoute('GET', '/events/cities/{regionId}', EventController::class, 'getCitiesByRegion');
+
 
 
 $router->addRoute('POST', '/events/edit', EventController::class, 'edit');

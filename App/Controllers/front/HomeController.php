@@ -11,11 +11,12 @@ class HomeController extends Controller {
         $view = new View();
         $events= new EventController();
         $event = $events->showAllEvents();
-         var_dump($_SESSION);
-         die();
+        $cities = $events->showAllCities();
+        //  var_dump($cities);
+        //  die();
        
         
-        $view->render('home.twig',  ['events' => $event]);
+        $view->render('home.twig',  ['events' => $event, 'cities' =>$cities]);
     }
     
     public function update() {

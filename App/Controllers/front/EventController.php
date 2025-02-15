@@ -292,16 +292,29 @@ class EventController extends Controller
         $this->view->render('events/events.twig', [
             'events' => $events
         ]);
+      
     }
 
     public function showAllEvents() 
     {
         $events = $this->eventModel->getAllEvents(); 
+        return $events;
+
         
-        $this->view->render('home.twig', [
-            'events' => $events
-        ]);
     }
 
 
+    public function showAllCities(){
+        $city = $this->eventModel->getAllCities();
+        return $city;
+    }
+
+
+
+
+
 }
+
+
+
+
