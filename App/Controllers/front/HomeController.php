@@ -14,7 +14,7 @@ class HomeController extends Controller {
         $cities = $events->showAllCities();
         //  var_dump($cities);
         //  die();
-       
+      
         
         $view->render('home.twig',  ['events' => $event, 'cities' =>$cities]);
     }

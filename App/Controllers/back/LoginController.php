@@ -25,7 +25,7 @@ class LoginController {
                     header("Location: /choose-role"); 
                     exit;
                 } elseif ($role === 'admin') {
-                    header("Location: /admin/dashboard");
+                    header("Location: /dashboard");
                     exit;
                 } elseif ($role === 'organizer') {
                     header("Location: /organizer/dashboard");

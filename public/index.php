@@ -20,6 +20,8 @@ $router = new Router();
 $router->addRoute('GET', '/updateprofile', HomeController::class, 'update');
 
 $router->addRoute('GET', '/', HomeController::class, 'index');
+$router->addRoute('GET', '/organizer/dashboard',\App\Controllers\back\organizerController::class, 'viewOrgnaizer');
+$router->addRoute('GET', '/participant/home',\App\Controllers\back\participantController::class, 'viewParticipant');
 // $router->addRoute('GET', '/', EventController::class, 'showAllEvents');
 $router->addRoute('GET', '/admin/users', \App\Controllers\back\UserController::class, 'listUsers');
 $router->addRoute('GET', '/login', LoginController::class, 'showLoginForm');
