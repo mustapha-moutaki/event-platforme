@@ -7,7 +7,7 @@ use App\controllers\front\EventController;
 
 class HomeController extends Controller {
     public function index() {
-        // $this->view('home');
+      
         $view = new View();
         $events= new EventController();
         $event = $events->showAllEvents();
