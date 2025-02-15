@@ -48,9 +48,9 @@ class ChooseRoleController {
         if ($newRole) {
             Session::set('user_role', $newRole);
             if ($newRole === 'organizer') {
-                header("Location: /admin/tags");
+                header("Location: /organizer/dashboard");
             } else {
-                header("Location: /");
+                header("Location: /participant/home");
             }
             exit;
         }

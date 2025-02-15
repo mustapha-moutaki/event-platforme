@@ -29,7 +29,7 @@ class EvenmentController{
             $event->addComment($eventId, $userId, $content);
     
             
-            header('Location: /admin/events');
+            header('Location:/events/details/' . $eventId);
             exit();
         }
     }
@@ -41,8 +41,8 @@ class EvenmentController{
             
             $event = new Events();
             $event->updateComment($commentId, $content);
-    
-            header('Location: /admin/events');
+            $eventId = $event->getEventIdByCommentId($commentId);
+            header('Location: /events/details/' . $eventId);
             exit();
         }
     }
@@ -54,8 +54,8 @@ class EvenmentController{
             
             $event = new Events();
             $event->deleteComment($commentId);
-    
-            header('Location: /admin/events');
+            $eventId = $event->getEventIdByCommentId($commentId);
+            header('Location: /events/details/' . $eventId);
             exit();
         }
     }

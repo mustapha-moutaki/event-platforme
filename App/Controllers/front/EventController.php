@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\Organizer; 
 use App\Core\Auth;
 use App\Core\Controller;
+use App\Models\Events;
 
 class EventController extends Controller
 {
@@ -287,7 +288,9 @@ class EventController extends Controller
 
     public function listEvents() 
     {
+       
         $events = $this->organizerModel->getEventsByOrganizer(Auth::UserId());
+
         
         $this->view->render('events/events.twig', [
             'events' => $events
@@ -309,6 +312,23 @@ class EventController extends Controller
         return $city;
     }
 
+public function showEventDetails($id) 
+    {
+        $event = $this->eventModel->findById($id);
+        $events=new Events();
+        if ($event) {
+          
+                // Récupérer les commentaires associés à l'événement
+                $comments = $events->getCommentsByEventId($id);
+            $this->view->render('participant/eventDetails.twig', [
+                'event' => $event,
+                'comments'=>$comments 
+            ]);
+        } else {
+            header("Location: /");
+            exit;
+        }
+    }
     public function showAllCategories(){
         $category = $this->eventModel->getAllCategories();
         return $category;

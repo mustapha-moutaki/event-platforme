@@ -112,7 +112,19 @@ class Event extends BaseModel
     }
 
 
-
+    // public function getCommentsByEventId($eventId){
+    //     try{
+    //         $sql = $this->pdo->prepare("SELECT c.id,c.content, c.created_at, u.username
+    //                                     FROM comments c
+    //                                     LEFT JOIN users u ON c.user_id = u.id
+    //                                     WHERE c.event_id = :event_id
+    //                                     ORDER BY c.created_at DESC");
+    //         $sql->execute(['event_id' => $eventId]);
+    //         return $sql->fetchAll(PDO::FETCH_ASSOC);
+    //     } catch (PDOException $e) {
+    //         die($e->getMessage());
+    //     }
+    // }
     // public function getCitiesByRegion($regionId) {
     //     $query = "SELECT id, ville as name FROM ville WHERE region = :region_id ORDER BY ville";
     //     $stmt = $this->db->prepare($query);
