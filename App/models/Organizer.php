@@ -12,15 +12,56 @@ class Organizer extends BaseModel
 {
     protected $table = 'events';
 
-    public function getEventsByOrganizer($organizerId, $status = null)
-    {
+    // public function getEventsByOrganizer($organizerId, $status = null){
+    //     $conditions = ['organizer_id' => $organizerId];
+    //     if ($status) {
+    //         $conditions['status'] = $status;
+    //     }
+        
+    //     return $this->findAll($conditions, 'created_at DESC');
+    // }
+    public function getEventsByOrganizer($organizerId, $status = null){
+
         $conditions = ['organizer_id' => $organizerId];
+
+
         if ($status) {
             $conditions['status'] = $status;
         }
-        
-        return $this->findAll($conditions, 'created_at DESC');
+
+        $query = "SELECT 
+                    e.*, 
+                    c.name as category_name,
+                    v.name as ville_name 
+                  FROM {$this->table} e
+                  LEFT JOIN categories c ON e.category_id = c.id
+                  LEFT JOIN ville v ON e.ville_id = v.id
+                  WHERE e.organizer_id = :organizer_id";
+
+
+        if ($status) {
+            $query .= " AND e.status = :status";
+        }
+
+
+        $query .= " ORDER BY e.created_at DESC";
+
+
+        $stmt = $this->db->prepare($query);
+
+
+        $stmt->bindValue(':organizer_id', $organizerId, PDO::PARAM_INT);
+        if ($status) {
+            $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+        }
+
+
+        $stmt->execute();
+
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function createEvent($data)
     {
