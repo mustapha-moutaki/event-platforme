@@ -151,10 +151,12 @@ class Event extends BaseModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-    public function allevents(){
-        $query = "SELECT * FROM events";
-        $stmt = $this->db->prepare($query);
+
+    public function getAllCities(){
+        $query="SELECT ville FROM ville";
+        $stmt= $this->db->prepare($query);
         $stmt->execute();
         return $stmt -> fetchAll(PDO::FETCH_ASSOC);
-        }
+    }
+        
 }
