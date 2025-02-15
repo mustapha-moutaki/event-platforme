@@ -309,6 +309,10 @@ class EventController extends Controller
         return $city;
     }
 
+    public function showAllCategories(){
+        $category = $this->eventModel->getAllCategories();
+        return $category;
+    }
 
 
 

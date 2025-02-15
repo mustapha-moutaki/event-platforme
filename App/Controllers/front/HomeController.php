@@ -12,23 +12,23 @@ class HomeController extends Controller {
         $events= new EventController();
         $event = $events->showAllEvents();
         $cities = $events->showAllCities();
+        $categories = $events->showAllCategories();
         //  var_dump($cities);
         //  die();
       
         
-        $view->render('home.twig',  ['events' => $event, 'cities' =>$cities]);
+        $view->render('home.twig',  ['events' => $event, 'cities' =>$cities, 'categories' => $categories]);
     }
     
     public function update() {
         // $this->view('home');
         $view = new View();
        
-        
         $view->render('updateprofile.twig');
     }
 }
 
-
+    
 
 // namespace App\Controllers\front;
 // use App\Models\User;

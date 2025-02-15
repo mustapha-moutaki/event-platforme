@@ -125,24 +125,24 @@
                     </svg>
                 </div>
 
-{# <div id="listofevents"></div> #}
                 
                 <!-- City Filter -->
                 <select class="w-full py-3 px-4 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent">
                     <option value="">Select City</option>
                     {% for city in cities %}
-                    <option>{{ city.ville }}</option>
+                    <option value="{{ city.ville }}">{{ city.ville }}</option>
                    {% endfor %}
                 </select>
                 
                 <!-- Category Filter -->
-                <select class="w-full py-3 px-4 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent">
+                <select class="w-full py-3 px-4 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent" id="categoryFilter">
                     <option value="">Select Category</option>
-                    <option>Music</option>
-                    <option>Sports</option>
-                    <option>Technology</option>
-                    <option>Arts</option>
+                    {% for category in categories%}
+                    <option value="{{ category.name }}">{{ category.name }}</option>
+                   {% endfor %}
                 </select>
+                 <!-- Date Picker (Calendar) -->
+            <input type="date" id="dateFilter" class="w-full py-3 px-4 border rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent">
             </div>
         </div>
     </div>
@@ -249,13 +249,13 @@
                         <h3 class="text-xl font-bold mb-2">{{ event.title }}</h3>
                         <p class="text-gray-600">{{ event.location }}</p>
                     </div>
-                    <span class="bg-{{ event.color }}-100 text-{{ event.color }}-600 px-3 py-1 rounded-full text-sm">{{ event.category }}</span>
+                    <span class=" event-category bg-{{ event.color }}-100 text-{{ event.color }}-600 px-3 py-1 rounded-full text-sm">{{ event.category }}</span>
                 </div>
                 <div class="flex items-center text-gray-600 mb-4">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    <span>{{ event.date }}</span>
+                    <span class="event-date">{{ event.date }}</span>
                 </div>
                 <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors">
                     {{ event.buttonText }}
@@ -586,5 +586,78 @@ $(document).ready(function(){
 });
 
 </script>
+<script>
+ document.addEventListener("DOMContentLoaded", function () {
+    const categoryFilter = document.getElementById("categoryFilter");
+    const events = document.querySelectorAll(".event");
+
+    categoryFilter.addEventListener("change", function () {
+        const selectedCategory = categoryFilter.value.trim().toLowerCase();
+        console.log("Selected Category:", selectedCategory);
+
+        events.forEach(event => {
+            const categorySpan = event.querySelector(".event-category");
+
+            if (!categorySpan) {
+                console.log("Category span not found in event:", event);
+                return;
+            }
+
+            const eventCategory = categorySpan.textContent.trim().toLowerCase();
+            console.log("Event Category:", eventCategory);
+
+        
+            if (selectedCategory === "" || eventCategory === selectedCategory) {
+                event.style.display = "block"; 
+            } else {
+                event.style.display = "none";
+            }
+        });
+    });
+});
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dateFilter = document.getElementById("dateFilter");
+        const events = document.querySelectorAll(".event");
+
+        dateFilter.addEventListener("change", function () {
+            const selectedDate = dateFilter.value; // الحصول على التاريخ المحدد من المستخدم
+
+            events.forEach(event => {
+                // الحصول على تاريخ الحدث من العنصر الذي يحتوي عليه
+                const eventDateString = event.querySelector(".event-date").textContent.trim();
+                
+                // أخذ الجزء المتعلق بالتاريخ فقط (YYYY-MM-DD)
+                const eventDate = new Date(eventDateString.split(' ')[0]);
+
+                // استخراج اليوم، الشهر، والسنة من تاريخ الحدث
+                const eventDay = eventDate.getDate();
+                const eventMonth = eventDate.getMonth() + 1; // getMonth() يعيد قيمة تبدأ من 0
+                const eventYear = eventDate.getFullYear();
+
+                // تقسيم التاريخ الذي اختاره المستخدم لاستخراج اليوم، الشهر، والسنة
+                const [selectedYear, selectedMonth, selectedDay] = selectedDate.split("-");
+
+                // مقارنة التاريخ المحدد مع تاريخ الحدث
+                const isDateMatch = selectedDate === "" || 
+                    (eventDay == selectedDay && eventMonth == selectedMonth && eventYear == selectedYear);
+
+                // إظهار أو إخفاء الحدث بناءً على ما إذا كانت التواريخ متطابقة
+                if (isDateMatch) {
+                    event.style.display = "block";
+                } else {
+                    event.style.display = "none";
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
 </body>
 </html>
