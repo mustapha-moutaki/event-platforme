@@ -14,11 +14,13 @@ session_start();
 
 class DashboardController {
     public function index() {
+        
         $role = Session::get('user_role');
         if ( $role !== 'admin') {
             header("Location: /login");
             exit;
         }
+        
 
         $user = Auth::user();
         $view = new View();

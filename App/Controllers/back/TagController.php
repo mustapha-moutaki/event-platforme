@@ -4,10 +4,16 @@ namespace App\Controllers\Back;
 
 use App\Models\Tag;
 use App\core\View;
-
+use App\core\Session;
+session_start();
 class TagController {
     
     public function listTags() {
+        $role = Session::get('user_role');
+        if ( $role !== 'admin') {
+            header("Location: /login");
+            exit;
+        }
         $view = new View();
         $tag = new Tag();
         $tags = $tag->findAll();

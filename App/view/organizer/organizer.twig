@@ -19,6 +19,35 @@
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
+
+<div class="relative">
+    <button onclick="toggleNotifications()" class="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition">
+        <i class="material-symbols-rounded opacity-5">notifications</i>
+       
+        {% if notifications|length > 0 %}
+            <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
+                {{ notifications|length }}
+            </span>
+        {% endif %}
+    </button>
+    
+    <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg z-10">
+        <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-800">Notifications</h3>
+            <div class="mt-2 space-y-2">
+                {% for notification in notifications %}
+                    <div class="p-2 bg-gray-50 rounded-lg">
+                        <p class="text-sm font-medium text-gray-800">{{ notification.title }}</p>
+                        <p class="text-xs text-gray-600">{{ notification.message }}</p>
+                        <p class="text-xs text-gray-500">{{ notification.created_at|date("d M Y, H:i") }}</p>
+                    </div>
+                {% else %}
+                    <p class="text-sm text-gray-600">Aucune nouvelle notification.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     {% include 'components/header.twig' %}
 
@@ -28,7 +57,7 @@
         <h1 class="text-3xl font-bold text-gray-800">Event Dashboard</h1>
         <p class="text-gray-600">Overview of your events and statistics</p>
       </div>
-
+      
       <!-- Statistics Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <!-- Total Events Box -->
@@ -174,6 +203,12 @@
         </div>
       </div>
     </div>
+    <script>
+    function toggleNotifications() {
+        const dropdown = document.getElementById('notificationDropdown');
+        dropdown.classList.toggle('hidden');
+    }
+</script>
 </body>
 
 </html>

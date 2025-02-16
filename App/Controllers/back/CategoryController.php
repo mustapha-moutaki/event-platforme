@@ -5,10 +5,16 @@ namespace App\Controllers\Back;
 
 use App\Models\Category;
 use App\core\View;
-
+use App\core\Session;
+session_start();
 class CategoryController {
     
     public function listCategories() {
+        $role = Session::get('user_role');
+        if ( $role !== 'admin') {
+            header("Location: /login");
+            exit;
+        }
      $view=new View();
      $categorie=new Category();
      $categories =  $categorie->findAll();

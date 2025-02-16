@@ -69,12 +69,12 @@ class Events{
         } catch (PDOException $e) {
             die($e->getMessage());
         }
-        $query = "SELECT organizer_id FROM events WHERE id = :event_id";
+    $query = "SELECT organizer_id FROM events WHERE id = :event_id";
     $stmt = $this->pdo->prepare($query);
     $stmt->execute(['event_id' => $eventId]);
     $organizerId = $stmt->fetchColumn();
 
-    // Ajouter une notification pour l'organisateur
+    
     $query = "INSERT INTO notifications (user_id, title, message, type) 
               VALUES (:user_id, 'Nouveau commentaire', 'Un participant a commenté votre événement.', 'system_alert')";
     $stmt = $this->pdo->prepare($query);
@@ -165,6 +165,13 @@ public function getReportedComments() {
               ORDER BY r.created_at DESC";
     $stmt = $this->pdo->prepare($query);
     $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getNotifications($userId) {
+    $query = "SELECT * FROM notifications WHERE user_id = :user_id ORDER BY created_at DESC";
+    $stmt = $this->pdo->prepare($query);
+    $stmt->execute(['user_id' => $userId]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
     
