@@ -3,28 +3,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard</title>
+    <title>EventHUB- Event</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center py-12">
-    {% include 'components/header'%}
+    {# {% include 'components/header'%} #}
     <!-- Container with max width and centering -->
     <div class="container mx-auto px-4 max-w-6xl">
         <!-- Single centered card -->
         <div class="bg-white shadow-xl rounded-3xl overflow-hidden border border-gray-200 transform hover:scale-[1.02] transition-transform duration-300">
 
-
-
             <!-- Event Image Section -->
             <div class="relative h-96 overflow-hidden">
-                <img src="/api/placeholder/1600/900" alt="Tech Conference" class="w-full h-full object-cover">
+                <img src="{{ event.image }}" alt="{{ event.title }}" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
                     <span class="bg-blue-600 text-xs font-semibold px-4 py-2 rounded-full">Featured Event</span>
                     <h2 class="text-3xl font-bold mt-3">{{ event.title }}</h2>
                     <p class="text-lg opacity-90 mt-2">
-                        <i class="fas fa-map-marker-alt mr-2"></i>{{ event.location }}
+                        <i class="fas fa-map-marker-alt mr-2"></i>{{ city ?? 'City not available'}}
                     </p>
                 </div>
             </div>
@@ -49,7 +47,7 @@
                 <div class="flex items-center justify-between mb-8">
                     <div>
                         <p class="text-lg font-semibold text-indigo-600">
-                            <span class="font-bold text-gray-900">Organisateur:</span> {{ event.organizer }}
+                            <span class="font-bold text-gray-900">Organisateur:</span> {{ organizer ?? 'organizer not available'}}
                         </p>
                         <p class="text-md text-gray-500 mt-2">
                             <i class="fas fa-users mr-2"></i>Capacité: {{ event.capacity }} participants
@@ -66,6 +64,13 @@
                             {{ tag.name }}
                         </span>
                     {% endfor %}
+                </div>
+
+                <!-- Reservation Button -->
+                <div class="text-center">
+                    <a href="/reserve/{{ event.id }}" class="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-lg">
+                        <i class="fas fa-ticket-alt mr-2"></i>Reserve a Ticket
+                    </a>
                 </div>
             </div>
 

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserve Tickets for {{ event.title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold mb-4">Reserve Tickets for {{ event.title }}</h1>
+
+        {% if session.error %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {{ session.error }}
+            </div>
+        {% endif %}
+
+        <form action="/reserve" method="POST" class="bg-white p-6 rounded-lg shadow-md">
+            <input type="hidden" name="event_id" value="{{ event.id }}">
+
+            <div class="mb-4">
+                <label for="quantity" class="block text-gray-700 font-bold mb-2">Number of Tickets</label>
+                <input type="number" id="quantity" name="quantity" min="1" max="{{ event.capacity }}" 
+                       class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                Reserve Tickets
+            </button>
+        </form>
+    </div>
+</body>
+</html>
