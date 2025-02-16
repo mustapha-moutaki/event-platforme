@@ -235,35 +235,67 @@
     
     
 
-    
-    <!-- Events Section -->
-<div class="container mx-auto px-6 py-12" id="listofevents">
-    <h2 class="text-3xl font-bold mb-8">Upcoming Events</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8" >
+  <div class="container mx-auto px-6 py-12" id="listofevents">
+    <h2 class="text-3xl font-bold mb-8 text-[#7c5fbc]">Upcoming Events</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {% for event in events %}
-          <a href="/events/details/{{event.id}}">
-        <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1 event">
-            <img src="{{ event.image }}" alt="{{ event.title }}" class="w-full h-48 object-cover"/>
-            <div class="p-6">
-                <div class="flex justify-between items-start mb-4">
+        <div class="group bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl relative event">
+            <!-- Decorative corner accent -->
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-[#7c5fbc] to-[#9747FF] transform rotate-45 translate-x-8 -translate-y-8"></div>
+            
+            <!-- Image with overlay -->
+            <div class="relative">
+                <img src="{{ event.image }}" alt="{{ event.title }}" class="w-full h-56 object-cover"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/70 to-transparent"></div>
+            </div>
+            
+            <div class="p-6 relative">
+                <div class="flex justify-between items-center mb-4">
+                    <!-- Title Section -->
                     <div>
-                        <h3 class="text-xl font-bold mb-2">{{ event.title }}</h3>
-                        <p class="text-gray-600">{{ event.location }}</p>
+                        <h3 class="text-xl font-bold mb-2 group-hover:text-[#7c5fbc] transition-colors">{{ event.title }}</h3>
+                        <p class="event-location text-[#666666] flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="#7c5fbc" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            {{ event.location }}
+                        </p>
                     </div>
-                    <span class="bg-{{ event.color }}-100 text-{{ event.color }}-600 px-3 py-1 rounded-full text-sm">{{ event.category }}</span>
+
+                    <!-- Category Badge -->
+                    <span class="event-category bg-[#f0ebff] text-[#7c5fbc] px-3 py-1 rounded-full text-sm font-semibold">
+                        {{ event.category_name }}
+                    </span>
                 </div>
-                <div class="flex items-center text-gray-600 mb-4">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                
+                <div class="flex items-center text-[#666666] mb-4">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="#7c5fbc" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    <span>{{ event.date }}</span>
+                    <span class="event-date">{{ event.date }}</span>
                 </div>
-                <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors">
+
+                <!-- Price Tag -->
+                <div class="mb-6">
+                   <span class="text-3xl font-bold bg-gradient-to-r from-[#7c5fbc] to-[#9747FF] p-2 rounded-lg text-white inline-block shadow-md">
+                {% if event.price is null or event.price == 0 %}
+                    Free
+                {% else %}
+                    {{ event.price }} MAD
+                {% endif %}
+            </span>
+                
+                </div>
+
+                <!-- Button -->
+                <button class="w-full bg-gradient-to-r from-[#7c5fbc] to-[#9747FF] text-white py-3 rounded-lg 
+                    transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg
+                    focus:outline-none focus:ring-2 focus:ring-[#7c5fbc] focus:ring-offset-2">
                     {{ event.buttonText }}
                 </button>
             </div>
         </div>
-       </a>
         {% endfor %}
     </div>
 </div>
