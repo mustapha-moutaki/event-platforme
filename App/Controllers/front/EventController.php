@@ -302,4 +302,43 @@ class EventController extends Controller
             'events' => $events
         ]);
     }
+
+    public function showEventDetails($id) 
+    {
+        
+        $event = $this->eventModel->findById($id);
+        
+        if ($event) {
+            
+            $db = \App\Core\Database::getConnection();
+    
+            
+            $stmt = $db->prepare("SELECT ville FROM ville WHERE id = :ville_id");
+            $stmt->execute(['ville_id' => $event['ville_id']]);
+            $city = $stmt->fetch(\PDO::FETCH_ASSOC);
+    
+            
+            $stmt = $db->prepare("SELECT region FROM region WHERE id = :region_id");
+            $stmt->execute(['region_id' => $event['region_id']]);
+            $region = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+            $stmt = $db->prepare("SELECT username FROM users WHERE id = :organizer_id");
+            $stmt->execute(['organizer_id' => $event['organizer_id']]);
+            $organizer = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+            $this->view->render('participant/eventDetails.twig', [
+                'event' => $event,
+                'category_name' => $event['category_name'], 
+                'city' => $city['ville'] ?? 'N/A',  
+                'region' => $region['region'] ?? 'N/A', 
+                'organizer' => $organizer['username'] ?? 'N/A', 
+            ]);
+        } else {
+            header("Location: /");
+            exit;
+        }
+    }
+    
+
+
 }
