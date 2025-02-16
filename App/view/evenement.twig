@@ -23,6 +23,12 @@
   <link id="pagestyle" href="../../public/assets/css//material-dashboard.css?v=3.2.0" rel="stylesheet" />
   <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  {# taliwind #}
+  {# <script src="https://cdn.tailwindcss.com"></script> #}
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -32,230 +38,62 @@
     <!-- Navbar -->
     {# {% include 'test.twig' %} #}
     {% include 'components/header.twig' %}
-    <!-- End Navbar -->
-    <div class="container-fluid py-2">
-      <div class="row">
-        
-        <div class="ms-3">
-          <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>
-          <p class="mb-4">
-            Check events, participants and organizzers.
-          </p>
-        </div>
-
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-3">
-              <div class="d-flex justify-content-between">
-              <div>
-                  <p class="text-sm mb-0 text-uppercase text-primary font-weight-bold">Total Number of categories</p>
-                  
-                      <h4 class="mb-0 text-dark">{{ totalCategories }}</h4>
-             
-              </div>
-                <div class="icon icon-md icon-shape bg-gradient-primary text-white shadow text-center rounded-circle">
-                  <i class="material-symbols-rounded">menu_book</i>
-                </div>
-              </div>
-            </div>
-
-            <hr class="horizontal my-0 bg-primary">
-            <div class="card-footer p-3">
-             
-            </div>
-          </div>
-          
-        </div>
- 
-
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-3">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <p class="text-sm mb-0 text-uppercase text-info font-weight-bold">Total Number of Tags</p>
-                  <h4 class="mb-0 text-dark">{{ totalTags }}</h4>
-                </div>
-                <div class="icon icon-md icon-shape bg-gradient-info text-white shadow text-center rounded-circle">
-                  <i class="material-symbols-rounded">label</i>
-                </div>
-              </div>
-            </div>
-            <hr class="horizontal my-0 bg-info">
-            <div class="card-footer p-3">
-              
-            </div>
-            
-          </div>
-          
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-3">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <p class="text-sm mb-0 text-uppercase text-warning font-weight-bold">Number of sponsors</p>
-                  <h4 class="mb-0 text-dark">{{ totalSponsors }}</h4>
-                </div>
-                <div class="icon icon-md icon-shape bg-gradient-warning text-white shadow text-center rounded-circle">
-                  <i class="material-symbols-rounded">sponsors</i>
-                </div>
-              </div>
-            </div>
-            <hr class="horizontal my-0 bg-warning">
-            <div class="card-footer p-3">
-             
-            </div>
-          </div>
-          
-        </div>
-        
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-  <div class="card-header p-3">
-    <div class="d-flex justify-content-between">
-      <div>
-        <p class="text-sm mb-0 text-uppercase text-warning font-weight-bold">Total Funds</p>
-        <h4 class="mb-0 text-dark">{{ totalSponsors }} $</h4>
-      </div>
-      <div class="icon icon-md icon-shape bg-gradient-warning text-white shadow text-center rounded-circle">
-        <i class="material-symbols-rounded">attach_money</i>
-      </div>
-    </div>
-  </div>
-  <hr class="horizontal my-0 bg-warning">
-  <div class="card-footer p-3"></div>
-</div>
-   
-        </div>
-        
-        <div class="col-xl-3 col-sm-6 d-flex gap-3" style="width:70% !important;">
-        
-        <div class="card mb-2" style="width:300px !important">
-<div class="card-header p-3">
-    <div class="d-flex justify-content-between">
-        <div>
-            <p class="text-sm mb-0 text-uppercase text-success font-weight-bold">Total Number of Users</p>
-            <p class="mb-0 text-dark text-small">Total Users: {{ totalUsers.total_users }}</p>
-            <p class="mb-0 text-dark text-small">Active Users: {{ totalUsers.active_users }}</p>
-            <p class="mb-0 text-dark text-small">Pending Users: {{ totalUsers.pending_users }}</p>
-            <p class="mb-0 text-dark text-small">Banned Users: {{ totalUsers.banned_users }}</p>
-        </div>
-
-        <div class="icon icon-md icon-shape bg-gradient-success text-white shadow text-center rounded-circle">
-            <i class="material-symbols-rounded">groups</i>
-        </div>
-    </div>
-</div>
-<hr class="horizontal my-0 bg-success">
-<div class="card-footer p-3"></div>
-</div>
-
-            <div class="card">
-                        <div class="card-header p-3" style="width:300px !important">
-                          <div class="d-flex justify-content-between">
-                            <div>
-                              <p class="text-sm mb-0 text-uppercase text-primary font-weight-bold"> total of tickets</p>
-                            
-                                <?php foreach($TopThreeTeachers as $teachertop): ?>
-
-                                  <div class="teacher-info">
-                <span class="teacher-name"><?php echo $teachertop['username']; ?></span>
-                <span class="courses-count"><?php echo '('. $teachertop['total_courses'].'courses'.')'; ?></span>
-            </div>
-
-                  <?php endforeach; ?>
-              
-  
-                </div>
-
-
-                
-                <div class="icon icon-md icon-shape bg-gradient-primary text-white shadow text-center rounded-circle">
-                <i class="material-symbols-rounded" style="color: white;">star</i>
-                </div>
-              </div>
-            </div>
-
-            <hr class="horizontal my-0 bg-primary">
-            <div class="card-footer p-3">
-             
-            </div>
-          </div>
-          
-        </div>
-      </div>
-      <div class="container my-5">
+  <!-- End Navbar -->
+<div class="container-fluid py-2">
+    <h2 class="mb-4 text-center text-primary">Liste des Événements</h2>
     
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="text-2xl font-semibold mb-4">Commentaires signalés</h2>
-         {% if reportedComments %}
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <table class="min-w-full">
-                <thead class="bg-gray-50">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Auteur</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Commentaire</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Raison</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                        <td>{{ event.id }}</td>
+                        <td>{{ event.title | escape }}</td>
+                        <td>{{ event.description | escape }}</td>
+                        <td>{{ event.date }}</td>
+                        <td>
+                            <span class="badge 
+                                {% if event.staatus == 'active' %}bg-success
+                                {% elseif event.staatus == 'pending' %}bg-warning text-dark
+                                {% elseif event.staatus == 'cancelled' %}bg-danger
+                                {% elseif event.staatus == 'completed' %}bg-info
+                                {% else %}bg-secondary
+                                {% endif %}
+                            ">
+                                {{ event.staatus | capitalize }}
+                            </span>
+                        </td>
+                        <td>
+                            <form method="POST" action="/admin/events/update-status" class="d-flex gap-2">
+                                <input type="hidden" name="event_id" value="{{ event.id }}">
+                                <select name="status" class="form-select form-select-sm">
+                                    <option value="draft" {{ event.staatus == 'draft' ? 'selected' : '' }}>Brouillon</option>
+                                    <option value="pending" {{ event.staatus == 'pending' ? 'selected' : '' }}>En attente</option>
+                                    <option value="active" {{ event.staatus == 'active' ? 'selected' : '' }}>Actif</option>
+                                    <option value="cancelled" {{ event.staatus == 'cancelled' ? 'selected' : '' }}>Annulé</option>
+                                    <option value="completed" {{ event.staatus == 'completed' ? 'selected' : '' }}>Complété</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-sm">Modifier</button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    {% for report in reportedComments %}
-                        <tr>
-                            <td class="px-6 py-4">{{ report.comment_author }}</td>
-                            <td class="px-6 py-4">{{ report.content }}</td>
-                            <td class="px-6 py-4">{{ report.reason }}</td>
-                            <td class="px-6 py-4">{{ report.report_date|date("d M Y, H:i") }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% else %}
-        <p class="text-gray-600">Aucun commentaire signalé.</p>
-    {% endif %}
-
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-
-      <!-- Courses Cards -->
-      <div class="row" id="coursesContainer">
-    <?php foreach($getAllCourses as $course): ?>
-    <div class="col-md-4 mb-4 course-card" data-category="web">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <?php if($course['video_content'] != null): ?>
-                      <div class="relative">
-            <iframe src="<?= $course['video_content']; ?>" frameborder="0" class="h-48 object-cover" style="width:100%"></iframe>
-            <div class="absolute inset-0 bg-black opacity-50" style="height: 100% !important; width: 100% !important;"></div>
-            <div class="mydiv h-48" style="width:100%; height:19rem; background-color:white; position:absolute;top:0;opacity: 0;"></div>
-                </div>
-                <?php elseif($course['document_content'] != null): ?>
-                    <!-- If document content exists (fallback image and document) -->
-                    <img src="https://i.pinimg.com/736x/1b/7b/e2/1b7be209fee3fd17943a981b5508384e.jpg" 
-                         alt="Course Image" 
-                         class="w-full h-48 object-cover" style="width:20rem !important;height:9rem">
-                    <p class="mt-2"><?= $course['document_content']; ?></p>
-                <?php endif; ?>
-                <h5 class="card-title"><?php echo $course['title'] ?></h5>
-                <p class="card-text"><i>learn:</i><br><?php echo $course['meta_description'] ?></p>
-                <form method="POST" action="">
-                        <input type="hidden" name="user_id" value="<?= $_SESSION['user_id']; ?>">
-                        <input type="hidden" name="course_id" value="<?= $course['id']; ?>">
-                        <button type="submit" name="joinCourse" class="btn btn-primary">
-                        Join Course
-                    </button>
-                    </form>
-
-                <!-- Button to redirect to course view page and enroll the user -->
-             
-            </div>
-
-            
-        </div>
-    </div>
-    <?php endforeach; ?>
 </div>
+</div>
+
 
  {% include 'components/footer.twig' %}
 </body>
@@ -581,15 +419,8 @@
       },
     });
   </script>
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
+ <!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
@@ -608,7 +439,17 @@
       });
     }
 
+
+     function toggleForm() {
+            const form = document.getElementById('tagForm');
+            form.classList.toggle('d-none');
+        }
+
+
+    
+
   </script>
 </body>
 
 </html>
+

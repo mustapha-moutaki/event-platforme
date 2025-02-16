@@ -4,7 +4,6 @@ require_once __DIR__ . '/../App/config/config.php';
 // require_once __DIR__ . '/../App/core/Security.php';
 
 
-
 // $router = require_once __DIR__ . '/../App/config/routes.php';
 use App\core\Router;
 // use App\core\Security;
@@ -17,12 +16,14 @@ use App\Controllers\Front\ReservationController;
 $router = new Router();
 // Security::secureHeaders();
 // inddex
-$router->addRoute('GET', '/', HomeController::class, 'index');
+// $router->addRoute('GET', '/', HomeController::class, 'index');
 
 $router->addRoute('GET', '/updateprofile', HomeController::class, 'update');
 
-// $router->addRoute('GET', '/', HomeController::class, 'index');
-$router->addRoute('GET', '/', EventController::class, 'showAllEvents');
+$router->addRoute('GET', '/', HomeController::class, 'index');
+$router->addRoute('GET', '/organizer/dashboard',\App\Controllers\back\organizerController::class, 'viewOrgnaizer');
+$router->addRoute('GET', '/participant/home',\App\Controllers\back\participantController::class, 'viewParticipant');
+// $router->addRoute('GET', '/', EventController::class, 'showAllEvents');
 $router->addRoute('GET', '/admin/users', \App\Controllers\back\UserController::class, 'listUsers');
 $router->addRoute('GET', '/login', LoginController::class, 'showLoginForm');
 $router->addRoute('POST', '/login', LoginController::class, 'login');
@@ -69,5 +70,11 @@ $router->addRoute('POST','/admin/sponsors/update', \App\Controllers\Back\Sponsor
 $router->addRoute('POST', '/admin/sponsors/delete', \App\Controllers\Back\SponsorController::class, 'deleteSponsor');
 $router->addRoute('GET','/choose-role', \App\Controllers\back\ChooseRoleController::class,'showRoleSelection');
 $router->addRoute('POST','/set-role', \App\Controllers\back\ChooseRoleController::class,'setRole');
-
+$router->addRoute('POST', '/switch-role', \App\Controllers\back\ChooseRoleController::class, 'switchRole');
+$router->addRoute('GET', '/admin/events', \App\Controllers\Back\EvenmentController::class, 'affichageEvents');
+$router->addRoute('POST', '/submit-comment', \App\Controllers\Back\EvenmentController::class, 'submitComment');
+$router->addRoute('POST', '/update-comment', \App\Controllers\Back\EvenmentController::class, 'updateComment');
+$router->addRoute('POST', '/delete-comment', \App\Controllers\Back\EvenmentController::class, 'deleteComment');
+$router->addRoute('POST', '/admin/events/update-status', \App\Controllers\Back\EvenmentController::class, 'updateEventStatus');
+$router->addRoute('POST', '/report-comment', EventController::class, 'reportComment');
 $router->dispatch();

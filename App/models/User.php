@@ -24,7 +24,7 @@ class User {
         }
     }
     public function getUserByEmail($email) {
-        $sql = "SELECT * FROM users WHERE email = :email";
+        $sql = "SELECT * FROM users WHERE email = :email and status ='active' ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['email' => $email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -81,13 +81,12 @@ public function assignRole($userId, $roleName) {
     if ($role) {
         $roleId = $role['id'];
 
-        // Vérifier si l'utilisateur a déjà un rôle
+      
         $checkSql = "SELECT * FROM user_roles WHERE user_id = :user_id";
         $checkStmt = $this->pdo->prepare($checkSql);
         $checkStmt->execute(['user_id' => $userId]);
 
         if ($checkStmt->rowCount() == 0) {
-            // Assigner le rôle
             $assignSql = "INSERT INTO user_roles (user_id, role_id) VALUES (:user_id, :role_id)";
             $assignStmt = $this->pdo->prepare($assignSql);
             return $assignStmt->execute(['user_id' => $userId, 'role_id' => $roleId]);
@@ -120,6 +119,26 @@ public function getUserStatistics() {
     $statistics['banned_users'] = $stmt->fetch(PDO::FETCH_ASSOC)['banned_users'];
 
     return $statistics;
+}
+
+public function switchRole($userId) {
+    $currentRole = $this->getUserRole($userId);
+    $newRole = ($currentRole === 'participant') ? 'organizer' : 'participant';
+
+    $sql = "SELECT id FROM roles WHERE name = :role";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute(['role' => $newRole]);
+    $role = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($role) {
+        $roleId = $role['id'];
+        $updateSql = "UPDATE user_roles SET role_id = :role_id WHERE user_id = :user_id";
+        $updateStmt = $this->pdo->prepare($updateSql);
+        $updateStmt->execute(['role_id' => $roleId, 'user_id' => $userId]);
+
+        return $newRole; 
+    }
+    return false;
 }
 
 }

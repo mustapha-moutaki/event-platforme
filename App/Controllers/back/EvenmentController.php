@@ -1,0 +1,111 @@
+<?php
+
+namespace App\Controllers\Back;
+session_start();
+use App\Models\Events;
+use App\core\View;
+use App\core\Auth;
+class EvenmentController{
+    public function affichageEvent($id){
+        $view=new View();
+        $events=new Events();
+         $evenements=$events->getAllEvents($id);
+
+
+        foreach ($evenements as &$event) {
+            $event['comments'] = $events->getCommentsByEventId($event['id']);
+        }
+
+        $view->render('evenement.twig',['events'=>$evenements]);
+    }
+    public function affichageEvents(){
+        $view=new View();
+        $events=new Events();
+         $evenements=$events->getEvents() ;
+
+
+        // foreach ($evenements as &$event) {
+        //     $event['comments'] = $events->getCommentsByEventId($event['id']);
+        // }
+
+        $view->render('evenement.twig',['events'=>$evenements]);
+    }
+
+    public function submitComment(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $eventId = $_POST['event_id'];
+            $userId =Auth::UserId() ; 
+            $content = $_POST['content'];
+    
+            $event = new Events();
+            $event->addComment($eventId, $userId, $content);
+    
+            
+            header('Location:/events/details/' . $eventId);
+            exit();
+        }
+    }
+
+    public function updateComment() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $commentId = $_POST['comment_id'];
+            $content = $_POST['content'];
+            
+            $event = new Events();
+            $event->updateComment($commentId, $content);
+            $eventId = $event->getEventIdByCommentId($commentId);
+           
+            header('Location: /events/details/' . $eventId);
+            exit();
+        }
+    }
+    
+    public function deleteComment() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $commentId = (int) $_POST['comment_id'];
+            
+            $event = new Events();
+            
+            // Récupérer l'ID de l'événement avant de supprimer le commentaire
+            $eventId = $event->getEventIdByCommentId($commentId);
+            
+            if ($eventId === null) {
+                // Si l'événement n'est pas trouvé, rediriger vers une page par défaut avec un message d'erreur
+                $_SESSION['error'] = "Le commentaire ou l'événement associé n'existe pas.";
+                header('Location: /events');
+                exit();
+            }
+            $success = $event->deleteComment($commentId);
+            if ($success) {
+               header('Location: /events/details/' . $eventId);
+                exit();
+            } else {
+                header('Location: /events/details/' . $eventId);
+                exit();
+            }
+        }
+    }
+    
+    public function updateEventStatus() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['event_id'], $_POST['status'])) {
+            $eventId = intval($_POST['event_id']);
+            $newStatus = $_POST['status'];
+    
+            $allowedStatuses = ['draft', 'pending', 'active', 'cancelled', 'completed'];
+            if (!in_array($newStatus, $allowedStatuses)) {
+                die("Statut invalide !");
+            }
+    
+            $eventModel = new Events();
+            if ($eventModel->updateStatus($eventId, $newStatus)) {
+                header("Location: /admin/events");
+                exit;
+            } else {
+                die("Erreur lors de la mise à jour du statut.");
+            }
+        }
+    }
+    
+    
+    
+}

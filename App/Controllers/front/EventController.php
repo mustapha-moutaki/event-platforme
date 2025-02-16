@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\Organizer; 
 use App\Core\Auth;
 use App\Core\Controller;
+use App\Models\Events;
 
 class EventController extends Controller
 {
@@ -287,51 +288,96 @@ class EventController extends Controller
 
     public function listEvents() 
     {
+       
         $events = $this->organizerModel->getEventsByOrganizer(Auth::UserId());
+
         
         $this->view->render('events/events.twig', [
             'events' => $events
         ]);
+      
     }
 
     public function showAllEvents() 
     {
         $events = $this->eventModel->getAllEvents(); 
+        return $events;
+
         
-        $this->view->render('home.twig', [
-            'events' => $events
-        ]);
+    }
+
+    // public function showEventDetails($id) 
+    // {
+        
+    //     $event = $this->eventModel->findById($id);
+        
+    //     if ($event) {
+            
+    //         $db = \App\Core\Database::getConnection();
+    
+            
+    //         $stmt = $db->prepare("SELECT ville FROM ville WHERE id = :ville_id");
+    //         $stmt->execute(['ville_id' => $event['ville_id']]);
+    //         $city = $stmt->fetch(\PDO::FETCH_ASSOC);
+    
+            
+    //         $stmt = $db->prepare("SELECT region FROM region WHERE id = :region_id");
+    //         $stmt->execute(['region_id' => $event['region_id']]);
+    //         $region = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+    //         $stmt = $db->prepare("SELECT username FROM users WHERE id = :organizer_id");
+    //         $stmt->execute(['organizer_id' => $event['organizer_id']]);
+    //         $organizer = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+    //         $this->view->render('participant/eventDetails.twig', [
+    //             'event' => $event,
+    //             'category_name' => $event['category_name'], 
+    //             'city' => $city['ville'] ?? 'N/A',  
+    //             'region' => $region['region'] ?? 'N/A', 
+    //             'organizer' => $organizer['username'] ?? 'N/A', 
+
+    public function showAllCities(){
+        $city = $this->eventModel->getAllCities();
+        return $city;
     }
 
     public function showEventDetails($id) 
     {
+    
+        $events=new Events();
+        $event = $events->getAllEvents($id);
+
+        $db = \App\Core\Database::getConnection();
+    
+            
+        $stmt = $db->prepare("SELECT ville FROM ville WHERE id = :ville_id");
+        $stmt->execute(['ville_id' => $event['ville_id']]);
+        $city = $stmt->fetch(\PDO::FETCH_ASSOC);
+
         
-        $event = $this->eventModel->findById($id);
+        $stmt = $db->prepare("SELECT region FROM region WHERE id = :region_id");
+        $stmt->execute(['region_id' => $event['region_id']]);
+        $region = $stmt->fetch(\PDO::FETCH_ASSOC);
         
+        $stmt = $db->prepare("SELECT username FROM users WHERE id = :organizer_id");
+        $stmt->execute(['organizer_id' => $event['organizer_id']]);
+        $organizer = $stmt->fetch(\PDO::FETCH_ASSOC);
+       
         if ($event) {
-            
-            $db = \App\Core\Database::getConnection();
-    
-            
-            $stmt = $db->prepare("SELECT ville FROM ville WHERE id = :ville_id");
-            $stmt->execute(['ville_id' => $event['ville_id']]);
-            $city = $stmt->fetch(\PDO::FETCH_ASSOC);
-    
-            
-            $stmt = $db->prepare("SELECT region FROM region WHERE id = :region_id");
-            $stmt->execute(['region_id' => $event['region_id']]);
-            $region = $stmt->fetch(\PDO::FETCH_ASSOC);
-            
-            $stmt = $db->prepare("SELECT username FROM users WHERE id = :organizer_id");
-            $stmt->execute(['organizer_id' => $event['organizer_id']]);
-            $organizer = $stmt->fetch(\PDO::FETCH_ASSOC);
-            
+          
+               
+                $comments = $events->getCommentsByEventId($id);
+                
             $this->view->render('participant/eventDetails.twig', [
+                'event' => $event,
+                'comments'=>$comments, 
+                'auth' => ['user' => ['id' => Auth::UserId()]],
                 'event' => $event,
                 'category_name' => $event['category_name'], 
                 'city' => $city['ville'] ?? 'N/A',  
                 'region' => $region['region'] ?? 'N/A', 
-                'organizer' => $organizer['username'] ?? 'N/A', 
+                'organizer' => $organizer['username'] ?? 'N/A',
+                
             ]);
         } else {
             header("Location: /");
@@ -340,5 +386,47 @@ class EventController extends Controller
     }
     
 
+    public function showAllCategories(){
+        $category = $this->eventModel->getAllCategories();
+        return $category;
+    }
+
+    public function reportComment() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $commentId = $_POST['comment_id'];
+            $reason = $_POST['reason'];
+            $reporterId = Auth::UserId(); 
+    
+            $event = new Events();
+            
+            
+            $commentAuthorId = $event->getUserIdByCommentId($commentId);
+            
+            if ($commentAuthorId === $reporterId) {
+                $_SESSION['error'] = "Vous ne pouvez pas signaler votre propre commentaire.";
+                header('Location: /events/details/' . $event->getEventIdByCommentId($commentId));
+                exit();
+            }
+            
+        
+            $success = $event->reportComment($commentId, $reporterId, $reason);
+            
+            if ($success) {
+                $_SESSION['message'] = "Le commentaire a été signalé avec succès.";
+            } else {
+                $_SESSION['error'] = "Une erreur s'est produite lors du signalement du commentaire.";
+            }
+            
+           
+            $eventId = $event->getEventIdByCommentId($commentId);
+            header('Location: /events/details/' . $eventId);
+            exit();
+        }
+    }
+
 
 }
+
+
+
+

@@ -21,7 +21,7 @@ class ChooseRoleController {
            $userModel->assignRole($userId, $role);
     //   var_dump($a);
     //   die;
-    
+
             Session::set('user_role', $role);
             if ($role === 'admin') {
                 header("Location: /admin/dashboard");
@@ -32,5 +32,31 @@ class ChooseRoleController {
             }
             exit;
         }
+    }
+
+    public function switchRole() {
+        $userId = Session::get('user_id');
+        
+        if (!$userId) {
+            header("Location: /login"); 
+            exit;
+        }
+
+        $userModel = new User();
+        $newRole = $userModel->switchRole($userId);
+
+        if ($newRole) {
+            Session::set('user_role', $newRole);
+            if ($newRole === 'organizer') {
+                header("Location: /organizer/dashboard");
+            } else {
+                header("Location: /participant/home");
+            }
+            exit;
+        }
+
+        // En cas d'erreur
+        header("Location: /dashboard?error=role_switch_failed");
+        exit;
     }
 }
