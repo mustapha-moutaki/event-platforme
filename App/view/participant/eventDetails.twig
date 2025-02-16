@@ -6,6 +6,54 @@
     <title>EventHUB- Event</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0070ba; /* PayPal blue */
+            margin: 20px 0;
+        }
+        .paypal-button {
+            background-color: #0070ba;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .paypal-button:hover {
+            background-color: #005ea6;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center py-12">
     {# {% include 'components/header'%} #}
@@ -57,7 +105,7 @@
                         </p>
                     </div>
                     <span class="text-3xl font-bold text-blue-600">
-                        {{ event.price }} €
+                        {{ event.price }} MAD
                     </span>
                 </div>
 
@@ -128,6 +176,8 @@
             <button type="submit" class="mt-4 px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                 <i class="fas fa-flag mr-2"></i>Soumettre le signalement
             </button>
+
+            
         </form>
                     <form id="editForm-{{ comment.id }}" action="/update-comment" method="POST" class="hidden mt-6">
                         <input type="hidden" name="comment_id" value="{{ comment.id }}">
@@ -139,22 +189,7 @@
                     </form>
                    
                 </div>
-                {% endfor %}
 
-                <!-- Add Comment Form -->
-                <form action="/submit-comment" method="POST" class="mt-8">
-                    <input type="hidden" name="event_id" value="{{ event.id }}">
-                    <textarea name="content" placeholder="Laissez un commentaire..." rows="4"
-                        class="w-full p-6 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition text-lg"
-                        required></textarea>
-                    <button type="submit"
-                        class="mt-4 px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-lg">
-                        <i class="fas fa-paper-plane mr-2"></i>Ajouter un commentaire
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
 
 <script>
 function toggleEditForm(commentId) {
