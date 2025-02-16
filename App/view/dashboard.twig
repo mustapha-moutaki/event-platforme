@@ -186,15 +186,46 @@
         </div>
       </div>
       <div class="container my-5">
-    <!-- Category Selection -->
+    
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">categories</h2>
-      <select class="form-select w-25" id="categorySelect" onchange="filterCourses()">
-        <option value="all" selected>All Categories</option>
-        <?php foreach($getAllcategories as $category): ?>
-        <option value="web"><?php echo $category['name']?></option>
-        <?php endforeach; ?>
-      </select>
+      <h2 class="text-2xl font-semibold mb-4">Commentaires signalés</h2>
+         {% if reportedComments %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <table class="min-w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Auteur</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Commentaire</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Raison</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for report in reportedComments %}
+                        <tr>
+                            <td class="px-6 py-4">{{ report.comment_author }}</td>
+                            <td class="px-6 py-4">{{ report.content }}</td>
+                            <td class="px-6 py-4">{{ report.reason }}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-sm rounded-full 
+                                    {% if report.status == 'pending' %}bg-yellow-100 text-yellow-800
+                                    {% elseif report.status == 'reviewed' %}bg-green-100 text-green-800
+                                    {% elseif report.status == 'dismissed' %}bg-red-100 text-red-800
+                                    {% endif %}">
+                                    {{ report.status }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">{{ report.report_date|date("d M Y, H:i") }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-gray-600">Aucun commentaire signalé.</p>
+    {% endif %}
+
     </div>
 
       <!-- Courses Cards -->

@@ -8,10 +8,14 @@ use App\models\Sponsor;
 use App\models\Tag;
 use App\models\Category;
 use App\models\User;
+use App\Models\Events;
+use App\core\Session;
+session_start();
 
 class DashboardController {
     public function index() {
-        if (!Auth::check()) {
+        $role = Session::get('user_role');
+        if ( $role !== 'admin') {
             header("Location: /login");
             exit;
         }
@@ -30,10 +34,12 @@ class DashboardController {
 
         $users = new User();
         $totalUsers = $users->getUserStatistics();
-    
+        $event = new Events();
+        $reportedComments = $event->getReportedComments();
 
         $view->render('dashboard.twig', [
-            'username' => $user['username'],'totalSponsors'=>$totalsponsors,'totalTags' => $totalTags, 'totalUsers' => $totalUsers,'totalCategories' => $totalCategories
+            'username' => $user['username'],'totalSponsors'=>$totalsponsors,'totalTags' => $totalTags, 'totalUsers' => $totalUsers,
+            'totalCategories' => $totalCategories,'reportedComments' => $reportedComments
             
         ]);
     }

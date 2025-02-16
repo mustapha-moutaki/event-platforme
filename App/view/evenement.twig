@@ -63,25 +63,25 @@
                         <td>{{ event.date }}</td>
                         <td>
                             <span class="badge 
-                                {% if event.status == 'active' %}bg-success
-                                {% elseif event.status == 'pending' %}bg-warning text-dark
-                                {% elseif event.status == 'cancelled' %}bg-danger
-                                {% elseif event.status == 'completed' %}bg-info
+                                {% if event.staatus == 'active' %}bg-success
+                                {% elseif event.staatus == 'pending' %}bg-warning text-dark
+                                {% elseif event.staatus == 'cancelled' %}bg-danger
+                                {% elseif event.staatus == 'completed' %}bg-info
                                 {% else %}bg-secondary
                                 {% endif %}
                             ">
-                                {{ event.status | capitalize }}
+                                {{ event.staatus | capitalize }}
                             </span>
                         </td>
                         <td>
                             <form method="POST" action="/admin/events/update-status" class="d-flex gap-2">
                                 <input type="hidden" name="event_id" value="{{ event.id }}">
                                 <select name="status" class="form-select form-select-sm">
-                                    <option value="draft" {{ event.status == 'draft' ? 'selected' : '' }}>Brouillon</option>
-                                    <option value="pending" {{ event.status == 'pending' ? 'selected' : '' }}>En attente</option>
-                                    <option value="active" {{ event.status == 'active' ? 'selected' : '' }}>Actif</option>
-                                    <option value="cancelled" {{ event.status == 'cancelled' ? 'selected' : '' }}>Annulé</option>
-                                    <option value="completed" {{ event.status == 'completed' ? 'selected' : '' }}>Complété</option>
+                                    <option value="draft" {{ event.staatus == 'draft' ? 'selected' : '' }}>Brouillon</option>
+                                    <option value="pending" {{ event.staatus == 'pending' ? 'selected' : '' }}>En attente</option>
+                                    <option value="active" {{ event.staatus == 'active' ? 'selected' : '' }}>Actif</option>
+                                    <option value="cancelled" {{ event.staatus == 'cancelled' ? 'selected' : '' }}>Annulé</option>
+                                    <option value="completed" {{ event.staatus == 'completed' ? 'selected' : '' }}>Complété</option>
                                 </select>
                                 <button type="submit" class="btn btn-primary btn-sm">Modifier</button>
                             </form>

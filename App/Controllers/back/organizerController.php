@@ -23,7 +23,7 @@ class organizerController {
        
        
         $view->render('organizer/organizer.twig', [
-            'events' => $events,'statistique'=> $eventCount 
+            'events' => $events,'statistique'=>  $eventCount 
         ]);
 }
 }
