@@ -345,9 +345,13 @@ class EventController extends Controller
     {
     
         $events=new Events();
-        $event = $events->getAllEvents($id);
+        $event = $this->eventModel->findById($id);
 
-        $db = \App\Core\Database::getConnection();
+        
+       
+        if ($event) {
+
+            $db = \App\Core\Database::getConnection();
     
             
         $stmt = $db->prepare("SELECT ville FROM ville WHERE id = :ville_id");
@@ -362,11 +366,9 @@ class EventController extends Controller
         $stmt = $db->prepare("SELECT username FROM users WHERE id = :organizer_id");
         $stmt->execute(['organizer_id' => $event['organizer_id']]);
         $organizer = $stmt->fetch(\PDO::FETCH_ASSOC);
-       
-        if ($event) {
           
                
-                $comments = $events->getCommentsByEventId($id);
+            $comments = $events->getCommentsByEventId($id);
                 
             $this->view->render('participant/eventDetails.twig', [
                 'event' => $event,
