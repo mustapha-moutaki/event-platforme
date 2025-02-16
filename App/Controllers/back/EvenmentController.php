@@ -6,15 +6,27 @@ use App\Models\Events;
 use App\core\View;
 use App\core\Auth;
 class EvenmentController{
-    public function affichageEvent(){
+    public function affichageEvent($id){
         $view=new View();
         $events=new Events();
-        $evenements=$events->getAllEvents();
+         $evenements=$events->getAllEvents($id);
 
 
         foreach ($evenements as &$event) {
             $event['comments'] = $events->getCommentsByEventId($event['id']);
         }
+
+        $view->render('evenement.twig',['events'=>$evenements]);
+    }
+    public function affichageEvents(){
+        $view=new View();
+        $events=new Events();
+         $evenements=$events->getEvents() ;
+
+
+        // foreach ($evenements as &$event) {
+        //     $event['comments'] = $events->getCommentsByEventId($event['id']);
+        // }
 
         $view->render('evenement.twig',['events'=>$evenements]);
     }
@@ -42,6 +54,7 @@ class EvenmentController{
             $event = new Events();
             $event->updateComment($commentId, $content);
             $eventId = $event->getEventIdByCommentId($commentId);
+           
             header('Location: /events/details/' . $eventId);
             exit();
         }
@@ -51,12 +64,25 @@ class EvenmentController{
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $commentId = (int) $_POST['comment_id'];
             
-            
             $event = new Events();
-            $event->deleteComment($commentId);
+            
+            // Récupérer l'ID de l'événement avant de supprimer le commentaire
             $eventId = $event->getEventIdByCommentId($commentId);
-            header('Location: /events/details/' . $eventId);
-            exit();
+            
+            if ($eventId === null) {
+                // Si l'événement n'est pas trouvé, rediriger vers une page par défaut avec un message d'erreur
+                $_SESSION['error'] = "Le commentaire ou l'événement associé n'existe pas.";
+                header('Location: /events');
+                exit();
+            }
+            $success = $event->deleteComment($commentId);
+            if ($success) {
+               header('Location: /events/details/' . $eventId);
+                exit();
+            } else {
+                header('Location: /events/details/' . $eventId);
+                exit();
+            }
         }
     }
     

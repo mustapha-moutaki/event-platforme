@@ -314,15 +314,20 @@ class EventController extends Controller
 
 public function showEventDetails($id) 
     {
-        $event = $this->eventModel->findById($id);
+    
         $events=new Events();
+        $event = $events->getAllEvents($id);
+       
         if ($event) {
           
-                // Récupérer les commentaires associés à l'événement
+               
                 $comments = $events->getCommentsByEventId($id);
+                
             $this->view->render('participant/eventDetails.twig', [
                 'event' => $event,
-                'comments'=>$comments 
+                'comments'=>$comments, 
+                'auth' => ['user' => ['id' => Auth::UserId()]] 
+                
             ]);
         } else {
             header("Location: /");
@@ -334,7 +339,38 @@ public function showEventDetails($id)
         return $category;
     }
 
-
+    public function reportComment() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $commentId = $_POST['comment_id'];
+            $reason = $_POST['reason'];
+            $reporterId = Auth::UserId(); 
+    
+            $event = new Events();
+            
+            
+            $commentAuthorId = $event->getUserIdByCommentId($commentId);
+            
+            if ($commentAuthorId === $reporterId) {
+                $_SESSION['error'] = "Vous ne pouvez pas signaler votre propre commentaire.";
+                header('Location: /events/details/' . $event->getEventIdByCommentId($commentId));
+                exit();
+            }
+            
+        
+            $success = $event->reportComment($commentId, $reporterId, $reason);
+            
+            if ($success) {
+                $_SESSION['message'] = "Le commentaire a été signalé avec succès.";
+            } else {
+                $_SESSION['error'] = "Une erreur s'est produite lors du signalement du commentaire.";
+            }
+            
+           
+            $eventId = $event->getEventIdByCommentId($commentId);
+            header('Location: /events/details/' . $eventId);
+            exit();
+        }
+    }
 
 
 }

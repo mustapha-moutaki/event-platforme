@@ -5,11 +5,18 @@ namespace App\Controllers\Back;
 use App\Core\Controller;
 use App\Models\Sponsor;
 use App\core\View;
+use App\core\Session;
+session_start();
 
 class SponsorController
 {
     public function index_Sponsor()
     {
+        $role = Session::get('user_role');
+        if ( $role !== 'admin') {
+            header("Location: /login");
+            exit;
+        }
         $sponsorModel = new Sponsor();
         $sponsors = $sponsorModel->getAllSponsors();
         $totalsponsors=$sponsorModel->countSponsors();

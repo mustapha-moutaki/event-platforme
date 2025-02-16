@@ -63,10 +63,10 @@ $router->addRoute('POST', '/admin/sponsors/delete', \App\Controllers\Back\Sponso
 $router->addRoute('GET','/choose-role', \App\Controllers\back\ChooseRoleController::class,'showRoleSelection');
 $router->addRoute('POST','/set-role', \App\Controllers\back\ChooseRoleController::class,'setRole');
 $router->addRoute('POST', '/switch-role', \App\Controllers\back\ChooseRoleController::class, 'switchRole');
-$router->addRoute('GET', '/admin/events', \App\Controllers\Back\EvenmentController::class, 'affichageEvent');
+$router->addRoute('GET', '/admin/events', \App\Controllers\Back\EvenmentController::class, 'affichageEvents');
 $router->addRoute('POST', '/submit-comment', \App\Controllers\Back\EvenmentController::class, 'submitComment');
 $router->addRoute('POST', '/update-comment', \App\Controllers\Back\EvenmentController::class, 'updateComment');
 $router->addRoute('POST', '/delete-comment', \App\Controllers\Back\EvenmentController::class, 'deleteComment');
 $router->addRoute('POST', '/admin/events/update-status', \App\Controllers\Back\EvenmentController::class, 'updateEventStatus');
-
+$router->addRoute('POST', '/report-comment', EventController::class, 'reportComment');
 $router->dispatch();

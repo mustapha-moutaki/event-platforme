@@ -4,9 +4,15 @@ namespace App\Controllers\back;
 
 use App\Models\User;
 use App\core\View;
-
+use App\core\Session;
+session_start();
 class UserController {
     public function listUsers() {
+        $role = Session::get('user_role');
+        if ( $role !== 'admin') {
+            header("Location: /login");
+            exit;
+        }
         $userModel = new User();
         $users = $userModel->getAllUsers();
         $statistics = $userModel->getUserStatistics();
@@ -47,18 +53,18 @@ class UserController {
         exit();
     }
 //new addition
-    public function updateProfile() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $_POST['user_id'] ?? null;
+    // public function updateProfile() {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $userId = $_POST['user_id'] ?? null;
             
-            if ($userId) {
-                $userModel = new User();
-                $userModel->updateUser($userId);
-            }
-        }
-        header('Location: /admin/updateprofile');
-        exit();
-    }
+    //         if ($userId) {
+    //             $userModel = new User();
+    //             $userModel->updateUser($userId);
+    //         }
+    //     }
+    //     header('Location: /admin/updateprofile');
+    //     exit();
+    // }
 
 }
 
