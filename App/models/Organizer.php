@@ -32,7 +32,7 @@ class Organizer extends BaseModel
         $query = "SELECT 
                     e.*, 
                     c.name as category_name,
-                    v.name as ville_name 
+                    v.ville as ville_name 
                   FROM {$this->table} e
                   LEFT JOIN categories c ON e.category_id = c.id
                   LEFT JOIN ville v ON e.ville_id = v.id
