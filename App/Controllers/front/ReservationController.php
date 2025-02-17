@@ -28,7 +28,7 @@ class ReservationController extends Controller
 
     public function showReservationForm($eventId)
     {
-        echo "Event ID: " . $eventId;
+        
         
         if (!Auth::userId()) {
             header("Location: /login");
