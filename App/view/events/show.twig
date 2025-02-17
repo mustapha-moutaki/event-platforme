@@ -24,7 +24,41 @@
   <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet">
   {# taliwind #}
   <script src="https://cdn.tailwindcss.com"></script>
-
+ <style>
+        body {
+            font-family: 'Arial', sans-serif; /* Change font style */
+        }
+        .event-title {
+            font-family: 'Georgia', serif; /* Different font for title */
+            color: #2980b9; /* Blue color for title */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            animation: fadeIn 1s ease-in-out; /* Animation */
+        }
+        .description {
+            color: #34495e; /* Darker gray for description */
+            font-size: 1.1em; /* Slightly larger font size */
+            line-height: 1.6; /* Increased line height */
+        }
+        .label {
+            color: #e67e22; /* Orange color for labels */
+            font-weight: bold; /* Bold labels */
+        }
+        .edit-button {
+            background-color: #27ae60; /* Green color for edit button */
+        }
+        .delete-button {
+            background-color: #c0392b; /* Red color for delete button */
+        }
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -171,7 +205,7 @@
 
 
 
-
+{# 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -250,4 +284,4 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> #}

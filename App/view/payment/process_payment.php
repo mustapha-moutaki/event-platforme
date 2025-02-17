@@ -1,5 +1,5 @@
 <?php
-// استلام البيانات من PayPal
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 if ($data && isset($data['id'])) {
@@ -8,14 +8,14 @@ if ($data && isset($data['id'])) {
     $payerEmail = $data['payer']['email_address'];
     $amount = $data['purchase_units'][0]['amount']['value'];
 
-    // الاتصال بقاعدة البيانات
     $conn = new mysqli("localhost", "root", "", "events_db");
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
+    }else{
+        echo"conneted";
     }
 
-    // تخزين بيانات الدفع
     $stmt = $conn->prepare("INSERT INTO payments (payment_id, name, email, amount) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("sssd", $paymentID, $payerName, $payerEmail, $amount);
     $stmt->execute();

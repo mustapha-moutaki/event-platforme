@@ -19,7 +19,7 @@ class HomeController extends Controller {
         //  die();
       
         
-        $view->render('home.twig',  ['events' => $event, 'cities' =>$cities, 'categories' => $categories]);
+        $this->view->render('home.twig',  ['events' => $event, 'cities' =>$cities, 'categories' => $categories]);
     }
     
     public function update() {
