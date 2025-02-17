@@ -633,5 +633,6 @@ CREATE TABLE IF NOT EXISTS payments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- reservations table altered by abdeljalil
 ALTER TABLE reservations
 ADD COLUMN quantity int DEFAULT NULL;
