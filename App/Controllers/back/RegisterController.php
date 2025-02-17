@@ -29,7 +29,7 @@ class RegisterController {
             if (!$validator->validate($_POST, $rules)) {
                 $errors = $validator->getErrors();
                 $view = new View();
-                $view->render('signup.twig', ['errors' => $errors, 'old' => $_POST]);
+                $view->render('signup.html.twig', ['errors' => $errors, 'old' => $_POST]);
                 return;
             }
 

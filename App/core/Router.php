@@ -21,12 +21,11 @@ class Router {
         $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $requestMethod = $_SERVER['REQUEST_METHOD'];
     
-        
     
         foreach ($this->routes as $route) {
             $routePath = $route['path'];
             $routeMethod = $route['method'];
-    
+
             // Check for dynamic parameters
             if (preg_match($this->convertToRegex($routePath), $requestUri, $matches) && $routeMethod === $requestMethod) {
                 array_shift($matches); // Remove the full match from the array
