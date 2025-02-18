@@ -12,15 +12,63 @@ class Organizer extends BaseModel
 {
     protected $table = 'events';
 
-    public function getEventsByOrganizer($organizerId, $status = null)
-    {
+    // public function getEventsByOrganizer($organizerId, $status = null)
+    // {
+        
+    //     $conditions = ['organizer_id' => $organizerId];
+        
+        
+    // public function getEventsByOrganizer($organizerId, $status = null){
+    //     $conditions = ['organizer_id' => $organizerId];
+    //     if ($status) {
+    //         $conditions['status'] = $status;
+    //     }
+        
+    //     return $this->findAll($conditions, 'created_at DESC');
+    // }
+    public function getEventsByOrganizer($organizerId, $status = null){
+
         $conditions = ['organizer_id' => $organizerId];
+
+
         if ($status) {
             $conditions['status'] = $status;
         }
-        
-        return $this->findAll($conditions, 'created_at DESC');
+
+        $query = "SELECT 
+                    e.*, 
+                    c.name as category_name,
+                    v.ville as ville_name 
+                  FROM {$this->table} e
+                  LEFT JOIN categories c ON e.category_id = c.id
+                  LEFT JOIN ville v ON e.ville_id = v.id
+                  WHERE e.organizer_id = :organizer_id";
+
+
+        if ($status) {
+            $query .= " AND e.status = :status";
+        }
+
+
+        $query .= " ORDER BY e.created_at DESC";
+
+
+        $stmt = $this->db->prepare($query);
+
+
+        $stmt->bindValue(':organizer_id', $organizerId, PDO::PARAM_INT);
+        if ($status) {
+            $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+        }
+
+
+        $stmt->execute();
+
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+
 
     public function createEvent($data)
     {
@@ -124,5 +172,42 @@ class Organizer extends BaseModel
     
     return $result['event_count']; 
 }
+
+public function countCommentsByOrganizer($organizerId) {
+    $query = "SELECT e.organizer_id, COUNT(c.id) AS total_comments
+              FROM comments c
+              JOIN events e ON c.event_id = e.id
+              WHERE e.organizer_id = :organizer_id
+              GROUP BY e.organizer_id";
+
+    $stmt = $this->db->prepare($query);
+    $stmt->execute(['organizer_id' => $organizerId]);
+    $result=$stmt->fetch(PDO::FETCH_ASSOC); 
+    return $result ? $result['total_comments'] : 0;
     
+}
+public function getTotalRevenueByOrganizer($organizerId) {
+    $query = "SELECT SUM(price) AS total_revenue 
+              FROM events 
+              WHERE organizer_id = :organizer_id";
+
+    $stmt = $this->db->prepare($query);
+    $stmt->execute(['organizer_id' => $organizerId]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result ? $result['total_revenue'] : 0;
+}
+
+public function countActiveEventsByOrganizer($organizerId) {
+    $query = "SELECT COUNT(*) AS active_event_count 
+              FROM events 
+              WHERE organizer_id = :organizer_id AND status = 'active'";
+
+    $stmt = $this->db->prepare($query);
+    $stmt->execute(['organizer_id' => $organizerId]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result ? $result['active_event_count'] : 0;
+}
+
 }

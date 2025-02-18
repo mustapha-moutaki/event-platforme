@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reservations</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold mb-4">My Reservations</h1>
+
+        {% if session.success %}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                {{ session.success }}
+            </div>
+        {% endif %}
+
+        {% if session.error %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {{ session.error }}
+            </div>
+        {% endif %}
+
+        <div class="space-y-4">
+            {% for reservation in reservations %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-bold">{{ reservation.event_title }}</h2>
+                    <p class="text-gray-600">{{ reservation.event_date|date("d M Y, H:i") }}</p>
+                    <p class="text-gray-600">Quantity: {{ reservation.quantity }}</p>
+                    <p class="text-gray-600">Status: {{ reservation.status }}</p>
+                    <p class="text-gray-600">Payment Status: {{ reservation.payment_status }}</p>
+
+                    <form action="/reservations/cancel/{{ reservation.id }}" method="POST" class="mt-4">
+                        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
+                            Cancel Reservation
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <p class="text-gray-600">You have no reservations.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

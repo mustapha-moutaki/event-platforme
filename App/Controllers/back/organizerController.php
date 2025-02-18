@@ -15,19 +15,24 @@ class organizerController {
     public function viewOrgnaizer() {
       
       $view=new View();
-      
-        
       $organizerModel = new Organizer();
+      $notificationModel = new Events();
         $organizerId = Auth::userId();
         $events = $organizerModel->getEventsByOrganizer($organizerId);
         $eventCount = $organizerModel->countEventsByOrganizer($organizerId); 
-        $notificationModel = new Events(); 
+        $commentsData=$organizerModel->countCommentsByOrganizer($organizerId);
         $notifications = $notificationModel->getNotifications($organizerId);
+        $totalRevenue = $organizerModel->getTotalRevenueByOrganizer($organizerId);
+        $activeEventCount = $organizerModel->countActiveEventsByOrganizer($organizerId);
        
         $view->render('organizer/organizer.twig', [
             'events' => $events,
             'statistique'=>  $eventCount ,
-            'notifications' => $notifications
+            'notifications' => $notifications,
+            'commentsData' => $commentsData,  
+            'totalRevenue' => $totalRevenue,
+            'activeEventCount' => $activeEventCount
+
         ]);
 }
 }

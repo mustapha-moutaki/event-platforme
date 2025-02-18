@@ -20,18 +20,10 @@
 
 <body class="g-sidenav-show bg-gray-100">
 
-<div class="relative">
-    <button onclick="toggleNotifications()" class="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition">
-        <i class="material-symbols-rounded opacity-5">notifications</i>
-       
-        {% if notifications|length > 0 %}
-            <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
-                {{ notifications|length }}
-            </span>
-        {% endif %}
-    </button>
+<div class="relative ">
+ 
     
-    <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg z-10">
+    <div id="notificationDropdown" class="hidden absolute top-40 right-40 mt-2 w-64 bg-white rounded-lg shadow-lg z-10">
         <div class="p-4">
             <h3 class="text-lg font-semibold text-gray-800">Notifications</h3>
             <div class="mt-2 space-y-2">
@@ -51,13 +43,26 @@
 <form action="/switch-role" method="POST">
     <button type="submit">Passer en mode Participant</button>
 </form>
+
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     {% include 'components/header.twig' %}
 
     <div class="container mx-auto px-4 py-8">
       <!-- Header -->
       <div class=" mb-8">
-        <h1 class="text-3xl font-bold text-gray-800">Event Dashboard</h1>
+      <div class="w-full flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-gray-800">Event Dashboard</h1>
+    <button onclick="toggleNotifications()" class="relative p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-all duration-200">
+        <i class="material-symbols-rounded text-red-500">notifications</i>
+       
+        {% if notifications|length > 0 %}
+            <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
+                {{ notifications|length }}
+            </span>
+        {% endif %}
+    </button>
+</div>
+        
         <p class="text-gray-600">Overview of your events and statistics</p>
       </div>
       
@@ -84,7 +89,7 @@
           <div class="flex justify-between items-center">
             <div>
               <p class="text-sm font-medium text-gray-600">Active Events</p>
-              <p class="text-2xl font-bold text-gray-900">42</p>
+              <p class="text-2xl font-bold text-gray-900">{{activeEventCount}}</p>
             </div>
             <div class="bg-green-100 p-3 rounded-full">
               <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,8 +104,8 @@
         <div class="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-transform duration-200">
           <div class="flex justify-between items-center">
             <div>
-              <p class="text-sm font-medium text-gray-600">Total Participants</p>
-              <p class="text-2xl font-bold text-gray-900">1,234</p>
+              <p class="text-sm font-medium text-gray-600">Total comments</p>
+              <p class="text-2xl font-bold text-gray-900">{{commentsData}}</p>
             </div>
             <div class="bg-purple-100 p-3 rounded-full">
               <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,7 +121,7 @@
           <div class="flex justify-between items-center">
             <div>
               <p class="text-sm font-medium text-gray-600">Total Revenue</p>
-              <p class="text-2xl font-bold text-gray-900">$52,000</p>
+              <p class="text-2xl font-bold text-gray-900">${{totalRevenue}}</p>
             </div>
             <div class="bg-yellow-100 p-3 rounded-full">
               <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,15 +133,16 @@
         </div>
       </div>
 
-
         <!-- Add Event Button -->
         <div class="mb-8">
-            <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center">
+         <a href="/events/create">    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center">
+           
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
                 Add New Event
-            </button>
+              
+            </button>  </a>
         </div>
 
       <!-- Events Table -->

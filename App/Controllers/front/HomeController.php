@@ -11,6 +11,7 @@ class HomeController extends Controller {
         $view = new View();
         $events= new EventController();
         $event = $events->showAllEvents();
+       
         $cities = $events->showAllCities();
         //  var_dump($_SESSION);
         $categories = $events->showAllCategories();

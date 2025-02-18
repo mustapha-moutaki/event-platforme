@@ -151,29 +151,10 @@
 <div class="card-footer p-3"></div>
 </div>
 
-            <div class="card">
-                        <div class="card-header p-3" style="width:300px !important">
-                          <div class="d-flex justify-content-between">
-                            <div>
-                              <p class="text-sm mb-0 text-uppercase text-primary font-weight-bold"> total of tickets</p>
-                            
-                                <?php foreach($TopThreeTeachers as $teachertop): ?>
-
-                                  <div class="teacher-info">
-                <span class="teacher-name"><?php echo $teachertop['username']; ?></span>
-                <span class="courses-count"><?php echo '('. $teachertop['total_courses'].'courses'.')'; ?></span>
-            </div>
-
-                  <?php endforeach; ?>
-              
-  
-                </div>
-
+           
 
                 
-                <div class="icon icon-md icon-shape bg-gradient-primary text-white shadow text-center rounded-circle">
-                <i class="material-symbols-rounded" style="color: white;">star</i>
-                </div>
+              
               </div>
             </div>
 
@@ -219,7 +200,7 @@
     </div>
 
       <!-- Courses Cards -->
-      <div class="row" id="coursesContainer">
+      {# <div class="row" id="coursesContainer">
     <?php foreach($getAllCourses as $course): ?>
     <div class="col-md-4 mb-4 course-card" data-category="web">
         <div class="card shadow-sm">
@@ -255,7 +236,7 @@
         </div>
     </div>
     <?php endforeach; ?>
-</div>
+</div> #}
 
  {% include 'components/footer.twig' %}
 </body>

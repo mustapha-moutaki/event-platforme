@@ -11,7 +11,7 @@ use App\core\Router;
 use App\Controllers\Front\HomeController;
 use App\Controllers\back\LoginController;
 use App\Controllers\front\EventController;
-use App\Controllers\back\SponsorController;
+use App\Controllers\Front\ReservationController;
 $router = new Router();
 // Security::secureHeaders();
 // inddex
@@ -43,7 +43,11 @@ $router->addRoute('POST', '/events/delete/{id}', EventController::class, 'delete
 $router->addRoute('GET', '/events/cities/{regionId}', EventController::class, 'getCitiesByRegion');
 $router->addRoute('GET', '/events/details/{id}', EventController::class, 'showEventDetails');
 
-
+// reservation routes
+$router->addRoute('GET', '/reserve/{eventId}', ReservationController::class, 'showReservationForm');
+$router->addRoute('POST', '/reserve', ReservationController::class, 'reserveTicket');
+$router->addRoute('GET', '/reservations', ReservationController::class, 'showUserReservations');
+$router->addRoute('POST', '/reservations/cancel/{id}', ReservationController::class, 'cancelReservation');
 $router->addRoute('POST', '/events/edit', EventController::class, 'edit');
 $router->addRoute('GET', '/admin/categories', \App\Controllers\Back\CategoryController::class, 'listCategories');
 $router->addRoute('POST', '/categories/create', \App\Controllers\Back\CategoryController::class, 'createCategory');

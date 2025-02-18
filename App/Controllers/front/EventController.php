@@ -129,9 +129,23 @@ class EventController extends Controller
     {
         $event = $this->eventModel->findById($id);
         
+    
+            
+       
+        
+        
         if ($event) {
+
+            $db = \App\Core\Database::getConnection();
+
+            $stmt = $db->prepare("SELECT ville FROM ville WHERE id = :ville_id");
+            $stmt->execute(['ville_id' => $event['ville_id']]);
+            $city = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+
             $this->view->render('events/show.twig', [
-                'event' => $event
+                'event' => $event,
+                'city' => $city['ville'] ?? 'N/A'
             ]);
         } else {
             header("Location: /events");
@@ -306,27 +320,79 @@ class EventController extends Controller
         
     }
 
+    // public function showEventDetails($id) 
+    // {
+        
+    //     $event = $this->eventModel->findById($id);
+        
+    //     if ($event) {
+            
+    //         $db = \App\Core\Database::getConnection();
+    
+            
+    //         $stmt = $db->prepare("SELECT ville FROM ville WHERE id = :ville_id");
+    //         $stmt->execute(['ville_id' => $event['ville_id']]);
+    //         $city = $stmt->fetch(\PDO::FETCH_ASSOC);
+    
+            
+    //         $stmt = $db->prepare("SELECT region FROM region WHERE id = :region_id");
+    //         $stmt->execute(['region_id' => $event['region_id']]);
+    //         $region = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+    //         $stmt = $db->prepare("SELECT username FROM users WHERE id = :organizer_id");
+    //         $stmt->execute(['organizer_id' => $event['organizer_id']]);
+    //         $organizer = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+    //         $this->view->render('participant/eventDetails.twig', [
+    //             'event' => $event,
+    //             'category_name' => $event['category_name'], 
+    //             'city' => $city['ville'] ?? 'N/A',  
+    //             'region' => $region['region'] ?? 'N/A', 
+    //             'organizer' => $organizer['username'] ?? 'N/A', 
 
     public function showAllCities(){
         $city = $this->eventModel->getAllCities();
         return $city;
     }
 
-public function showEventDetails($id) 
+    public function showEventDetails($id) 
     {
     
         $events=new Events();
-        $event = $events->getAllEvents($id);
+        $event = $this->eventModel->findById($id);
+
+        
        
         if ($event) {
+
+            $db = \App\Core\Database::getConnection();
+    
+            
+        $stmt = $db->prepare("SELECT ville FROM ville WHERE id = :ville_id");
+        $stmt->execute(['ville_id' => $event['ville_id']]);
+        $city = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        
+        $stmt = $db->prepare("SELECT region FROM region WHERE id = :region_id");
+        $stmt->execute(['region_id' => $event['region_id']]);
+        $region = $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+        $stmt = $db->prepare("SELECT username FROM users WHERE id = :organizer_id");
+        $stmt->execute(['organizer_id' => $event['organizer_id']]);
+        $organizer = $stmt->fetch(\PDO::FETCH_ASSOC);
           
                
-                $comments = $events->getCommentsByEventId($id);
+            $comments = $events->getCommentsByEventId($id);
                 
             $this->view->render('participant/eventDetails.twig', [
                 'event' => $event,
                 'comments'=>$comments, 
-                'auth' => ['user' => ['id' => Auth::UserId()]] 
+                'auth' => ['user' => ['id' => Auth::UserId()]],
+                'event' => $event,
+                'category_name' => $event['category_name'], 
+                'city' => $city['ville'] ?? 'N/A',  
+                'region' => $region['region'] ?? 'N/A', 
+                'organizer' => $organizer['username'] ?? 'N/A',
                 
             ]);
         } else {
@@ -334,6 +400,8 @@ public function showEventDetails($id)
             exit;
         }
     }
+    
+
     public function showAllCategories(){
         $category = $this->eventModel->getAllCategories();
         return $category;

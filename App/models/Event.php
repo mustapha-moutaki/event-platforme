@@ -163,6 +163,17 @@ class Event extends BaseModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+     public function findById($id)
+    {
+        $query = "SELECT e.*, c.name AS category_name 
+                FROM {$this->table} e 
+                JOIN categories c ON e.category_id = c.id 
+                WHERE e.id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 
     public function getAllCities(){
         $query="SELECT ville FROM ville";
@@ -179,3 +190,4 @@ class Event extends BaseModel
     }
         
 }
+
